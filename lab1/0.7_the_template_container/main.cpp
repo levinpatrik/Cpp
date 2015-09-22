@@ -194,6 +194,7 @@ int main(){
 	b5 = d5;
 	cout << "efter a " << b5.size() << " d5 " << d5.size() << endl;
 
+	cout << "TESTING DONE" << endl;
 
 
 
