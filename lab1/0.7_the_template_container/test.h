@@ -38,20 +38,12 @@ class Vector
 template<typename T> 
 Vector<T>::Vector(): vector_ptr(new T[0]), length(0)
 {
-<<<<<<< HEAD:test.h
-<<<<<<< HEAD
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
 
   std::cout << "DEFUALT"<< std::endl;
   
-=======
-  std::cout << "DEFUALT"<< std::endl;  
->>>>>>> b624db3e3dc28e3da7f248bfc0cdf911604562cc
-=======
-  std::cout << "DEFUALT"<< std::endl;  
->>>>>>> b624db3e3dc28e3da7f248bfc0cdf911604562cc:lab1/0.7_the_template_container/TemplateContainer.h
 }
 
 
@@ -72,8 +64,7 @@ Vector<T>::Vector(std::size_t i): vector_ptr(new T[i]), length(i)
 }
 
 
-<<<<<<< HEAD:test.h
-<<<<<<< HEAD
+
 // ------------------ SPECIAL CONSTRUCTOR
 template<typename T> 
 Vector<T>::Vector(std::size_t i, T start_value): vector_ptr(new T[i]), length(i)
@@ -81,38 +72,42 @@ Vector<T>::Vector(std::size_t i, T start_value): vector_ptr(new T[i]), length(i)
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
+
   std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
 
   for(int j = 0; j<i; j++){
     vector_ptr[j] = start_value;
   }
-=======
-=======
->>>>>>> b624db3e3dc28e3da7f248bfc0cdf911604562cc:lab1/0.7_the_template_container/TemplateContainer.h
+
 // // ------------------ SPECIAL CONSTRUCTOR
-// template<typename T> 
-// Vector<T>::Vector(std::size_t i, T start_value):
-// {
-//   if(std::is_move_assignable<T>::value && std::is_move_constructable<t>::value){
-//     std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
-//     length      = i;
-//     vector_ptr  = new T[i]
-//     for(int j = 0; j<i; j++){
-//       vector_ptr[j] = start_value;
-//     }
-//   }
-<<<<<<< HEAD:test.h
->>>>>>> b624db3e3dc28e3da7f248bfc0cdf911604562cc
-=======
->>>>>>> b624db3e3dc28e3da7f248bfc0cdf911604562cc:lab1/0.7_the_template_container/TemplateContainer.h
+template<typename T> 
+Vector<T>::Vector(std::size_t i, T start_value):
+{
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
+  if(std::is_move_assignable<T>::value && std::is_move_constructable<t>::value){
+    std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
+    length      = i;
+    vector_ptr  = new T[i]
+    for(int j = 0; j<i; j++){
+      vector_ptr[j] = start_value;
+    }
+  }
+
   
-// }
+}
 
 
 // ------------------  LIST        
 template<typename T> 
 Vector<T>::Vector (std::initializer_list<T> list): vector_ptr(new T[list.size()]), length(list.size())
 {
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
   std::cout << "LIST"<< std::endl;
   int i = 0;
   for(auto it = list.begin(); it != list.end(); it++)
@@ -126,6 +121,10 @@ Vector<T>::Vector (std::initializer_list<T> list): vector_ptr(new T[list.size()]
 template<typename T> 
 Vector<T>::Vector(Vector const& obj) : vector_ptr(new T[obj.length]), length(obj.length)  
 {
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
   std::cout << "COPY"<< std::endl;
   delete[] vector_ptr;
   length = obj.length;
@@ -140,6 +139,9 @@ Vector<T>::Vector(Vector const& obj) : vector_ptr(new T[obj.length]), length(obj
 template<typename T> 
 Vector<T>::Vector(Vector && obj): vector_ptr(obj.vector_ptr),length(obj.length)
 {
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
   std::cout << "MOVE"<< std::endl;
   obj.length = 0;
   obj.vector_ptr = nullptr;
