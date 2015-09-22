@@ -39,8 +39,9 @@ class Vector
     std::size_t size() const;
     std::size_t capacity() const;
 
-    const T* begin() const;  
+    const T* begin() const;
     const T* end() const;
+    // const T* find(T const&) const;
 
     T* begin();
     T* end();
@@ -365,14 +366,12 @@ T* Vector<T>::find(T const& element) const
 template<typename T>
 const T* Vector<T>::begin() const
 {
-  std::cout << "CONSTANT BEGIN" << std::
   return &vector_ptr[0];
 }
 
 template<typename T>
 const T* Vector<T>::end() const
 {
-  std::cout << "CONSTANT  END" << std::endl;
   return &vector_ptr[length-1];
 }
 
@@ -392,4 +391,3 @@ const T* Vector<T>::end() const
 
 
 #endif
-

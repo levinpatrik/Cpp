@@ -250,7 +250,7 @@ int main()
 
 	cout << "TESTING BEGIN()" << endl;
 	Vector<int> a14(list11);
-	int* x;
+	const int* x;
 	x = a14.begin();
 	for(int i = 0; i < (a14.size()-1); i++)
 	{
@@ -260,7 +260,7 @@ int main()
 	}
 
 	cout << "TESTING END()" << endl;
-	int* y;
+	const int* y;
 	y = a14.end();
 
 	cout << y << "   " << x << endl;
