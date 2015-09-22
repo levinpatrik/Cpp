@@ -114,6 +114,8 @@ int main(){
 
 
 
+
+
 	cout << "	ASSIGNMENT =  TEST" << endl;
 	cout << "(1)	-	Create Vector<int> " << endl;
 	cout << "Innan a " << a1.size() << " d " << d1.size() << endl;
@@ -138,66 +140,56 @@ int main(){
 	cout << "(5)	-	Create Vector<unsigned int>" << endl;
 	cout << "Innan a " << b5.size() << " d5 " << d5.size() << endl;
 	b5 = d5;
-	cout << "efter a " << b5.size() <<"  d5 " << d5.size() << endl;
+	cout << "efter a " << b5.size() <<"  d5 " << d5.size() << endl<< endl<< endl;
+
+
 
 
 	cout << "	ASSIGNMENT =  MOVE-ASSIMENT	" << endl;
-	cout << "(1)	-	Create Vector<int> " << endl;
-	cout << "Innan a " << a1.size() << " d " << d1.size() << endl;
-	a1 = d1;
-	cout << "efter a " << a1.size() << " d " << d1.size() << endl;
-	
-	cout << "(2)	-	Create Vector<char> " << endl;
-	cout << "Innan e2 " << e2.size() << " a2 " << a2.size() << endl;
-	e2 = a2;
-	cout << "efter e2 " << e2.size() << " a2 " << a2.size() << endl;
+	cout << "(1)	-	Till sig själv " << endl;
+	cout << "Innan e1 " << e1.size() << " ptr " << e1.vector_ptr << endl;
+	e1 = move(e1);
+	cout << "Efter e1 " << e1.size() << " ptr " << e1.vector_ptr << endl;
 
-	cout << "(3)	-	Create Vector<double> " << endl;
-	cout << "Innan c3 " << c3.size() << " c3 " << c3.size() << endl;
-	c3 = c3;
-	cout << "efter c3 " << c3.size() << " c3 " << c3.size() << endl;
+	cout << "(2)	-	Annan <int> -> <int> " << endl;
+	cout << "Innan d1 " << d1.size() << " ptr " << d1.vector_ptr << endl;
+	e1 = move(d1);
+	cout << "Efter e1 " << e1.size() << " ptr " << e1.vector_ptr << endl;
+	cout << "Efter d1 " << d1.size() << " ptr " << d1.vector_ptr << endl;
 
-	cout << "(4)	-	Create Vector<char> " << endl;
-	cout << "Innan e4 " << e4.size() << " b4 " << b4.size() << endl;
-	e4 = b4;
-	cout << "efter e4 " << e4.size() << " b4 " << b4.size() << endl;
+	cout << "(3)	-	Annan <int> -> <int> " << endl;
+	cout << "Innan e1 " << c3.size() << " ptr " << c3.vector_ptr << endl;
+	b3 = move(c3);
+	cout << "Efter e1 " << c3.size() << " ptr " << c3.vector_ptr << endl;
+	cout << "Efter b3 " << b3.size() << " ptr " << b3.vector_ptr << endl<< endl<< endl;
 
-	cout << "(5)	-	Create Vector<unsigned int>" << endl;
-	cout << "Innan a " << b5.size() << " d5 " << d5.size() << endl;
-	b5 = d5;
-	cout << "efter a " << b5.size() << " d5 " << d5.size() << endl;
+
 
 
 	cout << "	OPERATOR  []  READ-WRITE 	" << endl;
+	Vector<int> f1(list1); Vector<char> f2(list2); Vector<float> f3(list4);
 	cout << "(1)	-	Create Vector<int> " << endl;
-	cout << "Innan a " << a1.size() << " d " << d1.size() << endl;
-	a1 = d1;
-	cout << "efter a " << a1.size() << " d " << d1.size() << endl;
-	
+	cout << "size: " << f1.size() << endl;
+	cout << "Ta ut f1[2]" << f1[2] << endl;
+
 	cout << "(2)	-	Create Vector<char> " << endl;
-	cout << "Innan e2 " << e2.size() << " a2 " << a2.size() << endl;
-	e2 = a2;
-	cout << "efter e2 " << e2.size() << " a2 " << a2.size() << endl;
+	cout << "size: " << f2.size() << endl;
+	cout << "f2[1] = 1;" << endl;
+	f2[1] = 1;
 
-	cout << "(3)	-	Create Vector<double> " << endl;
-	cout << "Innan c3 " << c3.size() << " c3 " << c3.size() << endl;
-	c3 = c3;
-	cout << "efter c3 " << c3.size() << " c3 " << c3.size() << endl;
-
-	cout << "(4)	-	Create Vector<char> " << endl;
-	cout << "Innan e4 " << e4.size() << " b4 " << b4.size() << endl;
-	e4 = b4;
-	cout << "efter e4 " << e4.size() << " b4 " << b4.size() << endl;
-
-	cout << "(5)	-	Create Vector<unsigned int>" << endl;
-	cout << "Innan a " << b5.size() << " d5 " << d5.size() << endl;
-	b5 = d5;
-	cout << "efter a " << b5.size() << " d5 " << d5.size() << endl;
-
-	cout << "TESTING DONE" << endl;
+	cout << "(3)	-	Create Vector<float> " << endl;
+	cout << "size: " << f3.size() << endl;
+	cout << "Ta ut f3[0]" << f3[0] << endl << endl << endl;
 
 
 
+	cout << "	OPERATOR  []  OPERATOR  []  READ-ONLY 	" << endl;
+	const Vector<int> aa(list1);
+	cout << "aa[0]"
+	aa[0];
+
+
+	const Vector<char> cc(list2);
 
 	return 0;
 }
