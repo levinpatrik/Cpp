@@ -220,6 +220,73 @@ int main()
 	}
 
 
+	cout << "TESTING INSERT()" << endl;
+	Vector<int> a12;
+	for(int i=0; i<20;i++)
+	{
+		a12.insert(0,10);
+		cout << "size a12 = " << a12.size() << endl;
+		cout << "capacity a12 = " << a12.tot_capacity << endl;
+	}
+
+
+
+	std::initializer_list<int> list11 = {1,2,3,4,5,6};
+	cout << "TESTING ERASE()" << endl;
+	Vector<int> a13(list11);
+	cout << "size a13 = " << a13.size() << endl;
+	for(int i = 0; i < a13.size(); i++)
+	{
+		cout << a13[i] << endl;
+	}
+	a13.erase(0);
+	cout << "ERASE" << endl;
+	cout << "size a13 = " << a13.size() << endl;
+	for(int i = 0; i < a13.size(); i++)
+	{
+		cout << a13[i]<< endl;
+	}
+
+
+	cout << "TESTING BEGIN()" << endl;
+	Vector<int> a14(list11);
+	int* x;
+	x = a14.begin();
+	for(int i = 0; i < (a14.size()-1); i++)
+	{
+
+		cout << *x << endl;
+		x++;
+	}
+
+	cout << "TESTING END()" << endl;
+	int* y;
+	y = a14.end();
+
+	cout << y << "   " << x << endl;
+	cout << *y << "   " << *x << endl;
+	if(y == x)
+	{
+		cout << "TRUE" << endl;
+	}
+	for(int i = (a14.length); i > 0; i--)
+	{
+		// cout << i << endl;
+		cout << *y << endl;
+		y--;
+	}
+
+
+	// cout << "TESTING FIND()" << endl;
+	// const int& x_r = 3;
+	// int* a_p;
+	// const int* z;
+	// z = a14.begin();
+	// a_p = a14.find(&&z);
+
+
+
+
 
 	return 0;
 }

@@ -34,6 +34,12 @@ class Vector
     std::size_t size() const;
     void clear();
     void push_back(T);
+    void insert(std::size_t , T);
+    void erase(std::size_t);
+    std::size_t capacity() const;
+    T* begin() const;
+    T* end() const;
+    T* find(T const&) const;
 
 };
 
@@ -180,7 +186,7 @@ Vector<T>& Vector<T>::operator= (Vector<T>&& obj)
 template<typename T> 
 T& Vector<T>::operator[] (std::size_t index)
 {
-  std::cout << "OPERATOR  []  READ-WRITE "<< std::endl;
+  // std::cout << "OPERATOR  []  READ-WRITE "<< std::endl;
   if(index >= length)
   {
     throw std::out_of_range("Tried to access index out of range");
@@ -226,12 +232,15 @@ std::size_t Vector<T>::size() const
 }
 
 
+
 template<typename T>
 void Vector<T>::clear()
 {
   delete[] vector_ptr;
   vector_ptr = nullptr; length = 0;
 }
+
+
 
 template<typename T>
 void Vector<T>::push_back(T element)
@@ -250,18 +259,97 @@ void Vector<T>::push_back(T element)
   }
   vector_ptr[length] = element;
   length++;
-
 }
 
 
 
+template<typename T>
+void Vector<T>::insert(std::size_t index, T element)
+{
 
 
+  if(index == length)
+  {
+    push_back(element);
+    return;
+  }
+  else if(index > length)
+  {
+    throw std::out_of_range("Tried to access index out of range");
+    return;
+  }
 
+  if(tot_capacity <= length)
+  { 
+    tot_capacity = tot_capacity*2;
+    vector_ptr = new T[tot_capacity];
+  }
 
+  T* old_array = vector_ptr;
+  for(std::size_t i = 0; i <= length; i++)
+  {
+    if(i == index)
+    {
+      vector_ptr[i] = element;
+        
+    }
+    else if(i > index)
+    {
+      vector_ptr[i] = old_array[i-1];
+    }
+    else
+    {
+      vector_ptr[i] = old_array[i];
+    }
+  }
+  length++;
+}
 
+template<typename T>
+void Vector<T>::erase(std::size_t index)
+{
+  if(index >= length)
+  {
+    return;
+  }
 
+  for(int i = index; i < (length-1); i++)
+  {
+    vector_ptr[i] = vector_ptr[i+1];
+  }
+  vector_ptr[length-1] = 0;
+  length--;
+}
 
+template<typename T>
+std::size_t Vector<T>::capacity() const
+{
+  return capacity;
+}
+
+template<typename T>
+T* Vector<T>::begin() const
+{
+  return &vector_ptr[0];
+}
+
+template<typename T>
+T* Vector<T>::end() const
+{
+  return &vector_ptr[length-1];
+}
+
+template<typename T>
+T* Vector<T>::find(T const& element) const
+{
+  int i = 0;
+  while(*element != vector_ptr[i] || i < length)
+  {
+    i++;
+  }
+
+  return &vector_ptr[i];
+}
 
 
 
