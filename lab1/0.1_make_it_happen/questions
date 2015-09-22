@@ -1,0 +1,19 @@
+1) What does $* mean inside the makefile?
+
+$* Saves all arguments that were inserted in the terminal as a string.
+
+2) What is the purpose of -Wall and -g, when passed as arguments to g++?
+
+-g: adds debugging information to the executable file.
+-Wall: Turns on MOST but not all compiling warnings. 
+
+ 3) Is it possible to store the previous mentioned flags in a variable in the makefile? 
+
+Yes it is possible to do this by defining it in the makefile! ex: CC = g++
+
+4) What is the difference between an object file, and an executable?
+
+Both object files and executables consists of blocks of machine code and data. Object files have, however, references to external files that needs to be resolved. This is done by linking together multiple object files, resolving the reference problem, and making an executable (runnable by the computer) file.
+
+
+

@@ -1,0 +1,3 @@
+1) why is it important to test the boundary conditions of an implementation, especially in the case of count_if_followed_by?
+
+Since its easy to forget the zero index when you use length() sizeof(). If you loop through the whole length you will be doing it once too many! This can lead to segmentation faults or accessing wrong memory. 
