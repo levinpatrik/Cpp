@@ -1,3 +1,11 @@
-GitHub: 	Kommer inte på hur man ska dela i skolan...
+GitHub: 
+
+PULL: 	git pull https://github.com/levinpatrik/Cpp.git
+
+ADD: 	git add (Den filen du vill lägga till)
+
+COMMIT: git commit -m "Relevant info om vad du commitar"
+
+PUSH:	git push origin master
 
 

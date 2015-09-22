@@ -184,12 +184,18 @@ int main(){
 
 
 	cout << "	OPERATOR  []  OPERATOR  []  READ-ONLY 	" << endl;
+	
 	const Vector<int> aa(list1);
-	cout << "aa[0]"
-	aa[0];
-
+	cout << "(1)	aa[2]" << "size" << aa.size() << endl;
+	cout << "aa[2]" << aa[2] << endl;
 
 	const Vector<char> cc(list2);
+	cout << "(2)	cc[2]" << "size" << cc.size() << endl;
+	cout << "cc[2]" << cc[2] << endl;
+
+	const Vector<float> dd(list4);
+	cout << "(3)	dd[2]" << "size" << dd.size() << endl;
+	cout << "dd[2]" << dd[2] << endl;
 
 	return 0;
 }

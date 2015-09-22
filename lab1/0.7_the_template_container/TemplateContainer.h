@@ -5,7 +5,7 @@
 #include <initializer_list>
 #include <stdexcept>
 #include <typeinfo>
-#include <type_traits>
+// #include <type_traits>
 
 
 
@@ -18,7 +18,7 @@ class Vector
 
     Vector ();                                          //Default
     explicit Vector (std::size_t i);                    //Size_t
-    Vector (std::size_t i, T);                          //Special constructor
+    // Vector (std::size_t i, T);                          //Special constructor
     Vector (std::initializer_list<T> list);             //List
     Vector (Vector const& obj);                         //Copy
     Vector (Vector&& obj);                              //Move
@@ -38,10 +38,7 @@ class Vector
 template<typename T> 
 Vector<T>::Vector(): vector_ptr(new T[0]), length(0)
 {
-  std::cout << "DEFUALT"<< std::endl;
-  vector_ptr  = new T[0]
-  length      = 0;
-  
+  std::cout << "DEFUALT"<< std::endl;  
 }
 
 
@@ -58,20 +55,20 @@ Vector<T>::Vector(std::size_t i): vector_ptr(new T[i]), length(i)
 }
 
 
-// ------------------ SPECIAL CONSTRUCTOR
-template<typename T> 
-Vector<T>::Vector(int i, T start_value):
-{
-  if(std::is_move_assignable<T>::value && std::is_move_constructable<t>::value){
-    std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
-    length      = i;
-    vector_ptr  = new T[i]
-    for(int j = 0; j<i; j++){
-      vector_ptr[j] = start_value;
-    }
-  }
+// // ------------------ SPECIAL CONSTRUCTOR
+// template<typename T> 
+// Vector<T>::Vector(std::size_t i, T start_value):
+// {
+//   if(std::is_move_assignable<T>::value && std::is_move_constructable<t>::value){
+//     std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
+//     length      = i;
+//     vector_ptr  = new T[i]
+//     for(int j = 0; j<i; j++){
+//       vector_ptr[j] = start_value;
+//     }
+//   }
   
-}
+// }
 
 
 // ------------------  LIST        
