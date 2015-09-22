@@ -205,7 +205,19 @@ int main()
 	a10.clear();
 	cout << "AFTER a10 size: " << a10.size() << " ptr " << a10.vector_ptr <<endl;
 
+	cout << "TESTING PUSHBACK()" << endl;
+	Vector<int> a11(11,14);
+	Vector<float> b11;
+	cout << "size a11 = " << a11.size() << endl;
+	a11.push_back(12);
+	cout << "testar pushbak 12, a11 size = " << a11.size() <<endl;
+	cout << "a11[11]= "  << a11[11] << endl;
 
+	for(int i=0; i<15;i++) {
+		b11.push_back(1.05f);
+		cout << "size b11 = " << b11.size() << endl;
+		cout << "capacity b11 = " << b11.tot_capacity << endl;
+	}
 
 
 
