@@ -1,0 +1,16 @@
+1) Why does not powerof return the expected value (16), when invoked with 2 and
+4?
+
+The for-loop is supressed with ; and will only "execute" one loop. 
+
+2) Why does not y compare equal to 3.1415?
+
+becuase 3.1415 in the if statement is a double and is compaired to a float. 
+
+3) Is there any difference in behavior if we compare y to 3.1415f, if so; why?
+
+you force 3.1415 to be a float in the statement making it float() == float()!
+
+4)  What is the recommended method to use when trying to determine if two floatingpoint values are equal, and why?
+
+You can multiply them so that they both integers and then compair them. The extra 

@@ -1,0 +1,78 @@
+1) What constructors are invoked, and when?
+
+A a("my name is a"); => Some other constructor 
+A b = a;   			 => Copy-constructor
+A c(a); 			 => Copy-constructor
+A d; 				 => Defualt constructor
+d = a;				 => Assigment operator 
+
+ no_ref (a);   This one has to first copy a object of type A (to be sent to the function as a argument). Then when the functions scope ends the newly created object is deleted since its not passed in the return. 
+
+
+ with_ref (a);  There is no need to call a constructor since no new object is needed. 
+
+ A *aa = new A[5]; This will call the defualt constructor since we create 5 new objects without passing any arguments. 
+
+ delete will only remove the pointer from memory leaving the actual objects un-deleted. 
+
+ delete[] will remove the entire thing created by new [], i.e the point and all the objects. 
+
+
+
+
+ 2) Will there be any temporaries created, if so; when? 
+
+ A temporart object is an unnamed object created by the compiler when it needs a place to store a result from evaluating an expression. This is not the case in our program. 
+
+
+
+
+ 3) • When are the objects destructed, and why?
+
+ The first destructor is called when the copied a object in function no_ref runs out of scope. 
+
+ After this 5 destructions occur when you invoke delete[]. (since you created 5 objects).
+
+ Lastly the 4 objects created in main() a,b,c,d are deleted when main() finishes. 
+
+
+
+
+ 4) What will happen if we try to free a dynamically allocated array through delete p, instead of delete [] p?
+
+ Delete will have undefined behavior while delete[] will delete all objects and the pointer created by new [].
+
+ 
+
+
+
+5) • valgrind indicates that there is something wrong with birth.cpp; what, and why?
+
+When running it with the original code, 'delete', it says that the program is leaking memory. This due to incorrect use of new[]-> delete, it should be new[]->delete[].
+
+
+
+
+
+6) • valgrind indicates that the program suffers from a few problems, which and why?
+
+First of all we create one big object allocation on the heap, consisting of 5 Data objects, and then we loop and check if v[i] != 0, which it is for all so we never allocate more memory with new. 
+
+
+
+
+7) If you comment out the entire if-block in foo, is there any difference in how much memory that is leaked?
+
+No the memory loss will be the same but we avoid some errors by not compairing the if-statment. 
+
+
+8) • Revert bad_plumming.cpp to its original state, then only comment out the line that contains the if-condition.
+
+This will lead to an additonal indirect memorty loss (60 bytes) in 5 seperate blocks. The definitely loss will stay the same. 
+
+
+
+9) If you now change the last line of main to the below; why is it that valgrind still issue diagnostics related to memory management?
+
+You're only deleting the pointer v. This will make the indirect loss definit since its no longer inside a pointer-based structure. You will have to remove them all to be rid of the memory leak e.g with a loop.
+

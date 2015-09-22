@@ -1,0 +1,11 @@
+1)If you invoke touch hello.cpp prior to invoking make;
+– How many files were rebuilt?
+– Why?
+
+After 'touch' on hello.cpp both files needs to be re-built. 
+This is due to the dependencies of main.cpp (dependent on hello.o which is created by hello.cpp).
+
+2) Why do you think make checks the modification timestamp of the relevant files as part of deciding what to do?
+
+It checks the timestamp of the latest modification and compairs it with the latest compile time. If the modification has been done after the last complile you need to re-compile that file (it might have changed).
+
