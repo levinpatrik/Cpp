@@ -1,7 +1,8 @@
 #include "TemplateContainer.h"
 using namespace std;
 
-int main(){
+int main()
+{
 
 	cout << "	DEFAULT CONSTRUCTOR TEST" << endl;
 	cout << "(1)	-	Create Vector<int> " << endl;
@@ -184,18 +185,29 @@ int main(){
 
 
 	cout << "	OPERATOR  []  OPERATOR  []  READ-ONLY 	" << endl;
-	
 	const Vector<int> aa(list1);
 	cout << "(1)	aa[2]" << "size" << aa.size() << endl;
 	cout << "aa[2]" << aa[2] << endl;
-
 	const Vector<char> cc(list2);
 	cout << "(2)	cc[2]" << "size" << cc.size() << endl;
 	cout << "cc[2]" << cc[2] << endl;
-
 	const Vector<float> dd(list4);
 	cout << "(3)	dd[2]" << "size" << dd.size() << endl;
-	cout << "dd[2]" << dd[2] << endl;
+	cout << "dd[2]" << dd[2] << endl <<endl << endl;
+
+	cout << "	OPERATOR  []  OPERATOR  []  READ-ONLY 	" << endl;
+	Vector<int> a10(10,3);
+	cout << "a10 size: " << a10.size() <<endl;
+	cout << a10[0] << a10[1] << a10[9] << endl;
+
+	cout << "	clear(); 	" << endl;
+	cout << "BEFORE a10 size: " << a10.size() << " ptr " << a10.vector_ptr <<endl;
+	a10.clear();
+	cout << "AFTER a10 size: " << a10.size() << " ptr " << a10.vector_ptr <<endl;
+
+
+
+
 
 	return 0;
 }

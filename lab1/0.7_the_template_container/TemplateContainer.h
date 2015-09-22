@@ -5,7 +5,7 @@
 #include <initializer_list>
 #include <stdexcept>
 #include <typeinfo>
-// #include <type_traits>
+#include <type_traits>
 
 
 
@@ -15,10 +15,11 @@ class Vector
   public:
     T *vector_ptr;
     std::size_t length;
+    std::size_t tot_capacity;
 
     Vector ();                                          //Default
     explicit Vector (std::size_t i);                    //Size_t
-    // Vector (std::size_t i, T);                          //Special constructor
+    Vector (std::size_t i, T);                          //Special constructor
     Vector (std::initializer_list<T> list);             //List
     Vector (Vector const& obj);                         //Copy
     Vector (Vector&& obj);                              //Move
@@ -28,54 +29,73 @@ class Vector
     Vector& operator= (Vector&& obj);                   //Move-ASSIGNMENT      
     T& operator[] (std::size_t index);                  //Modify
     T operator[] (std::size_t index) const;             //Access
+    
     void reset();
     std::size_t size() const;
-
+    void clear();
+    void push_back(T);
 
 };
 
 // ------------------  DEFUALT 
 template<typename T> 
-Vector<T>::Vector(): vector_ptr(new T[0]), length(0)
+Vector<T>::Vector()
 {
-  std::cout << "DEFUALT"<< std::endl;  
+  std::cout << "DEFUALT"<< std::endl;
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
+  length = 0; tot_capacity = length*2 + 10; 
+  vector_ptr = new T[tot_capacity];
+  reset();
 }
 
 
 
 // ------------------  SIZE         
 template<typename T> 
-Vector<T>::Vector(std::size_t i): vector_ptr(new T[i]), length(i)
+Vector<T>::Vector(std::size_t i)
 {
-    std::cout << "SIZE"<< std::endl;
-    for(std::size_t i = 0; i < length; i++)
-    {
-      vector_ptr[i] = 0;
-    }
+  std::cout << "SIZE"<< std::endl;
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
+  length = i; tot_capacity = length*2 + 10; 
+  vector_ptr = new T[tot_capacity];
+  reset();
 }
 
-
 // // ------------------ SPECIAL CONSTRUCTOR
-// template<typename T> 
-// Vector<T>::Vector(std::size_t i, T start_value):
-// {
-//   if(std::is_move_assignable<T>::value && std::is_move_constructable<t>::value){
-//     std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
-//     length      = i;
-//     vector_ptr  = new T[i]
-//     for(int j = 0; j<i; j++){
-//       vector_ptr[j] = start_value;
-//     }
-//   }
-  
-// }
+template<typename T>
+Vector<T>::Vector(std::size_t i, T start_value)
+{
+  std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
+  static_assert(std::is_move_constructible<T>::value 
+  && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
+  length = i; tot_capacity = length*2 + 10; 
+  vector_ptr = new T[tot_capacity];
+  for(int i = 0; i<length; i++){
+    vector_ptr[i] = start_value;
+  }
+}
 
 
 // ------------------  LIST        
 template<typename T> 
-Vector<T>::Vector (std::initializer_list<T> list): vector_ptr(new T[list.size()]), length(list.size())
+Vector<T>::Vector (std::initializer_list<T> list)
 {
   std::cout << "LIST"<< std::endl;
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
+  length = list.size(); tot_capacity = length*2 + 10; 
+  vector_ptr = new T[tot_capacity];
+
   int i = 0;
   for(auto it = list.begin(); it != list.end(); it++)
   {
@@ -86,12 +106,15 @@ Vector<T>::Vector (std::initializer_list<T> list): vector_ptr(new T[list.size()]
 
 // ------------------  COPY        
 template<typename T> 
-Vector<T>::Vector(Vector const& obj) : vector_ptr(new T[obj.length]), length(obj.length)  
+Vector<T>::Vector(Vector const& obj)
 {
   std::cout << "COPY"<< std::endl;
-  delete[] vector_ptr;
-  length = obj.length;
-  vector_ptr = new T[obj.length];
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
+  vector_ptr = new T[obj.tot_capacity]; length = obj.length;
+  tot_capacity = obj.tot_capacity;
   for(std::size_t i = 0; i < obj.length; i++)
   {
     vector_ptr[i] = obj.vector_ptr[i];
@@ -100,11 +123,15 @@ Vector<T>::Vector(Vector const& obj) : vector_ptr(new T[obj.length]), length(obj
 
 // ------------------  MOVE       
 template<typename T> 
-Vector<T>::Vector(Vector && obj): vector_ptr(obj.vector_ptr),length(obj.length)
+Vector<T>::Vector(Vector && obj)
 {
   std::cout << "MOVE"<< std::endl;
-  obj.length = 0;
-  obj.vector_ptr = nullptr;
+  static_assert(std::is_move_constructible<T>::value 
+    && std::is_move_assignable<T>::value,
+  "The type must be move constructable/assignable");
+
+  vector_ptr = obj.vector_ptr; length = obj.length; tot_capacity = obj.tot_capacity;
+  obj.length = 0; obj.vector_ptr = nullptr; obj.tot_capacity = 0;
 
 }
 
@@ -123,13 +150,14 @@ Vector<T>& Vector<T>::operator= (Vector<T> const& obj)
   std::cout << "OPERATOR  =    ASSIGNMENT"<< std::endl;
   if(this != &obj)
   {
-  delete[] vector_ptr;
-  length = obj.length;
-  vector_ptr = new T[length];
-  for(std::size_t i = 0; i < length; i++)
-  {
-    vector_ptr[i] = obj.vector_ptr[i];
-  }
+    delete[] vector_ptr;
+    length = obj.length;
+    tot_capacity = obj.tot_capacity;
+    vector_ptr = new T[tot_capacity];
+    for(std::size_t i = 0; i < length; i++)
+    {
+      vector_ptr[i] = obj.vector_ptr[i];
+    }
   }
   return *this;
 }
@@ -142,10 +170,8 @@ Vector<T>& Vector<T>::operator= (Vector<T>&& obj)
   if(this != &obj)
   {
     delete[] vector_ptr;
-    vector_ptr = obj.vector_ptr;
-    length = obj.length;
-    obj.vector_ptr = nullptr;
-    obj.length = 0;
+    vector_ptr = obj.vector_ptr; length = obj.length; tot_capacity = obj.tot_capacity;
+    obj.vector_ptr = nullptr; obj.tot_capacity = 0; obj.length = 0;
   }
   return *this;
 }
@@ -198,4 +224,45 @@ std::size_t Vector<T>::size() const
 {
   return length; 
 }
+
+
+template<typename T>
+void Vector<T>::clear()
+{
+  delete[] vector_ptr;
+  vector_ptr = nullptr; length = 0;
+}
+
+template<typename T>
+void Vector<T>::push_back(T element)
+{
+  if(tot_capacity <= length)
+  {
+    T* old_array = vector_ptr;
+    tot_capacity = tot_capacity*2;
+    vector_ptr = new T[tot_capacity];
+
+    for(std::size_t i = 0; i < length; i++)
+    {
+      vector_ptr[i] = old_array[i];
+    }
+    delete[] old_array;
+  }
+  vector_ptr[length] = element;
+  length++;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
