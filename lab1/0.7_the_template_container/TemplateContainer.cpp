@@ -2,6 +2,7 @@
 #include <initializer_list>
 #include <stdexcept>
 #include <typeinfo>
+#include <type_traits>
 
 
 
@@ -32,6 +33,7 @@ class Vector
 template<typename T> 
 Vector<T>::Vector(): vector_ptr(new T[0]), length(0)
 {
+  if()
   // std::cout << "DEFUALT"<< std::endl;
 }
 
