@@ -1,4 +1,4 @@
-#include "TemplateContainer.h"
+#include "kth_cprog_template_container.hpp"
 using namespace std;
 
 int main()
@@ -276,6 +276,43 @@ int main()
 		y--;
 	}
 
+
+	cout << "CONST VECTOR" << endl;
+	const Vector<int> x10(10);
+	Vector<int> x11;
+	x10.begin();
+	x10.end();
+
+	const int* x20;
+	const int& x20_r = 3;
+	x20 = x11.begin();
+	x11.end();
+
+	cout << "FIND" << endl;
+	std::initializer_list<int> listFind = {1,2,3,4,3,2,1}; 
+	Vector<int> x25(5);
+	const int a = 3;
+	const int& x25_r = a;
+
+	x20 = x25.find(a);
+
+	cout << "INSERT" << endl;
+	Vector<int> x_size(100);
+	Vector<int> x_insert;
+	x_insert.insert(0,42);
+	cout << x_insert[0] <<  endl;
+	x_insert.insert(0,-43);
+	cout << x_insert[0] << " " << x_insert[1] << endl;
+	x_insert.insert(0,-43);
+	x_insert.insert(0,1);
+	x_insert.insert(0,2);
+	x_insert.insert(0,3);
+	cout << x_insert[0] << " " << x_insert[1] << x_insert[2] << x_insert[3] << x_insert[4]<< x_insert[5] << endl;
+
+
+	cout << "1024" << endl;
+	Vector<int> x1024(1025);
+	cout << x1024.size() << endl;
 
 	// cout << "TESTING FIND()" << endl;
 	// const int& x_r = 3;

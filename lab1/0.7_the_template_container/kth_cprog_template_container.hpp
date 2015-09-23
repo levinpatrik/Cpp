@@ -17,6 +17,7 @@ class Vector
     std::size_t length;
     std::size_t tot_capacity;
 
+
     Vector ();                                          //Default
     explicit Vector (std::size_t i);                    //Size_t
     Vector (std::size_t i, T);                          //Special constructor
@@ -28,7 +29,7 @@ class Vector
     Vector& operator= (Vector const& obj);              //ASSIGNMENT
     Vector& operator= (Vector&& obj);                   //Move-ASSIGNMENT      
     T& operator[] (std::size_t index);                  //Modify
-    const T operator[] (std::size_t index) const;             //Access
+    const T operator[] (std::size_t index) const;       //Access
     
     void reset();
     void clear();
@@ -39,13 +40,13 @@ class Vector
     std::size_t size() const;
     std::size_t capacity() const;
 
-    const T* begin() const;
-    const T* end() const;
-    // const T* find(T const&) const;
-
+    T const *  begin() const;
+    T const *  end() const;
+    T const * find(T const&) const;
+    
     T* begin();
     T* end();
-    T* find(T const&) const;
+    T* find(T const&);
 
 
 
@@ -56,14 +57,14 @@ class Vector
 template<typename T> 
 Vector<T>::Vector()
 {
-  std::cout << "DEFUALT"<< std::endl;
+  // std::cout << "DEFUALT"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
 
   length = 0; tot_capacity = length*2 + 10; 
   vector_ptr = new T[tot_capacity];
-  reset();
+  // reset();
 }
 
 
@@ -72,27 +73,27 @@ Vector<T>::Vector()
 template<typename T> 
 Vector<T>::Vector(std::size_t i)
 {
-  std::cout << "SIZE"<< std::endl;
+  // std::cout << "SIZE"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
 
   length = i; tot_capacity = length*2 + 10; 
-  vector_ptr = new T[tot_capacity];
-  reset();
+  vector_ptr = new T[tot_capacity]();
+  // reset();
 }
 
-// // ------------------ SPECIAL CONSTRUCTOR
+// ------------------ SPECIAL CONSTRUCTOR
 template<typename T>
 Vector<T>::Vector(std::size_t i, T start_value)
 {
-  std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
+  // std::cout << "SPECIAL CONSTRUCTOR"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
   && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
 
   length = i; tot_capacity = length*2 + 10; 
-  vector_ptr = new T[tot_capacity];
+  vector_ptr = new T[tot_capacity]();
   for(int i = 0; i<length; i++){
     vector_ptr[i] = start_value;
   }
@@ -103,7 +104,7 @@ Vector<T>::Vector(std::size_t i, T start_value)
 template<typename T> 
 Vector<T>::Vector (std::initializer_list<T> list)
 {
-  std::cout << "LIST"<< std::endl;
+  // std::cout << "LIST"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
@@ -123,7 +124,7 @@ Vector<T>::Vector (std::initializer_list<T> list)
 template<typename T> 
 Vector<T>::Vector(Vector const& obj)
 {
-  std::cout << "COPY"<< std::endl;
+  // std::cout << "COPY"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
@@ -140,7 +141,7 @@ Vector<T>::Vector(Vector const& obj)
 template<typename T> 
 Vector<T>::Vector(Vector && obj)
 {
-  std::cout << "MOVE"<< std::endl;
+  // std::cout << "MOVE"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
@@ -162,7 +163,7 @@ Vector<T>::~Vector()
 template<typename T>      
 Vector<T>& Vector<T>::operator= (Vector<T> const& obj)
 {
-  std::cout << "OPERATOR  =    ASSIGNMENT"<< std::endl;
+  // std::cout << "OPERATOR  =    ASSIGNMENT"<< std::endl;
   if(this != &obj)
   {
     delete[] vector_ptr;
@@ -181,7 +182,7 @@ Vector<T>& Vector<T>::operator= (Vector<T> const& obj)
 template<typename T>      
 Vector<T>& Vector<T>::operator= (Vector<T>&& obj)
 {
-  std::cout << "OPERATOR  =     MOVE-ASSIGNMENT"<< std::endl;
+  // std::cout << "OPERATOR  =     MOVE-ASSIGNMENT"<< std::endl;
   if(this != &obj)
   {
     delete[] vector_ptr;
@@ -211,7 +212,7 @@ T& Vector<T>::operator[] (std::size_t index)
 template<typename T> 
 const T Vector<T>::operator[] (std::size_t index) const
 {
-  std::cout << " OPERATOR  []  READ-ONLY "<< std::endl;
+  // std::cout << " OPERATOR  []  READ-ONLY "<< std::endl;
   if(index >= length)
   {
     throw std::out_of_range("Tried to access index out of range");
@@ -222,18 +223,19 @@ const T Vector<T>::operator[] (std::size_t index) const
   }
 }
 
-//This function set the entire vector to 0 by looping through it. 
+// ------------------  CONST RESET
 template<typename T> 
 void Vector<T>::reset()
 {
-  unsigned int uInt = 0;
+  T type;
   for(std::size_t i = 0; i < length; i++)
   {
-    vector_ptr[i] = uInt;
+    vector_ptr[i] = type;
   }
 }
 
-//This function returns the size of the vector as an size_t type.
+
+// ------------------  SIZE
 template<typename T> 
 std::size_t Vector<T>::size() const
 {
@@ -241,16 +243,17 @@ std::size_t Vector<T>::size() const
 }
 
 
-
+// ------------------  CLEAR
 template<typename T>
 void Vector<T>::clear()
 {
-  delete[] vector_ptr;
-  vector_ptr = nullptr; length = 0;
+  // delete[] vector_ptr;
+  // vector_ptr = nullptr; 
+  length = 0;
 }
 
 
-
+// ------------------  PUSH_BACK
 template<typename T>
 void Vector<T>::push_back(T element)
 {
@@ -272,6 +275,7 @@ void Vector<T>::push_back(T element)
 
 
 
+// ------------------  INSERT
 template<typename T>
 void Vector<T>::insert(std::size_t index, T element)
 {
@@ -289,36 +293,45 @@ void Vector<T>::insert(std::size_t index, T element)
   }
 
   if(tot_capacity <= length)
-  { 
-    tot_capacity = tot_capacity*2;
-    vector_ptr = new T[tot_capacity];
-  }
+    {
+      T* old_array = vector_ptr;
+      tot_capacity = tot_capacity*2;
+      vector_ptr = new T[tot_capacity];
+
+      for(std::size_t i = 0; i < length; i++)
+      {
+        vector_ptr[i] = old_array[i];
+      }
+      delete[] old_array;
+    }
 
   T* old_array = vector_ptr;
-  for(std::size_t i = 0; i <= length; i++)
+  T temp_value;
+  // std::cout << "len " << length << std::endl;
+  for(int i = (length); i >= 0; i--)
   {
-    if(i == index)
+    // std::cout << "i " << i << " index: " << index << std::endl;
+    if(i > index)
     {
-      vector_ptr[i] = element;
-        
-    }
-    else if(i > index)
-    {
+      // std::cout <<"if "<< "vec" << vector_ptr[i+1] << "old" << old_array[i] << std::endl;
       vector_ptr[i] = old_array[i-1];
     }
-    else
+    else if( i == index)
     {
-      vector_ptr[i] = old_array[i];
+      // std::cout <<"else "<< "vec" << vector_ptr[i]<< std::endl;
+      vector_ptr[i] = element;
     }
   }
   length++;
 }
 
+// ------------------  ERASE
 template<typename T>
 void Vector<T>::erase(std::size_t index)
 {
   if(index >= length)
   {
+    throw std::out_of_range("Tried to access index out of range");
     return;
   }
 
@@ -326,68 +339,89 @@ void Vector<T>::erase(std::size_t index)
   {
     vector_ptr[i] = vector_ptr[i+1];
   }
-  vector_ptr[length-1] = 0;
+  // vector_ptr[length-1] = 0;
   length--;
 }
 
+// ------------------  CAPACITY
 template<typename T>
 std::size_t Vector<T>::capacity() const
 {
-  return capacity;
+  return tot_capacity;
 }
 
 
-
+// ------------------  BEGIN
 template<typename T>
 T* Vector<T>::begin()
 {
+  // std::cout << "Begin()" << std::endl;
   return &vector_ptr[0];
 }
 
+// ------------------  END
 template<typename T>
 T* Vector<T>::end()
 {
-  return &vector_ptr[length-1];
+  // std::cout << " end()" << std::endl;
+  return &vector_ptr[length];
 }
 
-
+// ------------------  FIND
 template<typename T>
-T* Vector<T>::find(T const& element) const
+T  * Vector<T>::find(T const& element)
 {
-  int i = 0;
-  while(*element != vector_ptr[i] || i < length)
+  // std::cout << "find()" << std::endl;
+  T* current_p = begin();
+  T* end_p   = end();
+  while(current_p != end_p)
   {
-    i++;
+    if(*current_p == element)
+    {
+      return current_p;
+    }
+    current_p++;
   }
+  return end_p;
 
-  return &vector_ptr[i];
 }
 
+// ------------------  CONST BEGIN
 template<typename T>
-const T* Vector<T>::begin() const
+T const * Vector<T>::begin() const
 {
+  // std::cout << "const Begin()" << std::endl;
   return &vector_ptr[0];
 }
 
+// ------------------  CONST END
 template<typename T>
-const T* Vector<T>::end() const
+T const * Vector<T>::end() const
 {
-  return &vector_ptr[length-1];
+  // std::cout << "const end()" << std::endl;
+  return &vector_ptr[length];
 }
 
 
-// template<typename T>
-// const T* Vector<T>::find(T const& element) const
-// {
-//   int i = 0;
-//   while(*element != vector_ptr[i] || i < length)
-//   {
-//     i++;
-//   }
+// ------------------  FIND CONST
+template<typename T>
+T const * Vector<T>::find(T const& element) const
+{
+  // std::cout << "find()" << std::endl;
 
-//   return &vector_ptr[i];
-//}
+  const T* current_p = begin();
+  const T* end_p   = end();
+  while(current_p != end_p)
+  {
+    if(*current_p == element)
+    {
+      return current_p;
+    }
+    current_p++;
+  }
+  return end_p;
 
+}
 
 
 #endif

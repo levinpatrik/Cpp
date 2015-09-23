@@ -365,7 +365,7 @@ T* Vector<T>::find(T const& element) const
 template<typename T>
 const T* Vector<T>::begin() const
 {
-  std::cout << "CONSTANT BEGIN" << std::
+  std::cout << "CONSTANT BEGIN" << std::endl;
   return &vector_ptr[0];
 }
 
@@ -375,19 +375,6 @@ const T* Vector<T>::end() const
   std::cout << "CONSTANT  END" << std::endl;
   return &vector_ptr[length-1];
 }
-
-
-// template<typename T>
-// const T* Vector<T>::find(T const& element) const
-// {
-//   int i = 0;
-//   while(*element != vector_ptr[i] || i < length)
-//   {
-//     i++;
-//   }
-
-//   return &vector_ptr[i];
-//}
 
 
 
