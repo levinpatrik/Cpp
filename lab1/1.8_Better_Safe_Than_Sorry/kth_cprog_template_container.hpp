@@ -9,32 +9,11 @@
 
 
 
-struct T1 {
-  T1 () 
-  { 
-    std::cout << "T1 Default" << std::endl;
-    ++object_count; 
-  }
-  T1 (T1 const&) 
-  { 
-    std::cout << "T1 Copy" << std::endl;
-    ++object_count; 
-  }
-  ~T1 () 
-  { 
-    std::cout << "T1 Destructor" << std::endl;
-    --object_count;
-  }
-  static unsigned int object_count;
-};
-
-
 template <typename T>
 class Vector
 {
   public:
-    T** vector_ptr;
-    T* obj_ptr;
+    T *vector_ptr;
     std::size_t length;
     std::size_t tot_capacity;
 
@@ -69,42 +48,39 @@ class Vector
     T* end();
     T* find(T const&);
 
+
+
+
 };
 
 // ------------------  DEFUALT 
 template<typename T> 
 Vector<T>::Vector()
 {
-  std::cout << "DEFUALT"<< std::endl;
+  // std::cout << "DEFUALT"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
 
   length = 0; tot_capacity = length*2 + 10; 
-  vector_ptr = new T*[length];
+  vector_ptr = new T[tot_capacity];
+  // reset();
 }
 
 
 
 // ------------------  SIZE         
 template<typename T> 
-Vector<T>::Vector(std::size_t len)
+Vector<T>::Vector(std::size_t i)
 {
   // std::cout << "SIZE"<< std::endl;
   static_assert(std::is_move_constructible<T>::value 
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
 
-  length = len; tot_capacity = length*2 + 10; 
-  vector_ptr = (T*)malloc(tot_capacity * sizeof(T));
-  obj_ptr = new T[length]();
-
-  for(int i = 0; i < length; i++)
-  {
-    vector_ptr[i] =  obj_ptr[i];
-    vector_ptr[i] =  T();
-  }
-  std::cout << "END SIZE" << std::endl;
+  length = i; tot_capacity = length*2 + 10; 
+  vector_ptr = new T[tot_capacity]();
+  // reset();
 }
 
 // ------------------ SPECIAL CONSTRUCTOR
@@ -153,11 +129,14 @@ Vector<T>::Vector(Vector const& obj)
     && std::is_move_assignable<T>::value,
   "The type must be move constructable/assignable");
 
-  vector_ptr = new T[obj.tot_capacity]; length = obj.length;
-  tot_capacity = obj.tot_capacity;
-  for(std::size_t i = 0; i < obj.length; i++)
+  if(this != &obj)
   {
-    vector_ptr[i] = obj.vector_ptr[i];
+    vector_ptr = new T[obj.tot_capacity]; length = obj.length;
+    tot_capacity = obj.tot_capacity;
+    for(std::size_t i = 0; i < obj.length; i++)
+    {
+      vector_ptr[i] = obj.vector_ptr[i];
+    }
   }
 }
 
@@ -179,10 +158,7 @@ Vector<T>::Vector(Vector && obj)
 template<typename T> 
 Vector<T>::~Vector()
 {
-  std::cout << "DESTRUCTOR"<< std::endl;
-  delete[] obj_ptr;
-  free(vector_ptr);
-
+  delete[] vector_ptr;
 }
 
 
@@ -288,20 +264,15 @@ void Vector<T>::push_back(T element)
   {
     T* old_array = vector_ptr;
     tot_capacity = tot_capacity*2;
-    vector_ptr = (T*)malloc(tot_capacity * sizeof(T));
-    
+    vector_ptr = new T[tot_capacity];
 
     for(std::size_t i = 0; i < length; i++)
     {
       vector_ptr[i] = old_array[i];
     }
-    delete[] old_obj;
-    free(old_array);
+    delete[] old_array;
   }
-
-  obj_ptr = new T[length+1];
-  vector_ptr[length] = obj_ptr[length];
-
+  vector_ptr[length] = element;
   length++;
 }
 
@@ -312,15 +283,13 @@ template<typename T>
 void Vector<T>::insert(std::size_t index, T element)
 {
 
-
-  if(index == length)
-  {
-    push_back(element);
-    return;
-  }
-  else if(index > length)
+  if(index > length)
   {
     throw std::out_of_range("Tried to access index out of range");
+  }
+  else if(index == length)
+  {
+    push_back(element);
     return;
   }
 
