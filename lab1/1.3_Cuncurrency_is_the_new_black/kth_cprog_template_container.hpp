@@ -420,9 +420,9 @@ T const * SafeVector<T>::find(T const& element) const
     current_p++;
   }
   return end_p;
-
 }
 
+// ------------------  SWAP
 template<typename T>
 void SafeVector<T>::safeswap (std::size_t index1, std::size_t index2)
 {
@@ -439,3 +439,12 @@ void SafeVector<T>::safeswap (std::size_t index1, std::size_t index2)
 }
 
 #endif
+
+
+
+
+
+
+
+
+
