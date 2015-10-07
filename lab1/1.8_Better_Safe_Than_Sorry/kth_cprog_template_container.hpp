@@ -169,14 +169,16 @@ Vector<T>& Vector<T>::operator= (Vector<T> const& obj)
   // std::cout << "OPERATOR  =    ASSIGNMENT"<< std::endl;
   if(this != &obj)
   {
-    delete[] vector_ptr;
-    length = obj.length;
-    tot_capacity = obj.tot_capacity;
-    vector_ptr = new T[tot_capacity];
-    for(std::size_t i = 0; i < length; i++)
+    T* tmp_obj_ptr = new T[obj.tot_capacity];
+    T* tmp_vec_ptr = vector_ptr;
+    for(std::size_t i = 0; i < obj.length; i++)
     {
-      vector_ptr[i] = obj.vector_ptr[i];
+      tmp_obj_ptr[i] = obj.vector_ptr[i];
     }
+    vector_ptr    = tmp_obj_ptr;
+    length        = obj.length;
+    tot_capacity  = obj.tot_capacity;
+    delete[] tmp_vec_ptr;
   }
   return *this;
 }
@@ -226,15 +228,24 @@ const T Vector<T>::operator[] (std::size_t index) const
   }
 }
 
-// ------------------  CONST RESET
+// ------------------  RESET
 template<typename T> 
 void Vector<T>::reset()
 {
   T type;
+  T* tmp_obj= new T[tot_capacity];
+  T* tmp_vec = vector_ptr;
   for(std::size_t i = 0; i < length; i++)
   {
-    vector_ptr[i] = type;
+    tmp_vec[i] = vector_ptr[i];
   }
+
+  for(std::size_t i = 0; i < length; i++)
+  {
+    tmp_obj[i] = type;
+  }
+  vector_ptr = tmp_obj;
+  delete[] tmp_vec;
 }
 
 
@@ -293,36 +304,42 @@ void Vector<T>::insert(std::size_t index, T element)
     return;
   }
 
+  T* old_array;
   if(tot_capacity <= length)
+  {
+    old_array = vector_ptr;
+    tot_capacity = tot_capacity*2;
+    T* tmp_vec_ptr = new T[tot_capacity];
+    for(std::size_t i = 0; i < length; i++)
     {
-      T* old_array = vector_ptr;
-      tot_capacity = tot_capacity*2;
-      vector_ptr = new T[tot_capacity];
-
-      for(std::size_t i = 0; i < length; i++)
-      {
-        vector_ptr[i] = old_array[i];
-      }
-      delete[] old_array;
+        tmp_vec_ptr[i] = old_array[i];
     }
+    vector_ptr = tmp_vec_ptr;
+    delete[] old_array;
+  }
 
-  T* old_array = vector_ptr;
-  T temp_value;
-  // std::cout << "len " << length << std::endl;
+  old_array = vector_ptr;
+  T* tmp_vec = new T[tot_capacity]; 
+  for(std::size_t i = 0; i < length; i++)
+  {
+      tmp_vec[i] = old_array[i];
+  }
   for(int i = (length); i >= 0; i--)
   {
     // std::cout << "i " << i << " index: " << index << std::endl;
     if(i > index)
     {
       // std::cout <<"if "<< "vec" << vector_ptr[i+1] << "old" << old_array[i] << std::endl;
-      vector_ptr[i] = old_array[i-1];
+      tmp_vec[i] = old_array[i-1];
     }
     else if( i == index)
     {
       // std::cout <<"else "<< "vec" << vector_ptr[i]<< std::endl;
-      vector_ptr[i] = element;
+      tmp_vec[i] = element;
     }
   }
+  vector_ptr = tmp_vec;
+  delete[] old_array;
   length++;
 }
 
@@ -336,11 +353,18 @@ void Vector<T>::erase(std::size_t index)
     return;
   }
 
+  T* tmp_obj = new T[tot_capacity];
+  T* tmp_vec = vector_ptr;
+  for(int i = 0; i < length; i++)
+  {
+    tmp_obj[i] = vector_ptr[i]; 
+  }
   for(int i = index; i < (length-1); i++)
   {
-    vector_ptr[i] = vector_ptr[i+1];
+    tmp_obj[i] = vector_ptr[i+1];
   }
-  // vector_ptr[length-1] = 0;
+  vector_ptr = tmp_obj;
+  delete[] tmp_vec;
   length--;
 }
 
