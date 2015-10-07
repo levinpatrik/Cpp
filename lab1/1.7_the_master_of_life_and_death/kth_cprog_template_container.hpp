@@ -12,17 +12,17 @@
 struct T1 {
   T1 () 
   { 
-    // std::cout << "T1 Default" << std::endl;
+    std::cout << "T1 Default" << std::endl;
     ++object_count; 
   }
   T1 (T1 const&) 
   { 
-    // std::cout << "T1 Copy" << std::endl;
+    std::cout << "T1 Copy" << std::endl;
     ++object_count; 
   }
   ~T1 () 
   { 
-    // std::cout << "T1 Destructor" << std::endl;
+    std::cout << "T1 Destructor" << std::endl;
     --object_count;
   }
   static unsigned int object_count;
@@ -184,10 +184,11 @@ Vector<T>::~Vector()
   for(int i = 0; i < length; i++)
   {
     delete vector_ptr[i];
+    std::cout << "1"<< std::endl;
   } 
-
+  std::cout << "2"<< length << std::endl;
   delete[] vector_ptr;
-
+  std::cout << "efter delete"<< length << std::endl;
 }
 
 // ------------------  OPERATOR  =    ASSIGNMENT
@@ -296,7 +297,7 @@ void Vector<T>::clear()
 template<typename T>
 void Vector<T>::push_back(T element)
 {
-  // std::cout << "PUSH_BACK" << std::endl;
+  std::cout << "PUSH_BACK" << std::endl;
   if(tot_capacity <= length)
   {
     T** old_array = vector_ptr;
@@ -305,9 +306,8 @@ void Vector<T>::push_back(T element)
     for(std::size_t i = 0; i < length; i++)
     {
       vector_ptr[i] = old_array[i];
-      // delete old_array[i];
     }
-    // delete[] old_array;
+    delete[] old_array;
   }
   vector_ptr[length] = new T;
   *vector_ptr[length] = element;
