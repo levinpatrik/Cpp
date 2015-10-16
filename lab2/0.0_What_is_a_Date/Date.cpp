@@ -3,6 +3,13 @@
 //		-- DEFUALT
 Date::Date()
 {
+	time_t mytime = time(0);
+	struct tm *t = localtime(&mytime);
+	the_year = t->tm_year + 1900;
+	the_month = t->tm_mon +1;
+	the_day = t->tm_mday;
+	std::cout << "year-month-day" << " " << the_year << " " << the_month << " " << the_day << std::endl;
+
 
 }
 
@@ -18,6 +25,7 @@ Date::Date(int year, unsigned int month, unsigned int day)
 //		-- COPY
 Date::Date(Date const &obj)
 {
+	std::cout << "this.type: " << this.type << " obj.type " << obj.type << std::endl;
 	//Transfer information from obj OBS! maybe wrong representation?
 	//to the object being created
 }
