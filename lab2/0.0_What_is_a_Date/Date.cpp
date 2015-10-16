@@ -3,8 +3,7 @@
 //		-- DEFUALT
 Date::Date()
 {
-	
-	//initialize the calander with the current date.
+
 }
 
 //		-- VALUE
