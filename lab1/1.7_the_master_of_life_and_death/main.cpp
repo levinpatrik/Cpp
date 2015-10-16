@@ -14,14 +14,14 @@ int main ()
 		v2.erase (1); 				assert (T1::object_count == 6);
 		std::cout << "Slutet av scope main" << std::endl;
 
-		std::cout << "TEST  (1) PUSH-BACK " << std::endl;
-		Vector<int> v3;
-		for(int i = 0; i < 10; i++)
-		{
-			v3.push_back(30);	
-			// std::cout << "i: " << i << "tot: " << v3.tot_capacity << " len: " << v3.length << std::endl;
-		}
-		std::cout << "Slutet av scope main" << std::endl;
+		// std::cout << "TEST  (1) PUSH-BACK " << std::endl;
+		// Vector<int> v3;
+		// for(int i = 0; i < 10; i++)
+		// {
+		// 	v3.push_back(30);	
+		// 	// std::cout << "i: " << i << "tot: " << v3.tot_capacity << " len: " << v3.length << std::endl;
+		// }
+		// std::cout << "Slutet av scope main" << std::endl;
 	}
 	assert (T1::object_count == 0);
 }
