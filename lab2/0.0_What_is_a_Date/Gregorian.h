@@ -3,9 +3,18 @@
 
 #include "Date.h"
 
-class Gregorian: public Date
+class Gregorian: Date
 {
-	int type = 2;
+	public:
+		int type = 2;
+		Gregorian():Date(){};
+		~Gregorian(){std::cout<< "Gregorian Destructor" << std::endl;};
+		// unsigned int virtual days_this_month();
+		// void virtual add_year();
+		// void virtual add_month();
+
+	private:
+			
 };
 
 #endif
