@@ -1,20 +1,22 @@
-#include "Gregorian.h"
+#include "Julian.h"
 
-unsigned int  Gregorian::days_this_month() const{
+
+
+unsigned int  Julian::days_this_month() const{
 	if (is_leap_year()){
 		return days_each_month_leap[the_month-1];
 	}
 	return days_each_month_normal[the_month - 1];
 }
 
-void  Gregorian::add_year(int n){
+void  Julian::add_year(int n){
 	the_year += n;
 	if(the_day > days_this_month()){
 		the_day = days_this_month();
 	}
 }
 
-void  Gregorian::add_month(int n){
+void  Julian::add_month(int n){
 
 	int years = std::floor(n/12);
 	int months = n % 12;
@@ -33,46 +35,46 @@ void  Gregorian::add_month(int n){
 	}
 }
 
-bool Gregorian::is_leap_year() const{
+bool Julian::is_leap_year() const{
 
 	if (the_year % 4 == 0){
-		if(!(the_year % 100 == 0) || (the_year % 400  == 0)){
-			return true;
-		}
+		return true;
 	}
 	return false;
 }
 
-int Gregorian::julian_day_number() const{
+int Julian::julian_day_number() const{
 
 	int a = std::floor((14 - the_month)/12);
 	int y = the_year + 4800 - a;
 	int m = the_month + 12*a -3;
 
-	int JDN = the_day + std::floor((153*m + 2 )/5) + 365*y + std::floor(y/4)
-	- std::floor(y/100) + std::floor(y/400) -32045;
+	int JDN = the_day + std::floor((153*m + 2 )/5) + 365*y + std::floor(y/4) -32083;
 	return JDN;
 }
 
 
-Gregorian & Gregorian::operator++(){
+Julian & Julian::operator++(){
 
-	debug("inside Greg++");
-	if(the_day < days_this_month()){
+	if(the_day < days_this_month())
+	{
 		the_day++;
 	}
-	else if(the_day == days_this_month()){
-		if(the_month == 12){
+	else if(the_day == days_this_month())
+	{
+		if(the_month == 12)
+		{
 			the_year++; the_month = 1; the_day = 1;
 		}
-		else{
+		else
+		{
 			the_month++; the_day = 1;
 		}
 	}
 	return *this;
 }
 
-Gregorian & Gregorian::operator--(){
+Julian & Julian::operator--(){
 
 	if(the_day > 1){
 		the_day--;
@@ -89,24 +91,23 @@ Gregorian & Gregorian::operator--(){
 }
 
 // Postfix ++
-Gregorian Gregorian::operator++(int)
+Julian Julian::operator++(int)
 {
-	Gregorian tmp(the_year, the_month, the_day);
+	Julian tmp(the_year, the_month, the_day);
 	++(*this);
 	return tmp;
 }
 
 // Postfix --
-Gregorian Gregorian::operator--(int)
+Julian Julian::operator--(int)
 {
-	Gregorian tmp(the_year, the_month, the_day);
+	Julian tmp(the_year, the_month, the_day);
 	--(*this);
 	return tmp;
 }
 
 
-
-Gregorian & Gregorian::operator+=(unsigned int x){
+Julian & Julian::operator+=(unsigned int x){
 	while(x > 0)
 	{
 		if((the_day + x) > days_this_month())
@@ -129,7 +130,7 @@ Gregorian & Gregorian::operator+=(unsigned int x){
 	return *this;
 }
 
-Gregorian & Gregorian::operator-=(unsigned int x){
+Julian & Julian::operator-=(unsigned int x){
 	while(x > 0)
 	{
 		if((the_day - x) < 1)
@@ -152,17 +153,28 @@ Gregorian & Gregorian::operator-=(unsigned int x){
 	return *this;
 }
 
-int Gregorian::operator-(const Date & g)
+
+int Julian::operator-(const Date & g)
 {
 	int JDN1 = julian_day_number();
 	int JDN2 = g.julian_day_number();
 	return (JDN1 - JDN2);
 }
 
-Gregorian & Gregorian::operator=(const Date & d)
+Julian & Julian::operator=(const Date & d)
 {
 	int JDN = d.julian_day_number();
-	std::vector<int> v = d.JDN_2_Greg(JDN);
+	std::vector<int> v = d.JDN_2_julian(JDN);
 	the_year = v[0]; the_month = v[1]; the_day = v[2];
 	return *this;
 }
+
+
+
+
+
+
+
+
+
+
