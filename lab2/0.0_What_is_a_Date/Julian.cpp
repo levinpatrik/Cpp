@@ -46,91 +46,6 @@ void  Julian::add_year(int n){
 	}
 }
 
-void  Julian::add_month(int n){
-
-	// int years = std::floor(n/12);
-	// the_year += years;
-	// int months = n -(years*12);
-
-	// std::cout << "months to add" << months << std::endl;
-	// if(months > 0)
-	// {
-	// 	for(int i = 0; i < months; i++)
-	// 		{ 
-	// 			int JDN = julian_day_number();
-	// 			JDN += days_this_month();
-	// 			std::vector<int> v = JDN_2_julian(JDN);
-	// 			the_year = v[0];  the_month = v[1]; the_day = v[2];
-	// 		}
-	// }
-	// if(months < 0)
-	// {
-	// 	for(int i = 0; i > months; i--)
-	// 	{ 	
-	// 		int JDN = julian_day_number();
-	// 		JDN -= days_this_month();
-	// 		std::vector<int> v = JDN_2_julian(JDN);
-	// 		the_year = v[0];  the_month = v[1]; the_day = v[2];;
-	// 	}
-	// }
-
-	// if(the_day > days_this_month()){
-	// 	the_day = days_this_month();
-	// }
-
-
-
-
-	// int months = (the_month + n);
-	// int years = std::floor(months/12);
-	// the_year += years;
-	// months += - years*12;
-
-	// if(months>0)
-	// {
-	// 	the_month = months;
-	// }
-	// if(months<0)
-	// {
-	// 	the_year--;
-	// 	the_month = months + 12;
-	// }
-
-	// if(the_day > days_this_month()){
-	// 	the_day = days_this_month();
-	// }
-
-	// if((the_month + months) < 12 && (the_month + months) > 1){
-	// }
-	// else{
-	// 	if(n>0)
-	// 	{
-	// 		the_year++;
-	// 		the_month -= months -12;
-	// 	}
-	// 	if(n<0)
-	// 	{
-	// 		the_year--;
-	// 		the_month -= months +12;
-	// 	}
-	// }
-	// if(the_day > days_this_month()){
-	// 	the_day = days_this_month();
-	// }
-
-	if(n>0)
-	{
-		for(int i = 0; i < n; i++)
-			{add_month();}
-	}
-	if(n<0)
-	{
-		for(int i = 0; i > n; i--)
-			{subtract_month();}
-	}
-
-}
-
 void Julian::add_month(){
 
 	int JDN = julian_day_number();
@@ -138,24 +53,44 @@ void Julian::add_month(){
 	std::vector<int> v = JDN_2_julian(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 
-	// if((the_month + 1) < 12){
-	// 	the_month++; 
-	// }
-	// else{
-	// 	the_year++; the_month = 1;
-	// }
-	// if(the_day > days_this_month())
-	// {
-	// 	the_day = days_this_month();
-	// }
 }
 
-void  Julian::subtract_month(){
-	int JDN = julian_day_number();
-	JDN -= days_this_month();
-	std::vector<int> v = JDN_2_julian(JDN);
-	the_year = v[0];  the_month = v[1]; the_day = v[2];
+void  Julian::add_month(int n)
+{
+
+	int years = std::floor(n/12);
+	the_year += years;
+	int months = n - (years*12);
+
+	if(n < 0)
+	{
+		for(int i = 0; i < abs(months); i++)
+		{
+			the_month--;
+			if(the_month < 1)
+			{
+				the_year--;
+				the_month = 12;
+			}
+		}
+	}
+	else
+	{
+		for(int i = 0; i < months; i++)
+		{
+			the_month++;
+			if(the_month > 12)
+			{
+				the_year++; the_month = 1;
+			}
+		}
+	}
+	if(the_day > days_this_month())
+	{
+		the_day = days_this_month();
+	}
 }
+
 
 bool Julian::is_leap_year() const{
 
@@ -238,27 +173,7 @@ Julian & Julian::operator+=(int x){
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 	return *this;
 
-	// while(x > 0)
-	// {
-	// 	if((the_day + x) > days_this_month())
-	// 	{
-	// 		x -= (days_this_month() + 1) - the_day ;
-	// 		if(the_month == 12)
-	// 		{
-	// 			the_year++; the_month = 1; the_day = 1;
-	// 		}
-	// 		else
-	// 		{
-	// 			the_month++; the_day = 1;
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		the_day += x;
-	// 		x = 0;
-	// 	}
-	// }
-	// return *this;
+
 }
 
 Julian & Julian::operator-=(int x){
@@ -270,30 +185,6 @@ Julian & Julian::operator-=(int x){
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 	return *this;
 
-
-
-
-	// int tmp_x = x; int tmp_day = the_day;
-	// while(tmp_x > 0)
-	// {
-	// 	if((tmp_day - tmp_x) < 1)
-	// 	{
-	// 		tmp_x -= (the_day + 1); 
-	// 		if(the_month == 1)
-	// 		{
-	// 			the_year--; the_month = 12; the_day = days_this_month();
-	// 		}
-	// 		else
-	// 		{
-	// 			the_month--; the_day = days_this_month();
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		the_day -= tmp_x; tmp_x = 0;
-	// 	}
-	// }
-	// return *this;
 }
 
 
@@ -307,9 +198,13 @@ int Julian::operator-(const Date & g) const
 
 Julian & Julian::operator=(const Date & d)
 {
-	int JDN = d.julian_day_number();
-	std::vector<int> v = d.JDN_2_julian(JDN);
-	the_year = v[0]; the_month = v[1]; the_day = v[2];
+	debug("inne i operator = Julian");
+	if (this != &d)
+	{	
+		int JDN = d.julian_day_number();
+		std::vector<int> v = d.JDN_2_julian(JDN);
+		the_year = v[0]; the_month = v[1]; the_day = v[2];
+	}
 	return *this;
 }
 

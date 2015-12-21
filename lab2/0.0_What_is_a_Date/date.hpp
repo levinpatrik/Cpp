@@ -17,7 +17,7 @@ class Date
 
 	public:		
 		//For debugging only, remove later
-		void debug(std::string str) const{ //std::cout << str << std::endl
+		void debug(std::string str) const{std::cout << str << std::endl
 			;}
 
 		//		--	CONSTRUCTORS  --
@@ -28,11 +28,10 @@ class Date
 
 
 		//		--  PURE-VIRTUAL FUNCTIONS  --
+		void virtual add_month(int) = 0;
 		unsigned int virtual days_this_month() const = 0;
 		void virtual add_year(int) = 0;
-		void virtual add_month(int) = 0;
 		void virtual add_month() = 0;
-		void virtual subtract_month() = 0;
 		int virtual julian_day_number() const = 0;
 
 		//		--  OPERATOR OVERLOAD  --
@@ -40,7 +39,15 @@ class Date
 		virtual Date & operator--() = 0;					// prefix
 		virtual Date & operator+=(int x) = 0;		
 		virtual Date & operator-=(int x) = 0;
-		virtual Date & operator=(const Date &){return *this;};
+
+		// virtual Date & operator=(const Date &){
+		// 	debug("DATE = operator");
+		// 	return *this;
+		// }
+
+		
+		// virtual Date & operator=(const Date &) = 0;
+
 		virtual int operator-(const Date &) const = 0;
 
 
@@ -71,9 +78,8 @@ class Date
 		int current_JDN() const;
 
 
-		//OBS wrong
 	protected:
-		int const days_each_month_normal[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+		int const  days_each_month_normal[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 		int const days_each_month_leap[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
 		const std::string day_names[7] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 		const std::string month_names[12] = {"January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};

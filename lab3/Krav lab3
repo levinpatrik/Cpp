@@ -1,0 +1,165 @@
+ATT GÖRA:
+1) skapa alla klass-hirarkier:
+	-aktörer 		PATRIK
+	-miljöer 		TOBI
+	-föremål 		
+
+2) Länka ihop ett antal miljöer till en map i någon "createMap" funktion
+
+3) Skapa alla aktörer med lämpliga värden på alla attribut.
+	- lägg aktörer i en vektor
+	- plasera it aktörer i mapen
+
+4) Skap föremål
+	- plasera ut föremål i mappen
+
+5) kom på hur man ska presentera, med text, var man är och vad man kan göra. (kanske i special-aktören PLAYER?)
+
+6) Göra någon sorts actionLoop där alla aktörer får möjlighet att aggera
+
+
+
+
+MUST HAVE for the game:
+
+1)	klass-hirarki för aktörer
+	ex: trollkarl->människa->aktör
+	- aktörer ska ha ha unika egenskaper
+		ex: trollkarl kan trolla
+
+	- aktören ska ha en mängd egenskaper (actions)
+		-dessa ska vara beroende på aktörens omständigheter
+			ex: hp,mana,plats,items,närhet av annan aktör
+
+	- basklass funktioner
+		• type() – returnerar namnet på arten, t.ex. trollkarl eller drake
+		• name() – returnerar namnet på varelsen, t.ex. Merlin
+		• action() – aktörens tur att agera
+		• go(direction) – gå åt håll
+		• fight(Character) – slåss med
+		• pick_up(Object) – ta upp sak
+		• drop(Object) – släpp sak på marken
+		• talk_to(Character) – konversera med
+
+
+
+
+2)	Gör en klasshierarki för miljön med attribut och metoder:
+	-ex: Skapa en klasshierarki som representerar miljön i ditt spel.
+
+		- vissa ska vara instantierabara
+			ex: rum → inomhusmiljö → miljö
+
+		- Låt de olika typerna av miljöer ha utgångar åt olika håll
+			ex: Exempel: rum har bara fyra riktningar, skog har åtta.
+
+		-  Låt varje instans av en miljöklass ha en beskrivande text.
+
+		- Olika typer av miljöer kan ha olika funktionalitet. 
+
+		- Förslag på funktioner i basklassen för miljöerna
+			• directions() – returnera vilka utgångar som finns
+			• neighbor(direction) – returnera granne (t.ex. referens till objekt) i given
+			riktning
+			• description() – returnera beskrivning av vad miljön innehåller, vilka
+			föremål man kan ta och vilka aktörer som befinner sig på platsen.
+			• enter(Character) – aktör kommer till platsen
+			• leave(Character) – aktör går från platsen
+			• pick_up(Object) – någon tar upp ett föremål som finns på platsen
+			• drop(Object) – någon lägger ner ett föremål på platsen
+
+
+
+3)	Gör en klasshierarki för föremål med attribut och metoder:
+	
+	• Skapa en hierarki av klasser som representerar föremålen i ditt äventyrsspel.
+	Exempel: börs → behållare → föremål, ring → föremål
+
+
+	• Låt alla föremål ha egenskaper. Alla föremål måste kunna svara på frå-
+	gor om deras egenskaper, såsom dess pris, vikt, volym etc. Exempel: En
+	ryggsäck har plats för ett visst antal saker/viss volym och går sönder om
+	man lastar den för tungt, en ring kostar 500 silverpengar, ett svärd väger
+	2 kg.
+
+	Förslag på funktioner i basklasserna för föremålen:
+		• weight() – vikt
+		• volume() – volym
+		• price() – pris
+	Förslag på funktioner för behållare:
+		• hold_weight() – vikt innan behållaren går sönder
+		• hold_volume() – volym innan behållaren blir full
+		• add(Object) – lägg objekt i behållaren
+		• remove(Object) – ta bort objekt från behållaren
+
+
+
+4)  Sätt ihop en handfull miljöinstanser så att de bildar en liten spelplan
+
+
+5)  Du ska nu skapa ett riktigt, spelbart äventyrsspel för en spelare. Följande
+	funktionalitet ska finnas:
+
+	- Ge en introduktion före spelet börjar där bakgrundshistorien berättas,
+	målet står specificerat och några kommandon omnämns.
+
+	- Spelet ska ha en kommandotolk som sköter all inmatning till spelet. Speltolken
+	tar ett kommando från tangentbordet och utför handlingen. Kommandotolken
+	bör klara alla funktioner som aktörernas basklass specificerar.
+	Exempel: pick up sword, go north, buy shield.
+	Alternativt: visa spelplanen med teckengrafik. Låt användaren manövrera
+	genom att hämta in ett tecken med getch.
+
+	- Låt eventuella strider ske i omgångar tills någon part flyr eller avlider.
+	Striderna kan t.ex. styras med tärningar.
+
+	• Låt minst en händelse bero på yttre/tidigare omständigheter. Exempel:
+	dörren öppnas bara du har rätt nyckel, lönndörren visar sig bara om du
+	försöker gå i den riktningen, vakten släpper in dig bara om du tidigare
+	talat med en speciell instans av en aktör, falluckan öppnar sig bara om du
+	väger tillräckligt mycket.
+
+	• Spelet ska ha ett mål. När målet är uppfyllt ska spelet avslutas.
+	• Du som kan spelet (och vet var den hemliga nyckeln m.m. finns) ska kunna
+	spela spelet från start till mål under en redovisning.
+
+	• Du ska kunna visa upp några virtuellt nedärvda metoder vars implementering
+	väsentligen skiljer sig och du ska kunna diskutera designskillnaden
+	mellan att deklarera metoder virtuella eller inte. Därför måste spelet ha
+	en viss omfattning, ett alltför tunnt spel kan underkännas men börja med
+	ett mycket enkelt spel och bygg ut efter hand. Om du kan visa designskillnaden
+	med enbart en arvstruktur med flera intressanta exempel av
+	virtuella funktioner och dynamisk bindning så är det tillräckligt. Alla tre
+	arvsstrukturer kan göras intressanta. En del kanske vill ha många olika
+	sorters aktörer (Harry Potters kompisar, lärare, husdjur, fiender, porträtt,
+	spöken m.m.) eller invecklade strider (expelliarmus) andra kanske vill ha
+	roliga föremål och gåtor (da Vinci koden) eller spännande miljöer (vidbehovs
+	rum, lustiga huset m.m.) Om du känner dig osäker, ta kontakt
+	med din övningsledare.
+
+	• Du ska lösa hur olika objekt når varandra. Håller rummen reda på vad
+	som är i dem och vet aktörerna vilket rum de är i? Vet objekten vem
+	som håller i dem. Man kan ha endast en global vektor där allting finns
+	och som man letar upp vad man vill ha. Eller så har man flera behållare
+	som pekar eller refererar till samma objekt, t.ex. att både rummen och
+	aktörerna håller reda på var aktören befinner sig. Man kan också tänka
+	sig överföring av ägande, sjön ger bort excalibur till prins Arthur (jämför
+	med autopointers/uniquepointers funktionalitet). I princip kan man
+	jämföra designproblemet med hur objekt når varandra som valet mellan
+	enkellänkad och dubbellänkad lista. Det är enklare att nå vissa saker med
+	en dubbellänkad lista men man måste komma ihåg att uppdatera både
+	next och previous
+
+
+IDE för spel
+
+
+
+
+
+
+
+
+
+
+

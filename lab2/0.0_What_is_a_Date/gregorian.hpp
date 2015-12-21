@@ -27,14 +27,14 @@ class Gregorian: public Date
 		virtual Gregorian &  operator-=(int x) override;
 		virtual int operator-(const Date &) const override;
 
-		Gregorian & operator=(const Date &) override;
+		// virtual Gregorian & operator=(const Date &) override;
+		Gregorian & operator=(const Date &);
 
 		//		--  FUNCTIONS  --
 		unsigned int virtual days_this_month() const override;
 		void virtual add_year(int) override;
-		void virtual add_month(int) override;
 		void virtual add_month() override;
-		void virtual subtract_month() override;
+		void virtual add_month(int) override;
 		int virtual julian_day_number() const override;
 
 	protected:	

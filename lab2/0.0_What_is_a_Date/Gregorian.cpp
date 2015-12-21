@@ -27,6 +27,7 @@ Gregorian::Gregorian(const Date * d_p){
 
 
 
+
 //		------- 	FUNCTIONS  --------
 unsigned int  Gregorian::days_this_month() const{
 	if (is_leap_year()){
@@ -42,97 +43,6 @@ void  Gregorian::add_year(int n){
 	}
 }
 
-void  Gregorian::add_month(int n){
-
-	// int years = std::floor(n/12);
-	// the_year += years;
-	// int months = n -(years*12);
-	// if(months > 0)
-	// {
-	// 	for(int i = 0; i < months; i++)
-	// 	{ the_month++;}
-	// }
-	// if(months < 0)
-	// {
-	// 	for(int i = 0; i > months; i--)
-	// 	{ the_month--;}
-	// }
-	// if(the_day > days_this_month()){
-	// 	the_day = days_this_month();
-	// }
-
-
-
-	// int years = std::floor(n/12);
-	// the_year += years;
-	// int months = n % 12;
-
-	// if((the_month + months) < 12 && (the_month + months) > 1){
-	// }
-	// else{
-	// 	if(n>0)
-	// 	{
-	// 		the_year++;
-	// 		the_month -= months -12;
-	// 	}
-	// 	if(n<0)
-	// 	{
-	// 		the_year--;
-	// 		the_month -= months +12;
-	// 	}
-	// }
-	// if(the_day > days_this_month()){
-	// 	the_day = days_this_month();
-	// }
-
-	if(n>0)
-	{
-		for(int i = 0; i < n; i++)
-			{add_month();}
-	}
-	if(n<0)
-	{
-		for(int i = 0; i > n; i--)
-			{subtract_month();}
-	}
-
-
-	// int months = (the_month + n);
-	// int years = std::floor(months/12);
-	// the_year += years;
-	// months += - years*12;
-
-	// if(months>0)
-	// {
-	// 	the_month = months;
-	// }
-	// if(months<0)
-	// {
-	// 	the_year--;
-	// 	the_month = months + 12;
-	// }
-	// if(the_day > days_this_month()){
-	// 	the_day = days_this_month();
-	// }
-
-	// int years = std::floor(n/12);
-	// int months = n % 12;
-
-	// if((the_month + months) < 12){
-	// 	the_month += months;
-	// }
-	// else{
-	// 	the_year++; 
-	// 	the_month = (the_month + months) % 12;
-	// }
-
-	// the_year += years;
-	// if(the_day > days_this_month()){
-	// 	the_day = days_this_month();
-	// }
-}
-
-
 
 void Gregorian::add_month(){
 
@@ -140,15 +50,46 @@ void Gregorian::add_month(){
 	JDN += days_this_month();
 	std::vector<int> v = JDN_2_Greg(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
+}
+
+void  Gregorian::add_month(int n)
+{
+
+	int years = std::floor(n/12);
+	the_year += years;
+	int months = n - (years*12);
+
+	if(n < 0)
+	{
+		for(int i = 0; i < abs(months); i++)
+		{
+			the_month--;
+			if(the_month < 1)
+			{
+				the_year--;
+				the_month = 12;
+			}
+		}
+	}
+	else
+	{
+		for(int i = 0; i < months; i++)
+		{
+			the_month++;
+			if(the_month > 12)
+			{
+				the_year++; the_month = 1;
+			}
+		}
+	}
+	if(the_day > days_this_month())
+	{
+		the_day = days_this_month();
+	}
 
 }
 
-void  Gregorian::subtract_month(){
-	int JDN = julian_day_number();
-	JDN -= days_this_month();
-	std::vector<int> v = JDN_2_Greg(JDN);
-	the_year = v[0];  the_month = v[1]; the_day = v[2];
-}
+
 
 bool Gregorian::is_leap_year() const{
 
@@ -232,28 +173,6 @@ Gregorian & Gregorian::operator+=(int x){
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 	return *this;
 
-
-	// while(x > 0)
-	// {
-	// 	if((the_day + x) > days_this_month())
-	// 	{
-	// 		x -= (days_this_month() + 1) - the_day ;
-	// 		if(the_month == 12)
-	// 		{
-	// 			the_year++; the_month = 1; the_day = 1;
-	// 		}
-	// 		else
-	// 		{
-	// 			the_month++; the_day = 1;
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		the_day += x;
-	// 		x = 0;
-	// 	}
-	// }
-	// return *this;
 }
 
 Gregorian & Gregorian::operator-=(int x){
@@ -265,27 +184,6 @@ Gregorian & Gregorian::operator-=(int x){
 	return *this;
 
 
-	// int tmp_x = x; int tmp_day = the_day;
-	// while(tmp_x > 0)
-	// {
-	// 	if((tmp_day - tmp_x) < 1)
-	// 	{
-	// 		tmp_x -= (the_day + 1); 
-	// 		if(the_month == 1)
-	// 		{
-	// 			the_year--; the_month = 12; the_day = days_this_month();
-	// 		}
-	// 		else
-	// 		{
-	// 			the_month--; the_day = days_this_month();
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		the_day -= tmp_x; tmp_x = 0;
-	// 	}
-	// }
-	// return *this;
 }
 
 int Gregorian::operator-(const Date & g) const
@@ -298,9 +196,14 @@ int Gregorian::operator-(const Date & g) const
 
 Gregorian & Gregorian::operator=(const Date & d)
 {
-	int JDN = d.julian_day_number();
-	std::vector<int> v = d.JDN_2_Greg(JDN);
-	the_year = v[0]; the_month = v[1]; the_day = v[2];
+
+	debug("inne i operator = Greg");
+	if(this != &d)
+	{
+		int JDN = d.julian_day_number();
+		std::vector<int> v = d.JDN_2_Greg(JDN);
+		the_year = v[0]; the_month = v[1]; the_day = v[2];		
+	}
 	return *this;
 }
 
