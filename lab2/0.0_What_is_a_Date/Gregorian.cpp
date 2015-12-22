@@ -5,25 +5,40 @@ using namespace lab2;
 //		------- 	CONSTRUCTORS  --------
 Gregorian::Gregorian(){
 	int JDN = current_JDN();
-	std::vector<int> v = JDN_2_Greg(JDN);
+	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0]; the_month = v[1]; the_day = v[2];
 }
 
-
 Gregorian::Gregorian(const Date & d_r){
 	int JDN = d_r.julian_day_number();
-	std::vector<int> v = JDN_2_Greg(JDN);
+	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0]; the_month = v[1]; the_day = v[2];
 }
 
 
 Gregorian::Gregorian(const Date * d_p){
 	int JDN = d_p->julian_day_number();
-	std::vector<int> v = JDN_2_Greg(JDN);
+	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0]; the_month = v[1]; the_day = v[2];
 }
 
-
+Gregorian::Gregorian(int year, unsigned int month, unsigned int day){
+	the_year = year;
+	if(month > 0 && month < 13)
+	{
+		the_month = month;
+		if(day > 0 && day <= days_this_month())
+		{
+			the_day = day;
+		}
+		else{
+			throw std::invalid_argument( "received invalid day" );
+		}
+	}
+	else{
+		throw std::invalid_argument( "received invalid month" );
+	}
+}
 
 
 
@@ -48,7 +63,7 @@ void Gregorian::add_month(){
 
 	int JDN = julian_day_number();
 	JDN += days_this_month();
-	std::vector<int> v = JDN_2_Greg(JDN);
+	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 }
 
@@ -112,6 +127,32 @@ int Gregorian::julian_day_number() const{
 	return JDN;
 }
 
+std::vector<int> Gregorian::JDN_2_date(int JDN) const{
+
+	int y = 4716; int j = 1401; int m = 2; int n = 12; int r = 4; 
+	int p = 1461; int v = 3; int u = 5; int s = 153; int w = 2;
+	int B = 274277; int c = -38;
+
+	// from wiki!
+	int f = JDN + j + std::floor((((4*JDN+B)/146097)*3)/4) +c;
+	int e = r*f + v;
+	int g = std::floor((e % p )/r);
+	int h = u*g + w;
+
+	int day = std::floor((h % s)/u) +1;
+	int month = std::floor(((h/s)+m) % n) +1;
+	int year = std::floor(e /p) - y + std::floor((n + m - month)/n);
+
+	std::vector<int> vec = {year,month,day};
+	return vec;
+}
+
+
+
+
+
+
+
 
 //------- 	OPERATORS  --------
 Gregorian & Gregorian::operator++(){
@@ -169,7 +210,7 @@ Gregorian & Gregorian::operator+=(int x){
 
 	int JDN = julian_day_number();
 	JDN += x;
-	std::vector<int> v = JDN_2_Greg(JDN);
+	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 	return *this;
 
@@ -179,7 +220,7 @@ Gregorian & Gregorian::operator-=(int x){
 
 	int JDN = julian_day_number();
 	JDN -= x;
-	std::vector<int> v = JDN_2_Greg(JDN);
+	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 	return *this;
 
@@ -194,16 +235,27 @@ int Gregorian::operator-(const Date & g) const
 	return (JDN1 - JDN2);
 }
 
-Gregorian & Gregorian::operator=(const Date & d)
-{
+// Gregorian & Gregorian::operator=(const Date & d)
+// {
 
-	debug("inne i operator = Greg");
-	if(this != &d)
-	{
-		int JDN = d.julian_day_number();
-		std::vector<int> v = d.JDN_2_Greg(JDN);
-		the_year = v[0]; the_month = v[1]; the_day = v[2];		
-	}
-	return *this;
-}
+// 	debug("inne i operator = Greg(Date)");
+// 	if(this != &d)
+// 	{
+// 		int JDN = d.julian_day_number();
+// 		std::vector<int> v = d.JDN_2_date(JDN);
+// 		the_year = v[0]; the_month = v[1]; the_day = v[2];		
+// 	}
+// 	return *this;
+// }
 
+// Gregorian & Gregorian::operator=(const Gregorian & g)
+// {
+// 	debug("inne i operator = Greg(Greg)");
+// 	if(this != &g)
+// 	{
+// 		the_day = g.day();
+// 		the_month = g.month();
+// 		the_year = g.year();	
+// 	}
+// 	return *this;
+// }

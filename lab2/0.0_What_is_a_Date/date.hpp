@@ -6,6 +6,7 @@
 #include <string>
 #include <cmath>
 #include <vector>
+#include <stdexcept>
 
 namespace lab2
 {
@@ -14,16 +15,17 @@ class Date
 	//TODO  1) is operator+= able to be in base class?
 
 
-
 	public:		
 		//For debugging only, remove later
-		void debug(std::string str) const{std::cout << str << std::endl
+		void debug(std::string str) const{
+			// std::cout << str << std::endl
 			;}
 
 		//		--	CONSTRUCTORS  --
 		Date();														//Default
-		Date(int year, unsigned int month, unsigned int day);		//Value 
-		// Date(Date const & obj_r);								//Copy
+
+		// Date(int year, unsigned int month, unsigned int day);		//Value 
+		// Date(Date const & obj_r);									//Copy
 		virtual ~Date();											//Destructor
 
 
@@ -33,22 +35,17 @@ class Date
 		void virtual add_year(int) = 0;
 		void virtual add_month() = 0;
 		int virtual julian_day_number() const = 0;
+		virtual std::vector<int> JDN_2_date(int) const = 0;
+
 
 		//		--  OPERATOR OVERLOAD  --
 		virtual Date & operator++() = 0;					// prefix
 		virtual Date & operator--() = 0;					// prefix
 		virtual Date & operator+=(int x) = 0;		
 		virtual Date & operator-=(int x) = 0;
-
-		// virtual Date & operator=(const Date &){
-		// 	debug("DATE = operator");
-		// 	return *this;
-		// }
-
-		
-		// virtual Date & operator=(const Date &) = 0;
-
 		virtual int operator-(const Date &) const = 0;
+
+		Date & operator=(const Date &);
 
 
 		bool operator==(const Date & d) const { return this->julian_day_number() == d.julian_day_number();}
@@ -73,16 +70,16 @@ class Date
 		unsigned int month() const {return the_month;}
 		int year() const{return the_year;}; 
 
-		std::vector<int> JDN_2_Greg(int) const;
-		std::vector<int> JDN_2_julian(int) const;
+		// std::vector<int> JDN_2_Greg(int) const;
+		// std::vector<int> JDN_2_date(int) const;
 		int current_JDN() const;
 
 
 	protected:
 		int const  days_each_month_normal[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 		int const days_each_month_leap[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
-		const std::string day_names[7] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-		const std::string month_names[12] = {"January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+		const std::string day_names[7] = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+		const std::string month_names[12] = {"january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"};
 		
 		//		--  ATTRIBUTE  --
 		int the_year;

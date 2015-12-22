@@ -1,5 +1,6 @@
 // projektlokala headerfiler
-#include "kattistime.h"     
+#include "kattistime.h"  
+#include "date.hpp"   
 #include "julian.hpp"         
 #include "gregorian.hpp"  
 

@@ -17,14 +17,13 @@ Date::Date()
 }
 
 //		-- VALUE
-Date::Date(int year, unsigned int month, unsigned int day)
-{
-	debug("Value Constructor Date");
-	//1) Check if yyyy-mm-dd is valid
-	the_year 	= year;
-	the_month 	= month;
-	the_day 	= day;
-}
+// Date::Date(int year, unsigned int month, unsigned int day)
+// {
+// 	debug("Value Constructor Date")
+// 	the_year 	= year;
+// 	the_month 	= month;
+// 	the_day 	= day;
+// }
 
 // //		-- COPY
 // Date::Date(Date const & obj)
@@ -72,45 +71,45 @@ int Date::mod_julian_day() const{
 
 
 
-std::vector<int> Date::JDN_2_julian(int JDN) const{
+// std::vector<int> Date::JDN_2_date(int JDN) const{
 
-	int y = 4716; int j = 1401; int m = 2; int n = 12; int r = 4; 
-	int p = 1461; int v = 3; int u = 5; int s = 153; int w = 2;
-	int B = 274277; int c = -38;
+// 	int y = 4716; int j = 1401; int m = 2; int n = 12; int r = 4; 
+// 	int p = 1461; int v = 3; int u = 5; int s = 153; int w = 2;
+// 	int B = 274277; int c = -38;
 
-	// from wiki!
-	int f = JDN + 1401;
-	int e = r*f + v;
-	int g = std::floor((e % p )/r);
-	int h = u*g + w;
+// 	// from wiki!
+// 	int f = JDN + 1401;
+// 	int e = r*f + v;
+// 	int g = std::floor((e % p )/r);
+// 	int h = u*g + w;
 
-	int day = std::floor((h % s)/u) +1;
-	int month = std::floor(((h/s)+m) % n) +1;
-	int year = std::floor(e /p) - y + std::floor((n + m - month)/n);
+// 	int day = std::floor((h % s)/u) +1;
+// 	int month = std::floor(((h/s)+m) % n) +1;
+// 	int year = std::floor(e /p) - y + std::floor((n + m - month)/n);
 
-	std::vector<int> vec = {year,month,day};
-	return vec;
-}
+// 	std::vector<int> vec = {year,month,day};
+// 	return vec;
+// }
 
-std::vector<int> Date::JDN_2_Greg(int JDN) const{
+// std::vector<int> Date::JDN_2_date(int JDN) const{
 
-	int y = 4716; int j = 1401; int m = 2; int n = 12; int r = 4; 
-	int p = 1461; int v = 3; int u = 5; int s = 153; int w = 2;
-	int B = 274277; int c = -38;
+// 	int y = 4716; int j = 1401; int m = 2; int n = 12; int r = 4; 
+// 	int p = 1461; int v = 3; int u = 5; int s = 153; int w = 2;
+// 	int B = 274277; int c = -38;
 
-	// from wiki!
-	int f = JDN + j + std::floor((((4*JDN+B)/146097)*3)/4) +c;
-	int e = r*f + v;
-	int g = std::floor((e % p )/r);
-	int h = u*g + w;
+// 	// from wiki!
+// 	int f = JDN + j + std::floor((((4*JDN+B)/146097)*3)/4) +c;
+// 	int e = r*f + v;
+// 	int g = std::floor((e % p )/r);
+// 	int h = u*g + w;
 
-	int day = std::floor((h % s)/u) +1;
-	int month = std::floor(((h/s)+m) % n) +1;
-	int year = std::floor(e /p) - y + std::floor((n + m - month)/n);
+// 	int day = std::floor((h % s)/u) +1;
+// 	int month = std::floor(((h/s)+m) % n) +1;
+// 	int year = std::floor(e /p) - y + std::floor((n + m - month)/n);
 
-	std::vector<int> vec = {year,month,day};
-	return vec;
-}
+// 	std::vector<int> vec = {year,month,day};
+// 	return vec;
+// }
 
 // // THIS IS THE CURRENT TIME USED DURING TESTIN!
 // // //	returns the current JDN by looking at the time
@@ -162,6 +161,17 @@ int Date::current_JDN() const{
 
 
 //-----------	OPERATORS  -------------
+Date & Date::operator=(const Date & d){
+
+	int JDN = d.julian_day_number();
+	std::vector<int> v = JDN_2_date(JDN);
+	the_year = v[0];  the_month = v[1]; the_day = v[2];
+	return *this;
+}
+
+
+
+
 // Define operator<<
 namespace lab2{
 	std::ostream & operator<<(std::ostream & os, const lab2::Date & d)

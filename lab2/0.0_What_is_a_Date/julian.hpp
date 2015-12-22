@@ -1,8 +1,10 @@
 #ifndef JULIAN_H
 #define JULIAN_H
-
 #include "date.hpp"
+#include "gregorian.hpp"
 
+
+// using namespace lab2;
 namespace lab2
 {
 class Julian: public Date
@@ -12,10 +14,11 @@ class Julian: public Date
 
 		//		--	CONSTRUCTORS  --
 		Julian();
-		Julian(int year, unsigned int month, unsigned int day):Date(year,month,day){};
-		~Julian(){debug("Julian Destructor");};
+		// Julian(int year, unsigned int month, unsigned int day):Date(year,month,day){};
+		Julian(int year, unsigned int month, unsigned int day);
 		Julian(const Date & obj_r);
 		Julian(const Date * obj_p);
+		~Julian(){debug("Julian Destructor");};
 
 		
 		//		--  OPERATOR OVERLOAD  --
@@ -26,10 +29,12 @@ class Julian: public Date
 		virtual Julian & operator+=(int x) override;
 		virtual Julian & operator-=(int x) override;
 		virtual int operator-(const Date &) const override;
-
+		virtual std::vector<int> JDN_2_date(int) const override;
 		
 		// virtual Julian & operator=(const Date &) override;
-		Julian & operator=(const Date &);
+		// Julian & operator=(const Julian & j);
+		// Julian & operator=(const Date & d);
+
 
 		//		--  FUNCTIONS  --
 		unsigned int virtual days_this_month() const override;
@@ -39,9 +44,9 @@ class Julian: public Date
 		int virtual julian_day_number() const override;
 
 
+		bool is_leap_year() const;
 	protected:
 		//		--  FUNCTIONS  --
-		bool is_leap_year() const;
 };
 }
 
