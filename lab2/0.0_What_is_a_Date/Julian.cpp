@@ -17,7 +17,6 @@ Julian::Julian(){
 Julian::Julian(const Date & d_r){
 	int JDN = d_r.julian_day_number();
 	std::vector<int> v = JDN_2_date(JDN);
-	// int tmp_year = v[0]; unsigned int tmp_month = v[1]; unsigned int tmp_day = v[2];
 	the_year = v[0]; the_month = v[1];  the_day = v[2];
 }
 
@@ -240,41 +239,6 @@ int Julian::operator-(const Date & g) const
 	int JDN2 = g.julian_day_number();
 	return (JDN1 - JDN2);
 }
-
-// Julian & Julian::operator=(const Date & d)
-// {
-// 	debug("inne i operator = Julian");
-// 	if (this != &d)
-// 	{	
-// 		int JDN = d.julian_day_number();
-// 		std::vector<int> v = d.JDN_2_date(JDN);
-// 		the_year = v[0]; the_month = v[1]; the_day = v[2];
-// 	}
-// 	return *this;
-// }
-
-
-// Julian & Julian::operator=(const Julian & j)
-// {
-
-// 	debug("inne i operator = Julian(julian)");
-// 	if(this != &j)
-// 	{
-// 		the_day = j.day();
-// 		the_month = j.month();
-// 		the_year = j.year();	
-// 	}
-// 	return *this;
-// }
-
-// Julian & Julian::operator=(const Date & g)
-// {
-// 	debug("inne i operator = Julian(Date)");
-// 	int JDN = g.julian_day_number();
-// 	std::vector<int> v = g.JDN_2_date(JDN);
-// 	the_year = v[0]; the_month = v[1]; the_day = v[2];
-// 	return *this;
-// }
 
 
 

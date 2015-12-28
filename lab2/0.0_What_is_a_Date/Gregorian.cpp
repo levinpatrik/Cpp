@@ -231,31 +231,5 @@ int Gregorian::operator-(const Date & g) const
 {
 	int JDN1 = julian_day_number();
 	int JDN2 = g.julian_day_number();
-	// std::cout << "*this JDN "  << JDN1 << " input JDN " << JDN2 << std::endl;
 	return (JDN1 - JDN2);
 }
-
-// Gregorian & Gregorian::operator=(const Date & d)
-// {
-
-// 	debug("inne i operator = Greg(Date)");
-// 	if(this != &d)
-// 	{
-// 		int JDN = d.julian_day_number();
-// 		std::vector<int> v = d.JDN_2_date(JDN);
-// 		the_year = v[0]; the_month = v[1]; the_day = v[2];		
-// 	}
-// 	return *this;
-// }
-
-// Gregorian & Gregorian::operator=(const Gregorian & g)
-// {
-// 	debug("inne i operator = Greg(Greg)");
-// 	if(this != &g)
-// 	{
-// 		the_day = g.day();
-// 		the_month = g.month();
-// 		the_year = g.year();	
-// 	}
-// 	return *this;
-// }

@@ -23,9 +23,6 @@ class Date
 
 		//		--	CONSTRUCTORS  --
 		Date();														//Default
-
-		// Date(int year, unsigned int month, unsigned int day);		//Value 
-		// Date(Date const & obj_r);									//Copy
 		virtual ~Date();											//Destructor
 
 
@@ -35,7 +32,6 @@ class Date
 		void virtual add_year(int) = 0;
 		void virtual add_month() = 0;
 		int virtual julian_day_number() const = 0;
-		virtual std::vector<int> JDN_2_date(int) const = 0;
 
 
 		//		--  OPERATOR OVERLOAD  --
@@ -44,7 +40,6 @@ class Date
 		virtual Date & operator+=(int x) = 0;		
 		virtual Date & operator-=(int x) = 0;
 		virtual int operator-(const Date &) const = 0;
-
 		Date & operator=(const Date &);
 
 
@@ -57,7 +52,7 @@ class Date
 
 		// Become friends with operator<<
 		friend std::ostream & operator<<(std::ostream & os, const Date & d);
-		// std::ostream & operator<<(std::ostream & , const Date &);
+		template<typename T> friend class Calender;
 
 		//		--  FUNCTIONS  --
 		int mod_julian_day() const;
@@ -70,12 +65,14 @@ class Date
 		unsigned int month() const {return the_month;}
 		int year() const{return the_year;}; 
 
-		// std::vector<int> JDN_2_Greg(int) const;
-		// std::vector<int> JDN_2_date(int) const;
-		int current_JDN() const;
-
 
 	protected:
+		//	HELP FUNCTIONS
+		int current_JDN() const;
+		virtual std::vector<int> JDN_2_date(int) const = 0;
+		virtual bool is_leap_year() const = 0;
+
+		// DATA MEMBERS
 		int const  days_each_month_normal[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 		int const days_each_month_leap[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
 		const std::string day_names[7] = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
@@ -85,8 +82,9 @@ class Date
 		int the_year;
 		unsigned int the_month;
 		unsigned int the_day;
+
+	private:
 };
-// Declare operator<<
 std::ostream & operator<<(std::ostream & os, const Date & d);
 }	//end of namespace lab2;
 

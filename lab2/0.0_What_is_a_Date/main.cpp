@@ -77,16 +77,16 @@ int main()
 	{
 		Gregorian g(2000,10,10); Julian j(2010,1,1); Julian j2(1900,5,5); 
 		Gregorian g_t;
-		cout <<"g_t today "<< g_t << endl;
-		cout <<"j "<<  j << endl;
+		// cout <<"g_t today "<< g_t << endl;
+		// cout <<"j "<<  j << endl;
 		j = g_t;
-		cout <<"g_t today "<< g_t << endl;
-		cout <<"j "<<  j << endl;
+		// cout <<"g_t today "<< g_t << endl;
+		// cout <<"j "<<  j << endl;
 		j = g;
-		cout <<"j = g"<<  j << endl;
+		// cout <<"j = g"<<  j << endl;
 		cout << j << endl;
-		cout << "J " << j << endl;
-		cout << "G " << g << endl;
+		// cout << "J " << j << endl;
+		// cout << "G " << g << endl;
 		assert(j.year() == 2000); assert(j.month() == 9); assert(j.day() == 27);
 		g = j2;
 		assert(g.year() == 1900); assert(g.month() == 5); assert(g.day() == 18);		
@@ -94,8 +94,7 @@ int main()
 
 	cout <<"--- Assignment operator =  -= DIFFERENT ---" << endl;
 	{
-		Gregorian g(2134,2,29);
-		cout << g.is_leap_year() << endl;
+		Gregorian g(2134,10,10);
 	}
 
 
