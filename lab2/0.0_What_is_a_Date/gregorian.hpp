@@ -28,6 +28,9 @@ class Gregorian: public Date
 		virtual Gregorian &  operator-=(int) override;
 		virtual int operator-(const Date &) const override;
 
+		template<typename T> 
+		friend class Calender;
+
 		//		--  FUNCTIONS  --
 		unsigned int virtual days_this_month() const override;
 		void virtual add_year(int) override;

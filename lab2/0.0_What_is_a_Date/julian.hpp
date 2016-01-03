@@ -29,6 +29,8 @@ class Julian: public Date
 		virtual Julian & operator-=(int x) override;
 		virtual int operator-(const Date &) const override;
 		
+		template<typename T> 
+		friend class Calender;
 
 		//		--  FUNCTIONS  --
 		unsigned int virtual days_this_month() const override;

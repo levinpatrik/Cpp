@@ -52,7 +52,8 @@ class Date
 
 		// Become friends with operator<<
 		friend std::ostream & operator<<(std::ostream & os, const Date & d);
-		template<typename T> friend class Calender;
+		template<typename T> 
+		friend class Calender;
 
 		//		--  FUNCTIONS  --
 		int mod_julian_day() const;
