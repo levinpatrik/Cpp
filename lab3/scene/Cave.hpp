@@ -4,7 +4,7 @@
 class Cave: public Indoor
 {
 	public:
-		Cave();
+		Cave(const std::string& info);
 
 	private:	
 

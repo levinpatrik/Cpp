@@ -2,31 +2,32 @@
 #include "../character/Character.hpp"
 #include "../item/Item.hpp"
 #include <string.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 class Scene{
 	public:
 
 		//Constructors
-		Scence();
+		Scene();
 
 		//Destructor
-		~Scence();
-
-
-
-	protected:
+		~Scene();
 
 		//Member functions
-		virtual std::string directions() = 0; // returns the available exits
-		virtual const Scene& neighbor(direction) const = 0; // returns the neighbor in that direction 
-		virtual std::string description() const = 0; // returns a description of the environment and units
-		virtual void enter(const Character&) = 0; // character arrived to scene
-		virtual void leave(const Character&) = 0; // character leaves the spot
-		virtual void pick_up(const Item&) = 0; // takes an object from the scene
-		virtual void drop(const Item&) = 0; // drops an object at the location
+		void enter(const Character&); // character arrived to scene
+		void leave(const Character&); // character leaves the spot
+		void pick_up(const Item&);    // takes an object from the scene
+		void drop(const Item&);       // drops an object at the location
 
-		std::vector<Object> objects;
-		std::vector<Character> characters;
+		std::string directions() const;  // returns the available exits
+		Scene neighbor() const; // returns the neighbor in that direction 
+		std::string description() const; // returns a description of the environment and units
+
+	protected:
+		std::vector<const Item&> the_items;
+		std::vector<const Character&> the_characters;
 		std::string standard_description;	
 
 };

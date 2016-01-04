@@ -5,11 +5,8 @@
 #include <iostream>
 
 int main(){
-	// Room room1()
-	std::string test = "Du har nu kommmit fram til en jungel. Det luktar skumt.";
-	std::string tesr = " Runt omkring dig ser du en massa träd.";
+	// Room room
 
-	std::cout << test+tesr << std::endl;
 
 	return 0;
 }

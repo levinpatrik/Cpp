@@ -4,7 +4,7 @@
 class Jungle: public Outdoor{
 	public:
 		
-		Jungle();
+		Jungle(const std::string&);
 
 	private:
 	
