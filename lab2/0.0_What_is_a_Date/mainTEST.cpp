@@ -87,7 +87,7 @@ int main(){
 
 	}
 
-	cout <<"--- Testing Copyconstructor ---" << endl;
+	cout <<"--- Testing Copyconstructor(Date) ---" << endl;
 	{
 
 		Gregorian g(2010,10,10);
@@ -99,6 +99,51 @@ int main(){
 		cout << cj << endl;
 
 
+	}
+
+	cout <<"--- Testing Copyconstructor(Calender) ---" << endl;
+	{
+
+		Calender<Julian> j1;
+		j1.set_date(2010,10,10);
+		Calender<Julian> j2(j1);
+		assert(j2.set_date(2010,10,10) == 1);
+
+		Calender<Gregorian> g1(j1);
+		assert(g1.set_date(2010,10,23) == 1);
+
+		Calender<Julian> j3(g1);
+		assert(j1.set_date(2010,10,10) == 1);
+
+
+	}
+
+	cout <<"--- Testing remove_event ---" << endl;
+	{
+
+		Calender<Gregorian> j;
+		j.add_event("test event1",2030,10,10);
+		j.add_event("test event2",2030,10,10);
+		j.add_event("test event3",2030,10,10);
+		j.add_event("test event4",2030,10,10);
+		j.remove_event("test event1",2030,10,10);
+		j.remove_event("test event4",2030,10,10);
+		cout<< "J1 " << endl << j;
+
+
+		Calender<Gregorian> j2;
+		// j2.set_date(2016,1,4);
+		j2.add_event("Test event1", 10,10);
+		j2.add_event("Test event2", 10,10);
+		j2.remove_event("Test event2", 10,10);
+		cout<< "J2 " << endl << j2;
+
+		Calender<Gregorian> j3;
+		j3.set_date(2016,1,10);
+		j3.add_event("Test event1", 10);
+		j3.add_event("Test event2", 10);
+		j3.remove_event("Test event2", 10);
+		cout<< "J3 " << endl << j3;
 	}
 
 

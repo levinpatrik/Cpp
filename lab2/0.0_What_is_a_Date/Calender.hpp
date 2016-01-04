@@ -16,6 +16,9 @@ public:
 	Calender();
 	Calender(const Date & d);
 
+	template<typename T2>
+	Calender(const Calender<T2> & c);
+
 
 	//FUNCTIONS
 	bool set_date(int, int, int);
@@ -33,6 +36,9 @@ public:
 	template<typename T2>
 	friend std::ostream & operator<<(std::ostream & os, Calender<T2> & c);
 
+	//You are not autoatically "friend" with class calender with another T 
+	template<typename T2>
+	friend class Calender;
 
 protected:
 	std::multimap<unsigned long int,std::string> m;
@@ -43,14 +49,21 @@ protected:
 
 };
 
+
+//-----		CONSTRUCTORS   ------
 template<typename T>
 Calender<T>::Calender(){
+
+	T todays_date;
+	T date_obj = todays_date;
+
 }
 
+
+//Remove?
 template<typename T>
 Calender<T>::Calender(const Date & d){
 
-	std::cout << d.year() << "-" << d.month() << "-" <<d.day() << std::endl;
 	int year, month, day;
 	int JDN = d.julian_day_number();
 	std::vector<int> v = date_obj.JDN_2_date(JDN);
@@ -59,10 +72,52 @@ Calender<T>::Calender(const Date & d){
 	date_obj.the_month = month;
 	date_obj.the_day = day;
 
-	std::cout << date_obj.year() << "-" << date_obj.month() << "-" << date_obj.day() << std::endl;
 }
 
 
+template<typename T>
+template<typename T2>
+Calender<T>::Calender(const Calender<T2> & c){
+
+	int year, month, day;
+	int JDN = c.date_obj.julian_day_number();
+	std::vector<int> v = date_obj.JDN_2_date(JDN);
+	year = v[0]; month = v[1]; day = v[2];
+	date_obj.the_year = year;
+	date_obj.the_month = month;
+	date_obj.the_day = day;
+
+
+
+}
+
+
+
+// template<typename T2>
+// std::ostream & operator<<(std::ostream & os, Calender<T2> & c)
+// {
+
+// 	int year,month,day;
+// 	for(std::multimap<unsigned long int, std::string>::iterator	it = c.m.begin(); it != c.m.end(); it++)
+// 	{
+// 		year = (*it).first/10000;
+// 		month = ((*it).first - year*10000)/100;
+// 		day = ((*it).first - year*10000) - month*100;
+
+// 		if ((*it).first >= (c.date_obj.year()*10000 + c.date_obj.month()*100 + c.date_obj.day()))
+// 		{
+// 			std::cout << year << "-";
+// 			if(month > 0 && month < 10)
+// 				std::cout << 0;
+// 			std::cout << month << "-";
+// 			if(day > 0 && day < 10)
+// 				std::cout << 0;
+// 			std::cout << day << " : " << (*it).second <<std::endl;
+// 		}
+// 	}
+
+// 	return os;
+// }	
 
 template<typename T2>
 std::ostream & operator<<(std::ostream & os, Calender<T2> & c)
@@ -75,20 +130,41 @@ std::ostream & operator<<(std::ostream & os, Calender<T2> & c)
 		month = ((*it).first - year*10000)/100;
 		day = ((*it).first - year*10000) - month*100;
 
-		if ((*it).first > (c.date_obj.year()*10000 + c.date_obj.month()*100 + c.date_obj.day()))
+		if ((*it).first >= (c.date_obj.year()*10000 + c.date_obj.month()*100 + c.date_obj.day()))
 		{
-			std::cout << year << "-";
+
+			std::cout << std::endl << std::endl << "BEGIN:VCALENDAR" << std::endl;
+			std::cout << "BEGIN:VEVENT" << std::endl;
+
+			std::cout << "DTSTART:" << year;
 			if(month > 0 && month < 10)
-				std::cout << 0;
-			std::cout << month << "-";
+				std::cout << "0";
+			std::cout << month;
 			if(day > 0 && day < 10)
-				std::cout << 0;
-			std::cout << day << " : " << (*it).second <<std::endl;
+				std::cout << "0";
+			std::cout << day;
+			std::cout << "T000000Z" << std::endl;
+
+			day++;
+			std::cout << "DTEND:" << year;
+			if(month > 0 && month < 10)
+				std::cout << "0";
+			std::cout << month;
+			if(day > 0 && day < 10)
+				std::cout << "0";
+			std::cout << day;
+			std::cout << "T000000Z" << std::endl;
+
+			std::cout << "SUMMARY:" << (*it).second << std::endl;
+			std::cout << "END:VEVENT" << std::endl;
+			std::cout << "END:VCALENDAR" << std::endl;
+
+
 		}
 	}
 
 	return os;
-}	
+}
 
 
 
@@ -125,10 +201,10 @@ bool Calender<T>::add_event(std::string s, int year, int month, int day){
 	{
 		if(s == (*it).second)
 		{
-			std::cout << "Same event found, no event added. " << std::endl;	
+			// std::cout << "Same event found, no event added. " << std::endl;	
 			return false;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 
 	m.insert(std::pair<unsigned long int, std::string>(key, s));
@@ -151,10 +227,10 @@ bool Calender<T>::add_event(std::string s, int month, int day){
 	{
 		if(s == (*it).second)
 		{
-			std::cout << "Same event found, no event added. " << std::endl;	
+			// std::cout << "Same event found, no event added. " << std::endl;	
 			return false;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 
 	m.insert(std::pair<unsigned long int, std::string>(key, s));
@@ -177,10 +253,10 @@ bool Calender<T>::add_event(std::string s, int day){
 	{
 		if(s == (*it).second)
 		{
-			std::cout << "Same event found, no event added. " << std::endl;	
+			// std::cout << "Same event found, no event added. " << std::endl;	
 			return false;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 
 	m.insert(std::pair<unsigned long int, std::string>(key, s));
@@ -205,10 +281,10 @@ bool Calender<T>::add_event(std::string s){
 	{
 		if(s == (*it).second)
 		{
-			std::cout << "Same event found, no event added. " << std::endl;	
+			// std::cout << "Same event found, no event added. " << std::endl;	
 			return false;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 
 	m.insert(std::pair<unsigned long int, std::string>(key, s));
@@ -228,7 +304,7 @@ bool Calender<T>::remove_event(std::string s, int year, int month, int day){
 			m.erase(it);
 			return true;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 	return false;
 }
@@ -236,6 +312,7 @@ bool Calender<T>::remove_event(std::string s, int year, int month, int day){
 
 template<typename T>
 bool Calender<T>::remove_event(std::string s, int month, int day){
+
 
 	int year = date_obj.year();
 	unsigned long int key = year*10000 + month*100 + day;
@@ -247,7 +324,7 @@ bool Calender<T>::remove_event(std::string s, int month, int day){
 			m.erase(it);
 			return true;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 	return false;
 }
@@ -266,7 +343,7 @@ bool Calender<T>::remove_event(std::string s, int day){
 			m.erase(it);
 			return true;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 	return false;
 }
@@ -287,7 +364,7 @@ bool Calender<T>::remove_event(std::string s){
 			m.erase(it);
 			return true;
 		}
-		std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
+		// std::cout << "  [" << (*it).first << ", " << (*it).second << "]" << std::endl;
 	}
 	return false;
 }
