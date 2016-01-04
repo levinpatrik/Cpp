@@ -1,4 +1,6 @@
-#pragma once
+#ifndef JUNGLE_H
+#define JUNGLE_H
+
 #include "Outdoor.hpp"
 
 class Jungle: public Outdoor{
@@ -9,4 +11,7 @@ class Jungle: public Outdoor{
 	private:
 	
 
-}
+};
+
+
+#endif

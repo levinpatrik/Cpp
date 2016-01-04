@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROOM_H
+#define ROOM_H
 #include "Indoor.hpp"
 
 class Room:public Indoor
@@ -8,4 +9,6 @@ class Room:public Indoor
 
 	private:
 
-}
+};
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAVE_H
+#define CAVE_H
 #include "Indoor.hpp"
 
 class Cave: public Indoor
@@ -9,3 +10,5 @@ class Cave: public Indoor
 	private:	
 
 };
+
+#endif

@@ -1,18 +1,16 @@
-#pragma once
+#ifndef OUTDOOR_H
+#define OUTDOOR_H
 #include "Scene.hpp"
 
-class Outdoor: public Scene{
+class Outdoor : public Scene {
 	public:
 		//Constructors
-		Outdoor():
+		// Outdoor();
 
 
 		//Overloads
-
-
-		
 	protected:
 
-
-
 };
+
+#endif

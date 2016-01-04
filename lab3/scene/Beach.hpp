@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BEACH_H
+#define BEACH_H
+
 #include "Outdoor.hpp"
 class Beach: public Outdoor{
 	
@@ -10,3 +12,5 @@ class Beach: public Outdoor{
 
 
 };
+
+#endif

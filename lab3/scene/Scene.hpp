@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SCENE_H
+#define SCENE_H
+
 #include "../character/Character.hpp"
 #include "../item/Item.hpp"
 #include <string.h>
@@ -10,10 +12,10 @@ class Scene{
 	public:
 
 		//Constructors
-		Scene();
+		// Scene();
 
 		//Destructor
-		~Scene();
+		// ~Scene();
 
 		//Member functions
 		void enter(const Character&); // character arrived to scene
@@ -26,8 +28,10 @@ class Scene{
 		std::string description() const; // returns a description of the environment and units
 
 	protected:
-		std::vector<const Item&> the_items;
-		std::vector<const Character&> the_characters;
+		std::vector<const Item *> the_items = {};
+		std::vector<const Character *> the_characters = {};
 		std::string standard_description;	
 
 };
+
+#endif

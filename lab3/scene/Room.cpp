@@ -2,7 +2,7 @@
 
 Room::Room(const std::string& info){
   standard_description = "This is a room. ";
-  standard_description + = info; 
+  standard_description += info; 
 }
 
 
