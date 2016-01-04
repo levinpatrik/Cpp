@@ -17,7 +17,7 @@ class Scene{
 	protected:
 
 		//Member functions
-		virtual available_directions() = 0; // returns the available exits
+		virtual std::string directions() = 0; // returns the available exits
 		virtual const Scene& neighbor(direction) const = 0; // returns the neighbor in that direction 
 		virtual std::string description() const = 0; // returns a description of the environment and units
 		virtual void enter(const Character&) = 0; // character arrived to scene
