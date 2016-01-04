@@ -1,16 +1,17 @@
-#ifndef CRAB_H
-#define CRAB_H
+#ifndef APE_H
+#define APE_H
 
 #include "Animal.hpp"
 #include "Character.hpp"
 
-class Crab : public Animal{
+
+class Ape : public Animal{
 
 	public: 
 		//		CONSTRUCTORS
-		Crab();
-		Crab(const Crab & m);
-		~Crab();
+		Ape();
+		Ape(const Ape & m);
+		~Ape();
 
 
 		//		MEMBER FUNCTIONS

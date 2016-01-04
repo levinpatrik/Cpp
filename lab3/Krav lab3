@@ -8,7 +8,7 @@ ATT GÖRA:
 
 3) Skapa alla aktörer med lämpliga värden på alla attribut.
 	- lägg aktörer i en vektor
-	- plasera it aktörer i mapen
+	- plasera ut aktörer i mapen
 
 4) Skap föremål
 	- plasera ut föremål i mappen
@@ -16,8 +16,6 @@ ATT GÖRA:
 5) kom på hur man ska presentera, med text, var man är och vad man kan göra. (kanske i special-aktören PLAYER?)
 
 6) Göra någon sorts actionLoop där alla aktörer får möjlighet att aggera
-
-
 
 
 MUST HAVE for the game:
@@ -35,7 +33,7 @@ MUST HAVE for the game:
 		• type() – returnerar namnet på arten, t.ex. trollkarl eller drake
 		• name() – returnerar namnet på varelsen, t.ex. Merlin
 		• action() – aktörens tur att agera
-		• go(direction) – gå åt håll
+		• move(direction) – gå åt håll
 		• fight(Character) – slåss med
 		• pick_up(Object) – ta upp sak
 		• drop(Object) – släpp sak på marken
@@ -106,7 +104,7 @@ MUST HAVE for the game:
 	- Spelet ska ha en kommandotolk som sköter all inmatning till spelet. Speltolken
 	tar ett kommando från tangentbordet och utför handlingen. Kommandotolken
 	bör klara alla funktioner som aktörernas basklass specificerar.
-	Exempel: pick up sword, go north, buy shield.
+	Exempel: pick up sword, move north, buy shield.
 	Alternativt: visa spelplanen med teckengrafik. Låt användaren manövrera
 	genom att hämta in ett tecken med getch.
 
