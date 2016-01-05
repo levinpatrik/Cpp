@@ -5,8 +5,9 @@
 class Beach: public Outdoor{
 	
 	public:
-		
+
 		Beach();
+		Beach(std::string);
 
 	private:
 

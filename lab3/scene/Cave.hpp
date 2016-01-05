@@ -1,13 +1,15 @@
 #ifndef CAVE_H
 #define CAVE_H
-#include "Indoor.hpp"
+#include "Scene.hpp"
 
-class Cave: public Indoor
+class Cave: public Scene
 {
 	public:
 		Cave(const std::string& info);
 
-	private:	
+	private:
+		Scene* backward = NULL;
+		Scene* forward  = NULL;	
 
 };
 

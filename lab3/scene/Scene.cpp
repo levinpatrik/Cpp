@@ -42,3 +42,10 @@ Scene Scene::neighbor() const{
 std::string Scene::description() const{
 	return standard_description;
 }
+
+Scene& Scene::operator=(const Scene& s){
+	the_items = s.the_items;
+	the_characters = s.the_characters;
+	standard_description = s.standard_description;
+	return *this;
+}
