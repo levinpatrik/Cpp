@@ -2,9 +2,12 @@ ATT GÖRA:
 1) skapa alla klass-hirarkier:
 	-aktörer 		PATRIK
 	-miljöer 		TOBI
-	-föremål 		
+	-föremål 		Patrik
 
+TOBI
 2) Länka ihop ett antal miljöer till en map i någon "createMap" funktion
+
+
 
 3) Skapa alla aktörer med lämpliga värden på alla attribut.
 	- lägg aktörer i en vektor

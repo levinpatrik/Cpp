@@ -1,16 +1,18 @@
 #ifndef ITEM_H
 #define ITEM_H
+#include <string>
 
 class Item
 {
 	public:
-		unsigned weigth() const {return the_weigth;}
-		unsigned volume() const {return the_volume;}
-		unsigned price() const {return the_price;}
+		//	PURE-VIRTUAL FUNCTIONS
+		virtual std::string description() const = 0;
 
+		//	FUNCTIONS 
+		unsigned price() const {return the_price;}
+		unsigned weight() const {return the_weight;}
 	protected:
-		unsigned int the_weigth;
-		unsigned int the_volume;
+		unsigned int the_weight;
 		unsigned int the_price;
 };
 

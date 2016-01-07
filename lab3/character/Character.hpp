@@ -20,13 +20,16 @@ class Character{
 		virtual void action() = 0;
 
 		//	FUNCTIONS
-		void move(std::string direction){std::cout<< "move: " << direction << std::endl;};
+		void move(std::string direction)
+		{
+			std::cout<< "move: " << direction << std::endl;
+		}
 
 	protected:
 		// ATTRIBUTES 
 		int hitpoints;
 		int attackpower;
-		std::vector<Item> inventory = {};
+		std::vector<Item *> inventory = {};
 
 };
 
