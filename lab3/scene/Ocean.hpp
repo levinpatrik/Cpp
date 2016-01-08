@@ -6,8 +6,6 @@ class Ocean : public Obstacle
 {
 	public:
 		Ocean(std::string);
-
-
 };
 
 

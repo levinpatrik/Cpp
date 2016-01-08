@@ -1,4 +1,4 @@
-#ifndef BOAT_H'
+#ifndef BOAT_H
 #define BOAT_H
 #include "Scene.hpp"
 

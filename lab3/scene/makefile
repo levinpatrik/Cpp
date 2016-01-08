@@ -1,4 +1,4 @@
 all: main.cpp
 	clear
-	g++ -g -std=c++11 -o main.out main.cpp Scene.cpp Beach.cpp Cave.cpp Jungle.cpp Indoor.cpp Outdoor.cpp Room.cpp Boat.cpp
+	g++ -g -std=c++11 -o main.out main.cpp Scene.cpp Beach.cpp Cave.cpp Jungle.cpp Indoor.cpp Outdoor.cpp Room.cpp
 	./main.out
