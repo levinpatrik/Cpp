@@ -11,7 +11,9 @@ class Character{
 
 	public:
 		//	CONSTRUCTORS
-
+		virtual ~Character(){
+			std::cout << "Virtual destructor Character" << std::endl;
+		}
 
 		//	PURE VIRTUAL (ALL MOST HAVE!)
 		virtual std::string type() const = 0;
@@ -27,16 +29,14 @@ class Character{
 		virtual void attack(Character &){}
 
 		//	FUNCTIONS
-		void move(std::string direction)
-		{
-			std::cout<< "move: " << direction << std::endl;
-		}
+		void add(const Item & i);
+		void move(std::string direction);
 
 	protected:
 		// ATTRIBUTES 
 		int hitpoints;
 		int attackpower;
-		std::vector<Item *> inventory = {};
+		std::vector<const Item *> inventory = {};
 
 };
 

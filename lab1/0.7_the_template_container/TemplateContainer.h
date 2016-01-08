@@ -28,7 +28,7 @@ class Vector
     Vector& operator= (Vector const& obj);              //ASSIGNMENT
     Vector& operator= (Vector&& obj);                   //Move-ASSIGNMENT      
     T& operator[] (std::size_t index);                  //Modify
-    const T operator[] (std::size_t index) const;             //Access
+    const T operator[] (std::size_t index) const;       //Access
     
     void reset();
     void clear();

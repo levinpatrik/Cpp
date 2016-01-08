@@ -23,9 +23,7 @@ Player::Player(const Player & m)
 
 Player::~Player()
 {
-	//Ta bort nått skit?
-	//Man kanske ska newa i constructorn?
-
+	cout << "Destructor Player" << endl;
 }
 
 
@@ -64,10 +62,6 @@ std::string Player::talk(std::string s)
 	return "Answer";
 }
 
-void pick_up(const Item &)
-{
-	cout << "Inside pick_up" << endl;
-}
 
 std::string Player::attacked(int i)
 {

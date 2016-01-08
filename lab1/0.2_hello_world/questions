@@ -2,8 +2,7 @@
 – How many files were rebuilt?
 – Why?
 
-After 'touch' on hello.cpp both files needs to be re-built. 
-This is due to the dependencies of main.cpp (dependent on hello.o which is created by hello.cpp).
+After 'touch' on hello.cpp both files, hello.out & main.out, needs to be re-built. This is due to the dependencies of main.cpp (dependent on hello.o which is created by hello.cpp).
 
 2) Why do you think make checks the modification timestamp of the relevant files as part of deciding what to do?
 

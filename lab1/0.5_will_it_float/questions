@@ -9,7 +9,7 @@ d = a;				 => Assigment operator
  no_ref (a);   This one has to first copy a object of type A (to be sent to the function as a argument). Then when the functions scope ends the newly created object is deleted since its not passed in the return. 
 
 
- with_ref (a);  There is no need to call a constructor since no new object is needed. 
+ with_ref (a);  There is no need to call a constructor since no new object is needed(since you use pass by reference). 
 
  A *aa = new A[5]; This will call the defualt constructor since we create 5 new objects without passing any arguments. 
 
@@ -29,11 +29,11 @@ d = a;				 => Assigment operator
 
  3) • When are the objects destructed, and why?
 
- The first destructor is called when the copied a object in function no_ref runs out of scope. 
+ The first destructor is called when the copied object in function no_ref() runs out of scope. 
 
  After this 5 destructions occur when you invoke delete[]. (since you created 5 objects).
 
- Lastly the 4 objects created in main() a,b,c,d are deleted when main() finishes. 
+ Lastly the 4 objects created in main() a,b,c,d are deleted when main() runs out of scope. 
 
 
 
@@ -48,7 +48,7 @@ d = a;				 => Assigment operator
 
 5) • valgrind indicates that there is something wrong with birth.cpp; what, and why?
 
-When running it with the original code, 'delete', it says that the program is leaking memory. This due to incorrect use of new[]-> delete, it should be new[]->delete[].
+When running it with the original code, 'delete', it says that the program is leaking memory. This is due to the incorrect use of new[]-> delete, it should be new[]->delete[].
 
 
 
@@ -56,7 +56,9 @@ When running it with the original code, 'delete', it says that the program is le
 
 6) • valgrind indicates that the program suffers from a few problems, which and why?
 
-First of all we create one big object allocation on the heap, consisting of 5 Data objects, and then we loop and check if v[i] != 0, which it is for all so we never allocate more memory with new. 
+
+You new two things, the big container and 5 objects inside it. You need to loop through the container, removing all new'd objects as you go to ammend the memory leak. 
+First of all we create one big object allocation on the heap, consisting of 5 Data objects, and then we loop and check if v[i] != 0, which it is for all so we allways allocate more memory with new. 
 
 
 

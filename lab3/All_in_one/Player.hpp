@@ -1,16 +1,14 @@
-#ifndef PIRATE_H
-#define PIRATE_H
+#ifndef PLAYER_H
+#define PLAYER_H
 #include "Character.hpp"
 #include "Human.hpp"
 
+class Player : public Human{
 
-class Pirate : public Human{
-
-	public: 
-	//		CONSTRUCTORS
-	Pirate();
-	Pirate(const Pirate & m);
-	~Pirate();
+public:
+	Player();
+	Player(const Player &);
+	~Player();
 
 	
 	//		MEMBER FUNCTIONS
@@ -22,10 +20,12 @@ class Pirate : public Human{
 	virtual std::string talk(std::string s) override;
 	virtual std::string attacked(int i) override;
 
-	protected:
-	//		ATTRIBUTES
+
+protected:
+	int money;
 
 };
 
 
 #endif
+

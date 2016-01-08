@@ -20,13 +20,10 @@ Pirate::~Pirate()
 {
 	//Ta bort nått skit?
 	//Typ att den inte ska vara i rummet / delete minne
+	cout << "Destructor Pirate" << endl;
 
 }
 
-Pirate::Pirate()
-{
-
-}
 
 //		MEMBER FUNCIONS
 std::string Pirate::description() const 

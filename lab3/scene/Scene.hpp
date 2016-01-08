@@ -30,7 +30,7 @@ class Scene{
 	protected:
 		std::vector<const Item *> the_items = {};
 		std::vector<const Character *> the_characters = {};
-		std::string standard_description;	
+		std::string standard_description;
 
 };
 

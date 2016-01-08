@@ -1,10 +1,20 @@
+#include <iostream>
+#include <vector>
+
+//	CHARACTERS
 #include "Crab.hpp"
 #include "Ape.hpp"
 #include "Merchant.hpp"
 #include "Pirate.hpp"
 #include "Player.hpp"
-#include <iostream>
-#include <vector>
+
+//	ITEM
+#include "Container.hpp"
+#include "Money.hpp"
+#include "Weapon.hpp"
+
+
+
 
 using namespace std;
 int main(){
@@ -94,18 +104,28 @@ int main(){
 		v.push_back(p_p);
 		v.push_back(boss_p);
 
-		v[0]->attack(*(v[1]));
-		v[0]->attack(*(v[1]));
-		v[0]->attack(*(v[1]));
-		v[0]->attack(*(v[1]));
-		v[0]->attack(*(v[1]));
+		// //add a item to pirate.
+		Weapon w(10, 10 ,10 ,"Sword");
+		cout << w.description() << endl;
 
+		v.pop_back();
+		v.pop_back();
+		
 
+		// Item & w_r = w;
+		// v[1]->add(w_r);
+
+		// v[0]->attack(*(v[1]));
+		// v[0]->attack(*(v[1]));
+		// v[0]->attack(*(v[1]));
+		// v[0]->attack(*(v[1]));
+		// v[0]->attack(*(v[1]));
 	}
 
 
 
 
+	cout << "ALL TEST ARE DONE!" << endl;
 
 
 

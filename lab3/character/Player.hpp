@@ -14,10 +14,11 @@ public:
 	//		MEMBER FUNCTIONS
 	virtual std::string name() const override;
 	virtual std::string description() const override;
-	virtual void attack(const Character &) override;
-	virtual void drop(const Item &) override;
+	virtual void attack(Character &) override;
+	virtual void drop() override;
 	virtual void action() override;
 	virtual std::string talk(std::string s) override;
+	virtual std::string attacked(int i) override;
 
 	void pick_up(const Item &);
 

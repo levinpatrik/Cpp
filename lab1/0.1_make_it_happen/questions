@@ -13,7 +13,7 @@ Yes it is possible to do this by defining it in the makefile! ex: CC = g++
 
 4) What is the difference between an object file, and an executable?
 
-Both object files and executables consists of blocks of machine code and data. Object files have, however, references to external files that needs to be resolved. This is done by linking together multiple object files, resolving the reference problem, and making an executable (runnable by the computer) file.
+Both object files and executables consists of blocks of machine code and data. Object files might have, however, references to external files that needs to be resolve. This is done by linking together multiple object files, resolving the reference problem, and making an executable (runnable by the computer) file.
 
 
 
