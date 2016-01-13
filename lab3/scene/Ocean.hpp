@@ -8,5 +8,4 @@ class Ocean : public Obstacle
 		Ocean(std::string);
 };
 
-
 #endif

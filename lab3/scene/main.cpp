@@ -5,48 +5,61 @@
 #include "Boat.hpp"
 #include <iostream>
 
-// void build_world(std::vector<Scene*>& test){
-// 	std::string s = "You look around and see a beach to the left";
-// 	Beach start(s);
-// 	std::string description2 = "You look around and see a beach to the right";
-// 	Beach b1(description2);
-// 	std::string west= "west";
-// 	start.alter_connections(west,b1);
-// 	std::cout << start.description() << std::endl;
-// 	std::cout << start.get_connections(west).description() << std::endl;
-// 	Scene* start_ptr = &start;
-// 	Scene* b1_ptr = &b1;
-// 	test.push_back(start_ptr);
-// 	test.push_back(b1_ptr);
+void build_world(std::vector<Scene*>& test){
+	Scene* middle_square = new Jungle("You wake up");
+	Scene* left_square = new Beach("Maybe take a dip in the ocean");
+	Scene* right_square= new Room("Atleast there is a roof over your head");
+	Scene* upper_square= new Cave("You try to ignore all the eyes that are watching");
+	Scene* lower_square= new Jungle("You prefer the other part of the Jungle");
 
-// }
+	middle_square->alter_connections('w', *left_square);
+	middle_square->alter_connections('n', *upper_square);
+	middle_square->alter_connections('e', *right_square);
+	middle_square->alter_connections('s', *lower_square);
+
+   	test.push_back(middle_square);
+   	test.push_back(right_square);
+   	test.push_back(left_square);
+   	test.push_back(upper_square);
+   	test.push_back(lower_square);
+}
+
+
 
 int main(){
 
-	Jungle  middle_square("You wake up");
-	Beach left_square("Maybe take a dip in the ocean");
-	Room right_square("Atleast there is a roof over your head");
-	Cave upper_square("You try to ignore all the eyes that are watching");
-	Jungle lowest_square("You prefer the other part of the Jungle");
 
 	///////////////////////////////////////////////////
 	// Fixing connections
-	///////////////////////////////////////////////////
-	middle_square.alter_connections('w', left_square);
-	middle_square.alter_connections('n', upper_square);
-	middle_square.alter_connections('e', right_square);
-	middle_square.alter_connections('s', lowest_square);
+	///////////////////////////////////////////////////ui
+	std::cout << "------ Building map ------" << std::endl;
+	std::vector<Scene*> v;
+	build_world(v);
+	std::cout << "--- The map is built ---" << std::endl;
 
-	left_square.alter_connections('e', middle_square);
-	right_square.alter_connections('w',middle_square);
-	upper_square.alter_connections('s',middle_square);
-	lowest_square.alter_connections('n',middle_square);
+
 	////////////////////////////////////////////////////
 
-	std::cout << middle_square.description() << std::endl;
-	std::cout << middle_square.get_connections('w').description() << std::endl;	
-	std::cout << middle_square.get_connections('e').description() << std::endl;	
-	std::cout << middle_square.get_connections('n').description() << std::endl;
-	std::cout << middle_square.get_connections('s').description() << std::endl;
+	//Running some tests
+	std::cout << v[0]->description() << std::endl;
+	std::cout << v[0]->get_connections('w').description() << std::endl;	
+	std::cout << v[0]->get_connections('e').description() << std::endl;	
+	std::cout << v[0]->get_connections('n').description() << std::endl;
+	std::cout << v[0]->get_connections('s').description() << std::endl;
+
+	Scene west = v[0]->get_connections('w');
+	Scene east = v[0]->get_connections('e');
+	Scene north = v[0]->get_connections('n');
+	Scene south = v[0]->get_connections('s');
+
+
+	std::cout << west.get_connections('e').description() << std::endl;
+	std::cout << east.get_connections('w').description() << std::endl;
+	std::cout << north.get_connections('s').description() << std::endl;
+	std::cout << south.get_connections('n').description() << std::endl;
+	for(auto element: v){
+		delete element;
+	}
+
 	return 0;
 }

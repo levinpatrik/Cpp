@@ -59,7 +59,20 @@ std::string Scene::description() const{
 void Scene::alter_connections(const char& key, Scene& place){
 	// auto the_pair = environment.find(key);
 	// the_pair.second = place;
+
 	environment.find(key)->second = &place;
+	if(key == 'w'){
+		place.environment.find('e')->second = this;
+	}
+	else if(key == 'e'){
+		place.environment.find('w')->second = this;
+	}
+	else if(key == 'n'){
+		place.environment.find('s')->second = this;
+	}
+	else if(key == 's'){
+		place.environment.find('n')->second = this;
+	}
 	
 
 }
