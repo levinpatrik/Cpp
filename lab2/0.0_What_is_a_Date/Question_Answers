@@ -377,8 +377,20 @@ Answer: The postfix, a++, can't be in the base class since it returns a object a
 --------------------------------------------------------------------------------
 
 
+----		0.0			----
 
+1) Pros & Cons:
 
+date <- Gregorian <- Julian:
 
+1a)	This way of inherating is not optimal since Julian will have the specific implementations of Gregorian within it. This may not be nessasary or correct. 
+
+1b)	The same problem arises when you do Date <- Julian <- Gregorian.
+
+1c)	Date <- Gregorian, Julian
+
+This approach seems better since you can have Date act as a abstract class. This will be like a blueprint for the rest of the calanders. This is good since both Gregorian and Julian is on the same level of abstraction and should not inherit from eachother (Gregorian is not a Julian).
+
+1d)	We see no benefit of adding the middle part if we only deal with Gregorian and Julian. Maybe if there where a third calender that greatly differed from the two it would make more sence to have a middle part.
 
 

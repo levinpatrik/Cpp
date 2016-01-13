@@ -23,10 +23,7 @@ Pirate::~Pirate()
 
 }
 
-Pirate::Pirate()
-{
 
-}
 
 //		MEMBER FUNCIONS
 std::string Pirate::description() const 

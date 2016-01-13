@@ -36,13 +36,14 @@ class Gregorian: public Date
 		void virtual add_year(int) override;
 		void virtual add_month() override;
 		void virtual add_month(int) override;
-		int virtual julian_day_number() const override;
+		// int virtual julian_day_number() const override;
+		int virtual mod_julian_day() const override;
 
-	protected:	
+	private:	
 		virtual std::vector<int> JDN_2_date(int) const override;
 		virtual bool is_leap_year() const override;
 		
-	private:
+
 
 };
 }

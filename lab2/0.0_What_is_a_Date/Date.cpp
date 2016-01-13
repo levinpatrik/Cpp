@@ -25,8 +25,10 @@ Date::~Date()
 
 unsigned int Date::week_day() const{
 
-	unsigned int JDN = julian_day_number();
-	unsigned int weekday_nr = (JDN % 7) + 1;
+	unsigned int JDN = mod_julian_day();
+	JDN = JDN +2400001;
+	unsigned int weekday_nr = ((JDN) % 7) +1;
+	// std::cout << "Weekday " << weekday_nr << std::endl;
 
 	return weekday_nr;
 
@@ -36,11 +38,11 @@ std::string Date::week_day_name() const{return day_names[week_day()-1];}
 
 std::string Date::month_name() const{return month_names[the_month-1];}
 
-int Date::mod_julian_day() const{
-	int JDN = julian_day_number();
-	int MJD = JDN - 2400001;
-	return MJD;
-}
+// int Date::mod_julian_day() const{
+// 	int JDN = julian_day_number();
+// 	int MJD = JDN - 2400001;
+// 	return MJD;
+// }
 
 
 int Date::current_JDN() const{
@@ -61,9 +63,11 @@ int Date::current_JDN() const{
 	int m = tmp_month + 12*a -3;
 	int JDN = tmp_day + std::floor((153*m + 2 )/5) + 365*y + std::floor(y/4)
 	- std::floor(y/100) + std::floor(y/400) -32045;
+
+	//REMOVE
+	JDN = JDN -2400001;
 	return JDN;
 }
-
 
 
 
@@ -72,11 +76,14 @@ int Date::current_JDN() const{
 //-----------	OPERATORS  -------------
 Date & Date::operator=(const Date & d){
 
-	int JDN = d.julian_day_number();
+	int JDN = d.mod_julian_day();
 	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
 	return *this;
 }
+
+
+
 
 namespace lab2{
 	std::ostream & operator<<(std::ostream & os, const lab2::Date & d)

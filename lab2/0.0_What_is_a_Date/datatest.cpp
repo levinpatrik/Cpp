@@ -57,6 +57,8 @@ int main()
     int day   = t->tm_mday;         // indexerade från ETT
 
     std::cout << "Testing constructors..." << std::endl;
+
+    std::cout << "year " << today.year()<< " month " <<today.month() << " day " << today.day() << std::endl;
     assert(today.year() == year &&          // rätt initierad
            today.month() == month &&
            today.day() == day);

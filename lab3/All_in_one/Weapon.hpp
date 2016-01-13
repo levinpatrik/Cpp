@@ -9,6 +9,10 @@ class Weapon : public Item{
 
 	public:
 		//	CONSTRUCTORS
+		Weapon()
+		{
+			std::cout << "Default constructor Item" << std::endl;
+		}
 		Weapon(int weight, int price, int atk,  std::string description);
 		~Weapon();
 

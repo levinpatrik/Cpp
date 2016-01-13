@@ -7,6 +7,10 @@ class Item
 {
 	public:
 		//	CONSTRUCTORS
+		Item()
+		{
+			std::cout << "Default constructor Item" << std::endl;
+		}
 		virtual ~Item()
 		{
 			std::cout << "Virtual destructor Item" << std::endl;

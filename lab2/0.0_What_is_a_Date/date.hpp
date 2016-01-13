@@ -31,7 +31,6 @@ class Date
 		unsigned int virtual days_this_month() const = 0;
 		void virtual add_year(int) = 0;
 		void virtual add_month() = 0;
-		int virtual julian_day_number() const = 0;
 
 
 		//		--  OPERATOR OVERLOAD  --
@@ -43,20 +42,19 @@ class Date
 		Date & operator=(const Date &);
 
 
-		bool operator==(const Date & d) const { return this->julian_day_number() == d.julian_day_number();}
-		bool operator!=(const Date & d) const { return this->julian_day_number() != d.julian_day_number();}
-		bool operator< (const Date & d) const { return this->julian_day_number() <  d.julian_day_number();}
-		bool operator> (const Date & d) const { return this->julian_day_number() >  d.julian_day_number();}
-		bool operator<=(const Date & d) const { return this->julian_day_number() <= d.julian_day_number();}
-		bool operator>=(const Date & d) const { return this->julian_day_number() >= d.julian_day_number();}
+		bool operator==(const Date & d) const { return this->mod_julian_day() == d.mod_julian_day();}
+		bool operator!=(const Date & d) const { return this->mod_julian_day() != d.mod_julian_day();}
+		bool operator< (const Date & d) const { return this->mod_julian_day() <  d.mod_julian_day();}
+		bool operator> (const Date & d) const { return this->mod_julian_day() >  d.mod_julian_day();}
+		bool operator<=(const Date & d) const { return this->mod_julian_day() <= d.mod_julian_day();}
+		bool operator>=(const Date & d) const { return this->mod_julian_day() >= d.mod_julian_day();}
 
 		// Become friends with operator<<
 		friend std::ostream & operator<<(std::ostream & os, const Date & d);
-		template<typename T> 
-		friend class Calender;
+
 
 		//		--  FUNCTIONS  --
-		int mod_julian_day() const;
+		virtual int mod_julian_day() const = 0;
 		unsigned int week_day() const;
 		std::string week_day_name() const;
 		std::string month_name() const;
@@ -69,6 +67,7 @@ class Date
 
 	protected:
 		//	HELP FUNCTIONS
+		// int virtual julian_day_number() const = 0;
 		int current_JDN() const;
 		virtual std::vector<int> JDN_2_date(int) const = 0;
 		virtual bool is_leap_year() const = 0;

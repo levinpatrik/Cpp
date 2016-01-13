@@ -9,6 +9,7 @@ using namespace std;
 int main()
 {
 
+	cout << "SOME NEW TEXT" << endl;
 	cout << "---Testing Money()		---" << endl;
 	{
 		Money m;

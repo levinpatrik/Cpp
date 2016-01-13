@@ -1,8 +1,7 @@
 #include "Character.hpp"
 
-void Character::add(const Item & i)
+void Character::add(Item * i_p)
 {
-	const Item * i_p = &i;
 	inventory.push_back(i_p);
 	std::cout << "Added " << i_p->description() << std::endl;
 }

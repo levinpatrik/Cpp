@@ -6,18 +6,8 @@
 class Money : public Item
 {
 	public:
-		Money()
-		{
-			the_weight = 1;
-			the_price = 1;
-			total_amount = 1;
-		};
-		Money(int amount)
-		{
-			the_weight = 1*amount;
-			the_price = 1*amount;
-			total_amount = 1*amount;
-		}
+		Money();
+		Money(int amount);
 
 
 		virtual std::string description() const override

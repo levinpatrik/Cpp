@@ -10,14 +10,14 @@ Gregorian::Gregorian(){
 }
 
 Gregorian::Gregorian(const Date & d_r){
-	int JDN = d_r.julian_day_number();
+	int JDN = d_r.mod_julian_day();
 	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0]; the_month = v[1]; the_day = v[2];
 }
 
 
 Gregorian::Gregorian(const Date * d_p){
-	int JDN = d_p->julian_day_number();
+	int JDN = d_p->mod_julian_day();
 	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0]; the_month = v[1]; the_day = v[2];
 }
@@ -61,7 +61,7 @@ void  Gregorian::add_year(int n){
 
 void Gregorian::add_month(){
 
-	int JDN = julian_day_number();
+	int JDN = mod_julian_day();
 	JDN += days_this_month();
 	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
@@ -116,19 +116,37 @@ bool Gregorian::is_leap_year() const{
 	return false;
 }
 
-int Gregorian::julian_day_number() const{
+int Gregorian::mod_julian_day() const{
 
 	int a = std::floor((14 - the_month)/12);
 	int y = the_year + 4800 - a;
 	int m = the_month + 12*a -3;
 
+	//REMOVE 240001
 	int JDN = the_day + std::floor((153*m + 2 )/5) + 365*y + std::floor(y/4)
-	- std::floor(y/100) + std::floor(y/400) -32045;
+	- std::floor(y/100) + std::floor(y/400) -32045-2400001;
 	return JDN;
 }
 
+
+
+
+
+
+// int Gregorian::julian_day_number() const{
+
+// 	int a = std::floor((14 - the_month)/12);
+// 	int y = the_year + 4800 - a;
+// 	int m = the_month + 12*a -3;
+
+// 	int JDN = the_day + std::floor((153*m + 2 )/5) + 365*y + std::floor(y/4)
+// 	- std::floor(y/100) + std::floor(y/400) -32045;
+// 	return JDN;
+// }
+
 std::vector<int> Gregorian::JDN_2_date(int JDN) const{
 
+	JDN = JDN + 2400001;
 	int y = 4716; int j = 1401; int m = 2; int n = 12; int r = 4; 
 	int p = 1461; int v = 3; int u = 5; int s = 153; int w = 2;
 	int B = 274277; int c = -38;
@@ -208,7 +226,7 @@ Gregorian Gregorian::operator--(int)
 Gregorian & Gregorian::operator+=(int x){
 
 
-	int JDN = julian_day_number();
+	int JDN = mod_julian_day();
 	JDN += x;
 	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
@@ -218,7 +236,7 @@ Gregorian & Gregorian::operator+=(int x){
 
 Gregorian & Gregorian::operator-=(int x){
 
-	int JDN = julian_day_number();
+	int JDN = mod_julian_day();
 	JDN -= x;
 	std::vector<int> v = JDN_2_date(JDN);
 	the_year = v[0];  the_month = v[1]; the_day = v[2];
@@ -229,7 +247,7 @@ Gregorian & Gregorian::operator-=(int x){
 
 int Gregorian::operator-(const Date & g) const
 {
-	int JDN1 = julian_day_number();
-	int JDN2 = g.julian_day_number();
+	int JDN1 = mod_julian_day();
+	int JDN2 = g.mod_julian_day();
 	return (JDN1 - JDN2);
 }
