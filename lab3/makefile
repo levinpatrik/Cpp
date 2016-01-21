@@ -6,14 +6,14 @@ PATH_C = ./character/
 # PATH_I = ./item/
 
 
-# game.out : character.out item.out
-# 	$(CC) $(FLAGS) -o game.out main.cpp 
+game.out : character.out item.out
+	$(CC) $(FLAGS) -o game.out main.cpp 
 
 character.out : $(CHARACTERS) mainTest.cpp
 	$(CC) $(FLAGS) -o character.out $(CHARACTERS) mainTest.cpp
 
-# $(PATH_I)item.out : $(PATH_I)Container.cpp mainItem.cpp Weapon.cpp Money.cpp
-# 	$(CC) $(FLAGS) -o item.out Container.cpp Weapon.cpp Money.cpp
+item.out : Container.cpp mainItem.cpp Weapon.cpp Money.cpp
+	$(CC) $(FLAGS) -o item.out Container.cpp Weapon.cpp Money.cpp
 
 
 
