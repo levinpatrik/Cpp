@@ -5,6 +5,7 @@ using namespace std;
 Ape::Ape()
 {
 	cout << "Default construtor Ape" << endl;
+	
 	attackpower = 0;
 	hitpoints 	= 10;
 	//inventory.push("skiten som ska droppas")

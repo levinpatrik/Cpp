@@ -3,6 +3,8 @@
 void Character::add(Item * i_p)
 {
 	inventory.push_back(i_p);
+
+	
 	std::cout << "Added " << i_p->description() << std::endl;
 }
 

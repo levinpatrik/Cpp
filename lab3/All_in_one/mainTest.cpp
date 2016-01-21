@@ -114,11 +114,11 @@ int main(){
 		v.pop_back();
 
 		//Add a item to player.
-		// Weapon w(10, 10 ,10 ,"Sword");
-		// cout << w.description() << endl;
+		Weapon w(10, 10 ,10 ,"Sword");
+		cout << w.description() << endl;
 
 
-		Weapon * w_p = new Weapon(10, 10 ,10 ,"Sword");
+		// Weapon * w_p = new Weapon(10, 10 ,10 ,"Sword");
 		// Item * i_p = w_p;
 
 		// std::cout << i_p->description() << std::endl;

@@ -4,27 +4,81 @@
 # 	./main.out
 
 
-
 CC = g++
-FLAGS = -std=c++11 -g -Wall
+FLAGS = -std=c++11 -Wall
 
-CHARACTERS_C = Ape.cpp Character.cpp Crab.cpp Merchant.cpp Pirate.cpp Player.cpp 
-CHARACTERS_H = Ape.hpp Character.hpp Crab.hpp Merchant.hpp Pirate.hpp Player.hpp
-
-ITEMS_C = Container.cpp Weapon.cpp Money.cpp 
-ITEMS_H = Container.hpp Weapon.hpp Money.hpp
+SCENE_O = Beach.o Cave.o Indoor.o Jungle.o Room.o Scene.o Outdoor.o
+CHARACTERS_O = Ape.o Character.o Crab.o Merchant.o Pirate.o Player.o
+ITEMS_O = Container.o Weapon.o 
 
 
-game.out : character.o item.o
-	$(CC) $(FLAGS) -o game.out main.cpp 
+SCENE_H = Beach.hpp Cave.hpp Indoor.hpp Jungle.hpp Room.hpp Scene.hpp Outdoor.hpp
+ITEMS_H = Item.hpp Container.hpp Weapon.hpp Money.hpp
+CHARACTERS_H = Ape.hpp Character.hpp Crab.hpp Merchant.hpp Pirate.hpp Player.hpp Animal.hpp Human.hpp
 
-character.o : $(CHARACTERS) 
-	$(CC) $(FLAGS) -c 
-
-item.o : Container.hpp Container.cpp mainItem.cpp Weapon.cpp Money.cpp 
-	$(CC) $(FLAGS) -c item.out Container.cpp Weapon.cpp Money.cpp
-
+#	---		MAKE THE OUT-FILE! 	---
+game.out : $(CHARACTERS_O) $(ITEMS_O) $(SCENE__O) mainTest.o
+	$(CC) $(FLAGS) $(CHARACTERS_O) $(ITEMS_O) mainTest.o -o game.out
 
 
-clean:
-	rm -f *.out
+#	---		MAIN 	---
+mainTest.o : $(CHARACTERS_H) $(ITEMS_H) $(SCENE_H) mainTest.cpp
+	$(CC) $(FLAGS) -c mainTest.cpp
+
+
+#	---		ALL CHARACTER.o's 	---
+Ape.o : Ape.cpp Ape.hpp Animal.hpp Character.hpp
+	$(CC) $(FLAGS) -c Ape.cpp
+
+Character.o : Character.cpp Character.hpp Item.hpp
+	$(CC) $(FLAGS) -c Character.cpp
+
+Crab.o : Crab.cpp Crab.hpp Animal.hpp Character.hpp
+	$(CC) $(FLAGS) -c Crab.cpp
+
+Merchant.o : Merchant.cpp Merchant.hpp Human.hpp Character.hpp
+	$(CC) $(FLAGS) -c Merchant.cpp
+
+Pirate.o : Pirate.cpp Pirate.hpp Human.hpp Character.hpp
+	$(CC) $(FLAGS) -c Pirate.cpp
+
+Player.o : Player.cpp Player.hpp Human.hpp Character.hpp
+	$(CC) $(FLAGS) -c Player.cpp
+
+
+#	---		ALL ITEM.o's 	---
+Container.o : Container.cpp Container.hpp Item.hpp
+	$(CC) $(FLAGS) -c Container.cpp
+
+Weapon.o : Weapon.cpp Weapon.hpp Item.hpp
+	$(CC) $(FLAGS) -c Weapon.cpp
+
+
+#	---		ALL SCENE.o's 	---
+
+Beach.o : Beach.cpp Beach.hpp Outdoor.hpp
+	$(CC) $(FLAGS) -c Beach.cpp
+
+Cave.o : Cave.cpp Cave.hpp Scene.hpp
+	$(CC) $(FLAGS) -c Cave.cpp
+
+Indoor.o : Indoor.cpp Indoor.hpp Scene.hpp
+	$(CC) $(FLAGS) -c Indoor.cpp
+
+Jungle.o : Jungle.cpp Jungle.hpp Outdoor.hpp
+	$(CC) $(FLAGS) -c Jungle.cpp
+
+Outdoor.o : Outdoor.cpp Outdoor.hpp Scene.hpp
+	$(CC) $(FLAGS) -c Outdoor.cpp
+
+Room.o : Room.cpp Room.hpp Indoor.hpp
+	$(CC) $(FLAGS) -c Room.cpp
+
+Scene.o : Scene.cpp Scene.hpp Character.hpp Item.hpp
+	$(CC) $(FLAGS) -c Scene.cpp
+
+
+
+
+
+
