@@ -17,7 +17,7 @@ Weapon::Weapon(int weight, int price, int atk,  std::string description)
 }
 std::string Weapon::description() const
 {
-	return ("You see a " + the_description + "\n"+
+	return ("\nYou see a " + the_description + "\n"+
 	"Stats:" + "\n" + 
 	"attack: " + std::to_string(the_attackpower) + "\n" +
 	"weight: " + std::to_string(the_weight) + "\n" +

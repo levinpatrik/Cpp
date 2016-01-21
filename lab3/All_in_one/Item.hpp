@@ -16,10 +16,11 @@ class Item
 			std::cout << "Virtual destructor Item" << std::endl;
 		}
 
-
-
 		//	PURE-VIRTUAL FUNCTIONS
 		virtual std::string description() const = 0;
+
+		virtual void foo();
+		void hej();
 
 		//	FUNCTIONS 
 		unsigned price() const {return the_price;}
