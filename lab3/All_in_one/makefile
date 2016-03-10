@@ -25,6 +25,7 @@ all: mainTest.cpp
 # CHARACTERS_O = Ape.o Character.o Crab.o Merchant.o Pirate.o Player.o
 # ITEMS_O = Container.o Weapon.o Item.o
 
+<<<<<<< 24a0d51167a82e6c02c556bf6441122008e3c59c
 # SCENE_H = Beach.hpp Cave.hpp Indoor.hpp Jungle.hpp Room.hpp Scene.hpp Outdoor.hpp
 # ITEMS_H = Item.hpp Container.hpp Weapon.hpp Money.hpp
 # CHARACTERS_H = Ape.hpp Character.hpp Crab.hpp Merchant.hpp Pirate.hpp Player.hpp Animal.hpp Human.hpp
@@ -39,6 +40,22 @@ all: mainTest.cpp
 # #	---		MAIN 	---
 # mainTest.o : $(CHARACTERS_H) $(ITEMS_H) $(SCENE_H) mainTest.cpp
 # 	$(CC) $(FLAGS) -c mainTest.cpp
+=======
+SCENE_H = Beach.hpp Cave.hpp Jungle.hpp Room.hpp
+ITEMS_H = Container.hpp Weapon.hpp Money.hpp
+CHARACTERS_H = Ape.hpp Crab.hpp Merchant.hpp Pirate.hpp Player.hpp
+
+
+#	---		MAKE THE OUT-FILE! 	---
+game.out : $(CHARACTERS_O) $(ITEMS_O) $(SCENE_O) mainTest.o
+	clear
+	$(CC) $(FLAGS) $(CHARACTERS_O) $(ITEMS_O) mainTest.o -o game.out
+	./game.out
+
+#	---		MAIN 	---
+mainTest.o : mainTest.cpp $(CHARACTERS_H) $(ITEMS_H) $(SCENE_H)
+	$(CC) $(FLAGS) -c mainTest.cpp
+>>>>>>> test
 
 # #	---		ALL CHARACTER.o's 	---
 # Ape.o : Ape.cpp Ape.hpp Animal.hpp Character.hpp
@@ -56,11 +73,20 @@ all: mainTest.cpp
 # Pirate.o : Pirate.cpp Pirate.hpp Human.hpp Character.hpp
 # 	$(CC) $(FLAGS) -c Pirate.cpp
 
+<<<<<<< 24a0d51167a82e6c02c556bf6441122008e3c59c
 # Player.o : Player.cpp Player.hpp Human.hpp Character.hpp
 # 	$(CC) $(FLAGS) -c Player.cpp
 # #	---		ALL ITEM.o's 	---
 # Container.o : Container.cpp Container.hpp Item.hpp
 # 	$(CC) $(FLAGS) -c Container.cpp
+=======
+Player.o : Player.cpp Player.hpp Human.hpp Character.hpp
+	$(CC) $(FLAGS) -c Player.cpp
+
+#	---		ALL ITEM.o's 	---
+Container.o : Container.cpp Container.hpp Item.hpp
+	$(CC) $(FLAGS) -c Container.cpp
+>>>>>>> test
 
 # Weapon.o : Weapon.cpp Weapon.hpp Item.hpp
 # 	$(CC) $(FLAGS) -c Weapon.cpp
@@ -68,9 +94,16 @@ all: mainTest.cpp
 # Item.o : Item.cpp Item.hpp
 # 	$(CC) $(FLAGS) -c Item.cpp
 
+<<<<<<< 24a0d51167a82e6c02c556bf6441122008e3c59c
 # #	---		ALL SCENE.o's 	---
 # Beach.o : Beach.cpp Beach.hpp Outdoor.hpp
 # 	$(CC) $(FLAGS) -c Beach.cpp
+=======
+
+#	---		ALL SCENE.o's 	---
+Beach.o : Beach.cpp Beach.hpp Outdoor.hpp
+	$(CC) $(FLAGS) -c Beach.cpp
+>>>>>>> test
 
 # Cave.o : Cave.cpp Cave.hpp Scene.hpp
 # 	$(CC) $(FLAGS) -c Cave.cpp

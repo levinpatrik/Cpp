@@ -19,10 +19,10 @@ class Item
 		//	PURE-VIRTUAL FUNCTIONS
 		virtual std::string description() const = 0;
 
-		virtual void foo();
-		void hej();
+		virtual void foo() const;
 
 		//	FUNCTIONS 
+		void hej();
 		unsigned price() const {return the_price;}
 		unsigned weight() const {return the_weight;}
 	protected:

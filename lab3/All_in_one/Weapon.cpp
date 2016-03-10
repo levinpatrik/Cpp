@@ -24,3 +24,8 @@ std::string Weapon::description() const
 	"price: "  + std::to_string(the_price) + "\n");
 
 }
+
+void Weapon::foo() const
+{
+	std::cout << "foo Weapon" << std::endl;
+}

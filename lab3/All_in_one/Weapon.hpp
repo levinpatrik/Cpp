@@ -19,7 +19,7 @@ class Weapon : public Item{
 		//	VIRTUAL FUNCTIONS
 		virtual std::string description() const override;
 
-		virtual void foo() override {std::cout << "foo Weapon" << std::endl;}
+		void foo() const; 
 
 
 
