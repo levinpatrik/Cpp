@@ -31,7 +31,6 @@ public:
 	
 	//Getters
 	std::string getName() const ;
-	Item * removeItem(std::string item_name);
 	int getAtk();
 	int getHp();
 
@@ -41,6 +40,10 @@ public:
 	void setHp(int dmg);
 	void setAtk(int atk);
 
+	//Removers
+	Item * removeItem(std::string item_name);
+
+	
 	void debug(std::string s)
 	{
 	//std::cout << s << std::endl;

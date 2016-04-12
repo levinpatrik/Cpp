@@ -25,7 +25,9 @@ public:
 	//void pickup(Player * vem, Item * vad) -> vad finns i Scene?
 	//void drop(Player * vem, Item * vad)   ->
 
-
+	void go(std::string s);
+	void pickup(std::string s);
+	void drop(std::string s);
 
 	Player * action();
 

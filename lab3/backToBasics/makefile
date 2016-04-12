@@ -25,4 +25,4 @@ scene.o : scene.cpp scene.hpp
 	$(CC) $(FLAGS) -c scene.cpp	
 
 clean:
-	rm *o
+	rm *o hello

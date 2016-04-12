@@ -6,24 +6,60 @@
 #include <assert.h>
 #include <string> 
 
+
 using namespace std;
 using namespace game;
 
+
+class GameItem
+{
+
+public:
+		virtual void virtFunc(std::string s)
+		{
+			std::cout << "Base class func! " << std::endl;
+		}
+protected:
+	int i;
+};
 
 class Test
 {
 
 public:
-void f1()
+void f1(std::string s)
 {
-	cout << "Test::f1"  << endl;
+	cout << "Test::f1"  << s << endl;
 }
-void f2()
+void f2(std::string s)
 {
-	cout << "Test::f2"  << endl;
+	cout << "Test::f2"  << s << endl;
 }
 
+
 };
+
+
+
+class Bar : public GameItem
+{
+public:
+	void foo1(std::string s)
+	{ 
+		cout << "Bar::foo1 "  << s << endl;
+	}
+	void foo2(std::string s)
+	{
+		cout << "Bar::foo2 "  << s << endl;
+	}
+
+virtual void virtFunc(std::string s)
+{
+	cout << "virtual function TEST " << s <<  endl;
+
+}
+};
+
 
 
 int main()
@@ -140,107 +176,166 @@ int main()
 		s1.printExits();
 	}
 
-
-	cout << "------	CIN test ------	" << endl;
+	cout << "------	MAP test ------	" << endl;
 	{
-		// cout << "which function do you want to call?" << endl;
-		// std::string a;
-		// cin >> a;
+		Test T;
+		Bar B;
+		GameItem * G_p = &B;
 
 
-		Scene s("A desctiption");
-		Player p("player", 10, 1);
-		Player m("monster", 5, 1);
-		Player m2("boss", 50, 1);
-		s.setPlayer(&p);
-		s.setPlayer(&m);
-		s.setPlayer(&m2);
-		// s.printPlayers();
+		// game_fp func_p = &GameItem::virtFunc;
+		// (G_p->*func_p)("en string");
+		
 
-		// auto p_p = s.action();
-		// p_p->printName();
-		// p_p = s.action();
-		// p_p->printName();
-		// p_p = s.action();
-		// p_p->printName();
 
-		std::string action_str;
-		std::string target_str;
-		Player * p_tmp;
+		typedef void (Test::*test_fp)(std::string);
+		typedef void (Bar::*bar_fp)(std::string);
+		typedef void (GameItem::*game_fp)(std::string);
 
-		Player * t = NULL;
-		typedef void (Player::*MFP)(Player *);
-   		std::map <std::string, MFP> fmap;
-		fmap.insert(std::make_pair("atk", &Player::attack));
-		// (t->*f_ptr)();
+		//Function ptr maps
+  		std::map <std::string, test_fp> testFunc_map;
+  		std::map <std::string, bar_fp> barFunc_map;
+  		std::map <std::string, game_fp> gameFunc_map;
 
-		while(1)
+
+  		//Object ptr maps
+  		std::map<std::string, Test *> testObj_map;
+  		std::map<std::string, Bar *> barObj_map;
+  		std::map<std::string, GameItem *> gameObj_map;
+
+		testFunc_map.insert(std::make_pair("f1", &Test::f1));
+  		testFunc_map.insert(std::make_pair("f2", &Test::f2));
+
+		barFunc_map.insert(std::make_pair("foo1", &Bar::foo1));
+		barFunc_map.insert(std::make_pair("foo2", &Bar::foo2));
+
+		testObj_map.insert(std::make_pair("t", &T));
+		barObj_map.insert(std::make_pair("b", &B));
+
+		gameFunc_map.insert(std::make_pair("virt", &GameItem::virtFunc));
+		gameObj_map.insert(std::make_pair("game", G_p));
+
+
+		// auto g_1 = gameFunc_map.find("virtFunc");
+		// auto g_func = g_1->second;
+		// auto g_2  = gameObj_map.find("game");
+		// auto g_obj = g_2->second;
+
+		// (g_obj->*g_func)("en string");
+
+
+
+
+
+
+
+
+
+
+		std::cout <<"call fun: " << endl;
+		std::string a;
+		std::cout <<"on obj: " << endl;
+		std::string b;
+		
+	while(1)
+	{
+		cin >> a;
+		cin >> b;
+
+		auto it_1 = barFunc_map.find(a);
+		auto it_2 = testFunc_map.find(a);
+		auto it_6 = gameFunc_map.find(a);
+		auto it_3 = testObj_map.find(b);
+		auto it_4 = barObj_map.find(b);
+		auto it_5 = gameObj_map.find(b);
+
+		if(it_1 != barFunc_map.end() && it_4 != barObj_map.end() )
 		{
-			auto p_p = s.action();
-			if(p_p->getName() == "player")
-			{
-				cout << "What do you want to do? " << endl;
-				cin >> action_str;
-				cout << "Who do you want to attack? " << endl;
-				cin >> target_str;
-
-				MFP f_ptr = fmap[action_str];
-				p_tmp = p_tmp = s.getPlayer(target_str);
-				cout << "monster hp: " <<  p_tmp->getHp() << endl;
-				p_p->attack(p_tmp);
-				cout << "monster hp: " << p_tmp->getHp() << endl;
-			}
-			else
-			{
-				p_tmp = s.getPlayer("player");
-				cout << "player hp: " << p_tmp->getHp() << endl;
-				p_p->attack(p_tmp);
-				cout << "player hp: " <<p_tmp->getHp() << endl;
-			}
+			auto barFunc_p = it_1->second;
+			auto barObj_p = it_4->second;
+			(barObj_p->*barFunc_p)("BAR!");
 		}
+		else if(it_2 != testFunc_map.end() && it_3 != testObj_map.end())
+		{
+			auto testFunc_p = it_2->second;
+			auto testObj_p = it_3->second;
+			(testObj_p->*testFunc_p)("TEST!");
+		}
+		else if(it_5 != gameObj_map.end() && it_6 != gameFunc_map.end())
+		{
 
-		// få player att attackera monster
-		//	1) hämta den som ska göra någonting
-		//	2) läs in vad som ska göras
-		//  3) gör det
-
-
-		// auto p_ptr = s.getPlayer("player");
-		// p_ptr->attack(s.getPlayer("monster"));
-
-
-
-
-		// void (Test::*fptr) (std::string) = &Test::f1; 	//Declare a function pointer return (Class::*f_ptr)(input type)
+			auto gameobj_p = it_5->second;
+			auto gamefunc_p = it_6->second;
+			(gameobj_p->*gamefunc_p)("TEST!");
 
 
-
-		// Test t;
-		// void (Test::*fptr) (std::string) = &Test::f1; 	//Declare a function pointer return (Class::*f_ptr)(input type)
-		// (t.*fptr)(a);
-
-
-
-		// std::map<std::string, Test *> test_map;
-
-		// std::pair<std::string, Test *> pair_a = std::make_pair("f1", f_ptr);
-		// test_map.insert("f1" , f_ptr));
+		}
+		else
+		{
+			std::cout << "You can not do that. " << std::endl;
+		}			
 
 
-
-		
-
-		
-		// Scene s("FUNCTION PTR");
-		// Scene * s_p = &s;
-
-
-
-
-
-
-
+			// auto test_fptr = it_2->second;
+			// (T.*test_fptr)("Hej");
 	}
+	}	
+
+
+	// cout << "------	CIN test ------	" << endl;
+	// {
+	// 	// cout << "which function do you want to call?" << endl;
+	// 	// std::string a;
+	// 	// cin >> a;
+
+
+	// 	Scene s("A desctiption");
+	// 	Player p("player", 10, 1);
+	// 	Player m("monster", 5, 1);
+	// 	Player m2("boss", 50, 1);
+	// 	s.setPlayer(&p);
+	// 	s.setPlayer(&m);
+	// 	s.setPlayer(&m2);
+
+	// 	std::string action_str;
+	// 	std::string target_str;
+	// 	Player * p_tmp;
+
+	// 	Player * t = NULL;
+	// 	typedef void (Player::*MFP)(Player *);
+ //   		std::map <std::string, MFP> fmap;
+	// 	fmap.insert(std::make_pair("atk", &Player::attack));
+	// 	// (t->*f_ptr)();
+
+
+
+
+	// 	while(1)
+	// 	{
+	// 		auto p_p = s.action();
+	// 		if(p_p->getName() == "player")
+	// 		{
+	// 			cout << "What do you want to do? " << endl;
+	// 			cin >> action_str;
+	// 			cout << "Who do you want to attack? " << endl;
+	// 			cin >> target_str;
+
+	// 			MFP f_ptr = fmap[action_str];
+	// 			p_tmp = p_tmp = s.getPlayer(target_str);
+	// 			cout << p_tmp->getName() << " HP: " <<  p_tmp->getHp() << endl;
+	// 			p_p->attack(p_tmp);
+	// 			cout << p_tmp->getName() << " HP: " <<  p_tmp->getHp() << endl;
+	// 		}
+	// 		else
+	// 		{
+	// 			p_tmp = s.getPlayer("player");
+	// 			cout << p_tmp->getName() << " HP: " <<  p_tmp->getHp() << endl;
+	// 			p_p->attack(p_tmp);
+	// 			cout << p_tmp->getName() << " HP: " <<  p_tmp->getHp() << endl;
+	// 		}
+	// 	}
+
+	// }
 
 
 
