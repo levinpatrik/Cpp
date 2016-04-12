@@ -8,6 +8,9 @@
 #include "player.hpp"
 #include "item.hpp"
 
+
+//TODO: - OM scene har 0 players kommer det bli segmentation fault på action?
+
 namespace game
 {
 	

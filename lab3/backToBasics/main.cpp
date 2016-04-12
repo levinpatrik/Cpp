@@ -5,7 +5,7 @@
 #include <iostream>
 #include <assert.h>
 #include <string> 
-
+#include <sstream>
 
 using namespace std;
 using namespace game;
@@ -61,10 +61,42 @@ virtual void virtFunc(std::string s)
 };
 
 
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    split(s, delim, elems);
+    return elems;
+}
+
+
 
 int main()
 {
+	
+	cout << "------	Read input TESTS ------" << endl;
+	{
+    std::string input;
+    getline( std::cin, input );
+	std::vector<std::string> input_vec;
+	char delim = ' ';
+	input_vec = split(input, delim);
+	for(int i = 0; i < input_vec.size(); i++)
+	{
+		cout << input_vec[i] << endl;
+	}
 
+
+
+	}
 	cout << "MAIN" << endl;
 	cout << "------	ITEM TESTS ------" << endl;
 	{
