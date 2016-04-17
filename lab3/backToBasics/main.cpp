@@ -27,14 +27,18 @@ class Test
 {
 
 public:
-void f1(std::string s)
+void f1(std::string s) const
 {
 	cout << "Test::f1"  << s << endl;
 }
-void f2(std::string s)
+void f2(std::string s) const
 {
 	cout << "Test::f2"  << s << endl;
 }
+// void f3(std::string s) const
+// {
+// 	cout << "Test::f3" << s << endl;
+// }
 
 
 };
@@ -220,7 +224,7 @@ int main()
 		
 
 
-		typedef void (Test::*test_fp)(std::string);
+		typedef void (Test::*test_fp)(std::string) const;
 		typedef void (Bar::*bar_fp)(std::string);
 		typedef void (GameItem::*game_fp)(std::string);
 
@@ -237,6 +241,7 @@ int main()
 
 		testFunc_map.insert(std::make_pair("f1", &Test::f1));
   		testFunc_map.insert(std::make_pair("f2", &Test::f2));
+  		// testFunc_map.insert(std::make_pair("f3", &Test::f3));
 
 		barFunc_map.insert(std::make_pair("foo1", &Bar::foo1));
 		barFunc_map.insert(std::make_pair("foo2", &Bar::foo2));
@@ -247,6 +252,57 @@ int main()
 		gameFunc_map.insert(std::make_pair("virt", &GameItem::virtFunc));
 		gameObj_map.insert(std::make_pair("game", G_p));
 
+		// std::cout <<"call fun: " << endl;
+		std::string a;
+		// std::cout <<"on obj: " << endl;
+		std::string b;
+			
+		while(a != "x")
+		{
+			std::cout <<"call fun: " << endl;
+			cin >> a;
+			std::cout <<"on obj: " << endl;
+			cin >> b;
+
+			auto it_1 = barFunc_map.find(a);
+			auto it_2 = testFunc_map.find(a);
+			auto it_6 = gameFunc_map.find(a);
+			auto it_3 = testObj_map.find(b);
+			auto it_4 = barObj_map.find(b);
+			auto it_5 = gameObj_map.find(b);
+
+			if(it_1 != barFunc_map.end() && it_4 != barObj_map.end() )
+			{
+				auto barFunc_p = it_1->second;
+				auto barObj_p = it_4->second;
+				(barObj_p->*barFunc_p)("BAR!");
+			}
+			else if(it_2 != testFunc_map.end() && it_3 != testObj_map.end())
+			{
+				auto testFunc_p = it_2->second;
+				auto testObj_p = it_3->second;
+				(testObj_p->*testFunc_p)("TEST!");
+			}
+			else if(it_5 != gameObj_map.end() && it_6 != gameFunc_map.end())
+			{
+
+				auto gameobj_p = it_5->second;
+				auto gamefunc_p = it_6->second;
+				(gameobj_p->*gamefunc_p)("TEST!");
+
+			}
+			else
+			{
+				std::cout << "You can not do that. " << std::endl;
+			}			
+
+
+				// auto test_fptr = it_2->second;
+				// (T.*test_fptr)("Hej");
+		}
+	}
+	{
+
 
 		// auto g_1 = gameFunc_map.find("virtFunc");
 		// auto g_func = g_1->second;
@@ -254,64 +310,109 @@ int main()
 		// auto g_obj = g_2->second;
 
 		// (g_obj->*g_func)("en string");
+	
+		///////////////////////////////////////////////
+		//börjar göra riktiga implementationer nu
+		///////////////////////////////////////////////
+		Scene s1("Starting zone");
+		Scene s2("artic tundra");
+		Scene s3("A beach");
 
+		Item i1;
+		Item i2("a rusty looking", "sword", 10);
+		Item i3("a crappy hat", "hat", 2);
 
-
-
-
-
-
-
-
-
-		std::cout <<"call fun: " << endl;
-		std::string a;
-		std::cout <<"on obj: " << endl;
-		std::string b;
+		//---  SETTERS  ---
+		s1.setItem(&i1);
+		s1.setItem(&i2);
+		s1.printItems(&i3);
 		
-	while(1)
-	{
+		Item * i_p = &i1;
+
+		Player p1("Monster1",10,10);
+		Player p2("Monster2",10,10);
+		Player p3("Player",10,10);	
+		player p4("moster3",12,20);
+		player p5("moster4",12,20);			
+		s1.setPlayer(&p1);
+		s1.setPlayer(&p2);
+		s1.setPlayer(&p3);
+
+		s2.setPlayer(&p4);
+		s2.setPlayer(&p5);
+		s2.setItem(&i3);
+
+		s1.setExit("e", &s2);
+		s1.setExit("w", &s2);
+		s1.setExit("s", &s3);
+		s1.setExit("n", &s3);
+
+
+		
+		typedef void (Scene::*scene_fp)() const;
+		std::map <std::string, scene_fp> sceneFunc_map;
+		sceneFunc_map.insert(std::make_pair("item", &Scene::printItems));
+		sceneFunc_map.insert(std::make_pair("scene", &Scene::printDescription));
+		sceneFunc_map.insert(std::make_pair("players", &Scene::printPlayers));
+		sceneFunc_map.insert(std::make_pair("exits",&Scene::printExits));
+
+
+		//Objct ptr maps
+
+		
+
+
+
+		std::string a;
+		cout << "type item, scene, players or exits"
 		cin >> a;
-		cin >> b;
 
-		auto it_1 = barFunc_map.find(a);
-		auto it_2 = testFunc_map.find(a);
-		auto it_6 = gameFunc_map.find(a);
-		auto it_3 = testObj_map.find(b);
-		auto it_4 = barObj_map.find(b);
-		auto it_5 = gameObj_map.find(b);
+		// std::cout <<"on obj: " << endl;
 
-		if(it_1 != barFunc_map.end() && it_4 != barObj_map.end() )
-		{
-			auto barFunc_p = it_1->second;
-			auto barObj_p = it_4->second;
-			(barObj_p->*barFunc_p)("BAR!");
-		}
-		else if(it_2 != testFunc_map.end() && it_3 != testObj_map.end())
-		{
-			auto testFunc_p = it_2->second;
-			auto testObj_p = it_3->second;
-			(testObj_p->*testFunc_p)("TEST!");
-		}
-		else if(it_5 != gameObj_map.end() && it_6 != gameFunc_map.end())
-		{
+		//(s1.*sceneFunc_map)();		
 
-			auto gameobj_p = it_5->second;
-			auto gamefunc_p = it_6->second;
-			(gameobj_p->*gamefunc_p)("TEST!");
+		// //Objct ptr maps
 
 
-		}
-		else
-		{
-			std::cout << "You can not do that. " << std::endl;
-		}			
+		// //Function ptr maps
+  // 		std::map <std::string, test_fp> testFunc_map;
+  // 		std::map <std::string, bar_fp> barFunc_map;
+  // 		std::map <std::string, game_fp> gameFunc_map;
 
 
-			// auto test_fptr = it_2->second;
-			// (T.*test_fptr)("Hej");
+  // 		//Object ptr maps
+  // 		std::map<std::string, Test *> testObj_map;
+  // 		std::map<std::string, Bar *> barObj_map;
+  // 		std::map<std::string, GameItem *> gameObj_map;
+
+		// testFunc_map.insert(std::make_pair("f1", &Test::f1));
+  // 		testFunc_map.insert(std::make_pair("f2", &Test::f2));
+
+		// barFunc_map.insert(std::make_pair("foo1", &Bar::foo1));
+		// barFunc_map.insert(std::make_pair("foo2", &Bar::foo2));
+
+		// testObj_map.insert(std::make_pair("t", &T));
+		// barObj_map.insert(std::make_pair("b", &B));
+
+		// gameFunc_map.insert(std::make_pair("virt", &GameItem::virtFunc));
+		// gameObj_map.insert(std::make_pair("game", G_p));
+
 	}
-	}	
+		//typedef void (Scene::*test_sp)(std::string);
+		//std::map <std::string, test_p> testScene_map;
+		//testFunc_map.insert(std::make_pair("exit", &Test::getExit));
+	// 	std::string x;
+
+	// while(1)
+	// {
+	// 	cin >> x;
+	// 	auto it_test = scene_map.find(x);
+	// 	// (s1->*scene_fp)();
+
+	// }	
+
+
+
 
 
 	// cout << "------	CIN test ------	" << endl;
