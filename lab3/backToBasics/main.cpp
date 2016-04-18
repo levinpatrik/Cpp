@@ -89,7 +89,7 @@ int main()
 	cout << "------	Read input TESTS ------" << endl;
 	{
     std::string input;
-    getline( std::cin, input );
+    //getline( std::cin, input );
 	std::vector<std::string> input_vec;
 	char delim = ' ';
 	input_vec = split(input, delim);
@@ -325,15 +325,15 @@ int main()
 		//---  SETTERS  ---
 		s1.setItem(&i1);
 		s1.setItem(&i2);
-		s1.printItems(&i3);
+		s1.printItems();
 		
 		Item * i_p = &i1;
 
 		Player p1("Monster1",10,10);
 		Player p2("Monster2",10,10);
 		Player p3("Player",10,10);	
-		player p4("moster3",12,20);
-		player p5("moster4",12,20);			
+		Player p4("moster3",12,20);
+		Player p5("moster4",12,20);			
 		s1.setPlayer(&p1);
 		s1.setPlayer(&p2);
 		s1.setPlayer(&p3);
@@ -364,7 +364,7 @@ int main()
 
 
 		std::string a;
-		cout << "type item, scene, players or exits"
+		cout << "type item, scene, players or exits" << endl;
 		cin >> a;
 
 		// std::cout <<"on obj: " << endl;

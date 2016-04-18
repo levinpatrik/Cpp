@@ -40,8 +40,14 @@ Player * Scene::action()
 	return tmp;
 }
 
+//----------------------------
+//------ FUNCTIONALITY  ------
+//----------------------------
 
-
+void go(std::string s);
+void pickup(std::string s);
+void drop(std::string s);
+Player * action();
 
 
 
@@ -79,6 +85,8 @@ void Scene::printDescription() const
 {
 	std::cout << description << std::endl;
 }
+
+
 
 //----------------------------
 //------ 	SETTERS		------
