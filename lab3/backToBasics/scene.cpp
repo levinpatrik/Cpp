@@ -47,7 +47,7 @@ Player * Scene::action()
 void go(std::string s);
 void pickup(std::string s);
 void drop(std::string s);
-Player * action();
+// Player * action();
 
 
 
@@ -67,10 +67,16 @@ void Scene::printExits() const
 
 void Scene::printItems() const
 {
-	for(auto it = item_vec.begin(); it != item_vec.end(); ++it)
+	if(item_vec.begin() != item_vec.end())
 	{
-		(*it)->printDescription();
+		for(auto it = item_vec.begin(); it != item_vec.end(); ++it)
+		{
+			(*it)->printDescription();
+		}
 	}
+	else{
+		std::cout << "There are no items on the ground" << std::endl; 
+	}		
 }
 
 void Scene::printPlayers() const

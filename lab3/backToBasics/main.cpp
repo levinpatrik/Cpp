@@ -319,11 +319,11 @@ int main()
 		Scene s3("A beach");
 
 		Item i1;
-		Item i2("a rusty looking", "sword", 10);
-		Item i3("a crappy hat", "hat", 2);
+		Item i2("it is a rusty looking", "sword", 10);
+		Item i3("it is a crappy hat", "hat", 2);
 
 		//---  SETTERS  ---
-		s1.setItem(&i1);
+		// s1.setItem(&i1);
 		s1.setItem(&i2);
 		s1.printItems();
 		
@@ -331,12 +331,12 @@ int main()
 
 		Player p1("Monster1",10,10);
 		Player p2("Monster2",10,10);
-		Player p3("Player",10,10);	
+		Player main_char("Player",10,10);	
 		Player p4("moster3",12,20);
 		Player p5("moster4",12,20);			
 		s1.setPlayer(&p1);
 		s1.setPlayer(&p2);
-		s1.setPlayer(&p3);
+		s1.setPlayer(&main_char);
 
 		s2.setPlayer(&p4);
 		s2.setPlayer(&p5);
@@ -349,27 +349,127 @@ int main()
 
 
 		
-		typedef void (Scene::*scene_fp)() const;
-		std::map <std::string, scene_fp> sceneFunc_map;
-		sceneFunc_map.insert(std::make_pair("item", &Scene::printItems));
-		sceneFunc_map.insert(std::make_pair("scene", &Scene::printDescription));
-		sceneFunc_map.insert(std::make_pair("players", &Scene::printPlayers));
-		sceneFunc_map.insert(std::make_pair("exits",&Scene::printExits));
+		//Creating Function ptr maps
+		// typedef void (Scene::*info_fp)() const;
+		// std::map <std::string, info_fp> infoFuncs_map;
+		// infoFuncs_map.insert(std::make_pair("info", &Scene::printItems));
+		// infoFuncs_map.insert(std::make_pair("info", &Scene::printDescription));
+		// infoFuncs_map.insert(std::make_pair("info", &Scene::printPlayers));
+		// infoFuncs_map.insert(std::make_pair("info",&Scene::printExits));
 
 
-		//Objct ptr maps
+		// typedef void (Scene::*perform_fp)(std::string);
+		// std::map <std::string, perform_fp> actionFuncs_map;
+		// actionFuncs_map.insert(std::make_pair("go", &Scene::go));
+		// actionFuncs_map.insert(std::make_pair("pickup", &Scene::pickup));
+		// actionFuncs_map.insert(std::make_pair("drop", &Scene::drop));
+
+		typedef Scene* (Scene::*move_fp)(std::string);
+		std::map <std::string, move_fp> moveFunc_map;
+		moveFunc_map.insert(std::make_pair("go", &Scene::getExit));
+
+		typedef Item* (Scene::*pickup_fp)(std::string);
+		std::map <std::string, pickup_fp> pickupFunc_map;
+		pickupFunc_map.insert(std::make_pair("pickup", &Scene::getItem));
 
 		
 
+		// void Player::setItem(Item * i)
+		// Item * getItem(std::string item_name)(std::string);
+		//Objct ptr maps
+		// std::map<std::string, Test *> scene_map;
+		// testObj_map.insert(std::make_pair("s1", &s1))
 
 
+		// Creatin object pointer maps
+		cout << "----- REAL TEST-----" << endl << endl;
+
+
+		//The action loop
 		std::string a;
-		cout << "type item, scene, players or exits" << endl;
-		cin >> a;
+		std::string b;
+		Scene* current_scene_p = &s1;
+
+		while(1)
+		{
+			cout << endl << endl;
+			cout << "You are currently in" << endl;
+			current_scene_p->printDescription();
+			cout << "Inside this zone there are: " << endl;
+			current_scene_p->printPlayers();
+			current_scene_p->printItems();
+			current_scene_p->printExits();
+
+			cout << "What do you want to do?" << endl;
+			cout << "Options: 'go', 'pickup' or 'fight' (fight not yet implemented)" << endl;
+			cin >> a;
+
+			auto it_1 = moveFunc_map.find(a);
+			auto it_2 = pickupFunc_map.find(a);
+
+			//Change Zone
+			if(it_1 != moveFunc_map.end())
+			{
+				cout << string( 100, '\n' );
+				cout << "which direction would you like to go?" << endl;
+				cin >> b;
+				auto movingFunc_p = it_1 -> second;
+				auto temp_p = current_scene_p;
+				current_scene_p = (current_scene_p->*movingFunc_p)(b);
+				if(current_scene_p!= NULL)
+				{
+					current_scene_p-> setPlayer(&main_char);
+				}
+				else
+				{
+					cout << "There is no direction called: " << b << endl;
+					current_scene_p = temp_p;
+				}
+			}
+			else if(it_2 != pickupFunc_map.end())
+			{
+				cout << string( 100, '\n' );
+				cout << "What do you want to pick up?" << endl;
+				current_scene_p->printItems();
+				cin >> b;
+				auto pickupFunc_p = it_2->second;
+				auto item_ptr = (current_scene_p->*pickupFunc_p)(b);
+				if(item_ptr != NULL)
+				{
+					current_scene_p->removeItem(b);
+					main_char.setItem(item_ptr);
+					cout << "In your inventory" << endl;
+					main_char.printInventory();
+				}
+				else
+				{
+					cout << "There is no item with the name: " << b << endl;
+				}
+				//Den här behöver egentligen en item storages å pick up function
+			}
+
+			// Scene* curr_scene_ptr = &s1; 
+
+			
+			/* ska skriva ut infon när man kommer in i en ny zon
+				ska kolla vilken zon man e i
+				testa ad som händer om flera funs e kopplade till samma keyword
+				testa minings splittaren			
+			*/	
+		}
+
+		// if(it_1 != barFunc_map.end() && it_4 != barObj_map.end() )
+		// {
+		// 	auto barFunc_p = it_1->second;
+		// 	auto barObj_p = it_4->second;
+		// 	(barObj_p->*barFunc_p)("BAR!");
+		// }
+
+
 
 		// std::cout <<"on obj: " << endl;
 
-		//(s1.*sceneFunc_map)();		
+		//(s1.*infoFuncs_map)();		
 
 		// //Objct ptr maps
 
@@ -407,7 +507,7 @@ int main()
 	// {
 	// 	cin >> x;
 	// 	auto it_test = scene_map.find(x);
-	// 	// (s1->*scene_fp)();
+	// 	// (s1->*info_fp)();
 
 	// }	
 
