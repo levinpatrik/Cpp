@@ -30,7 +30,7 @@ Player * Scene::action()
 {
 	Player * tmp = NULL;
 
-	if(currentPlayer >= player_vec.size())
+	if(currentPlayer >= player_vec.size()-1)
 	{
 		currentPlayer = 0;
 	}
@@ -74,18 +74,30 @@ void Scene::printItems() const
 			(*it)->printDescription();
 		}
 	}
-	else{
+	else
+	{
 		std::cout << "There are no items on the ground" << std::endl; 
 	}		
 }
 
 void Scene::printPlayers() const
 {
-	for(auto it = player_vec.begin(); it != player_vec.end(); ++it)
+	if(player_vec.size() > 1)
 	{
-		auto p_p = *(it);
-		p_p->printName();
+		std::cout << "The following creatures are within this zone:" << std::endl;
+		for(auto it = player_vec.begin(); it != player_vec.end(); ++it)
+		{
+			auto p_p = *(it);
+			p_p->printName();	
+		}
 	}
+	else{
+		std::cout << "You are alone in the zone." << std::endl;
+	}	
+	// for(int i = 0; i <= (player_vec.size()-2); ++i)
+	// {
+	// 	player_vec[i]->printName();
+	// }
 }
 void Scene::printDescription() const
 {
@@ -214,6 +226,9 @@ Scene * Scene::getExit(std::string name)
 
 
 
-
+int Scene::getNumberOfPlayers()
+{
+	return player_vec.size();
+}
 
 

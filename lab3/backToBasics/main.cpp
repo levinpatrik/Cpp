@@ -7,6 +7,8 @@
 #include <string> 
 #include <sstream>
 
+#include <unistd.h>
+
 using namespace std;
 using namespace game;
 
@@ -329,11 +331,11 @@ int main()
 		
 		Item * i_p = &i1;
 
-		Player p1("Monster1",10,10);
-		Player p2("Monster2",10,10);
-		Player main_char("Player",10,10);	
-		Player p4("moster3",12,20);
-		Player p5("moster4",12,20);			
+		Player p1("Monster1",10,1);
+		Player p2("Monster2",10,1);
+		Player main_char("Player",30,10);	
+		Player p4("moster3",20,2);
+		Player p5("moster4",10,30);			
 		s1.setPlayer(&p1);
 		s1.setPlayer(&p2);
 		s1.setPlayer(&main_char);
@@ -347,6 +349,17 @@ int main()
 		s1.setExit("s", &s3);
 		s1.setExit("n", &s3);
 
+
+		s2.setExit("e", &s1);
+		s2.setExit("w", &s1);
+		s2.setExit("s", &s3);
+		s2.setExit("n", &s3);
+
+
+		s3.setExit("e", &s2);
+		s3.setExit("w", &s2);
+		s3.setExit("s", &s1);
+		s3.setExit("n", &s1);
 
 		
 		//Creating Function ptr maps
@@ -372,7 +385,10 @@ int main()
 		std::map <std::string, pickup_fp> pickupFunc_map;
 		pickupFunc_map.insert(std::make_pair("pickup", &Scene::getItem));
 
-		
+		typedef Player* (Scene::*target_fp)(std::string);
+		std::map <std::string, target_fp> targetFunc_map;
+		targetFunc_map.insert(std::make_pair("fight", &Scene::getPlayer)); 
+		// Player * getPlayer(std::string name);
 
 		// void Player::setItem(Item * i)
 		// Item * getItem(std::string item_name)(std::string);
@@ -389,65 +405,146 @@ int main()
 		std::string a;
 		std::string b;
 		Scene* current_scene_p = &s1;
+		bool done = false;
+		bool zone_change = false;
 
-		while(1)
+		cout << "You are currently in" << endl;
+		current_scene_p->printDescription();
+		current_scene_p->printPlayers();
+		current_scene_p->printItems();
+		current_scene_p->printExits();
+		while(main_char.getHp() > 0)
 		{
-			cout << endl << endl;
-			cout << "You are currently in" << endl;
-			current_scene_p->printDescription();
-			cout << "Inside this zone there are: " << endl;
-			current_scene_p->printPlayers();
-			current_scene_p->printItems();
-			current_scene_p->printExits();
+
 
 			cout << "What do you want to do?" << endl;
-			cout << "Options: 'go', 'pickup' or 'fight' (fight not yet implemented)" << endl;
+			cout << "Options: 'go', 'pickup' or 'fight'" << endl;
 			cin >> a;
-
 			auto it_1 = moveFunc_map.find(a);
 			auto it_2 = pickupFunc_map.find(a);
+			auto it_3 = targetFunc_map.find(a);
+			std::string exit_str =  "exit";
 
 			//Change Zone
 			if(it_1 != moveFunc_map.end())
 			{
+				done = false;
+				zone_change= false;
 				cout << string( 100, '\n' );
-				cout << "which direction would you like to go?" << endl;
-				cin >> b;
-				auto movingFunc_p = it_1 -> second;
-				auto temp_p = current_scene_p;
-				current_scene_p = (current_scene_p->*movingFunc_p)(b);
-				if(current_scene_p!= NULL)
+				while(done == false)
 				{
-					current_scene_p-> setPlayer(&main_char);
-				}
-				else
-				{
-					cout << "There is no direction called: " << b << endl;
-					current_scene_p = temp_p;
+					cout << "which direction would you like to go?" << endl;
+					cin >> b;
+					auto movingFunc_p = it_1 -> second;
+					auto temp_p = current_scene_p;
+					current_scene_p = (current_scene_p->*movingFunc_p)(b);
+					if(current_scene_p!= NULL)
+					{
+						current_scene_p-> setPlayer(&main_char);
+						done = true;
+						zone_change = true;
+						cout << endl << endl;
+						cout << "You are currently in" << endl;
+						current_scene_p->printDescription();
+						current_scene_p->printPlayers();
+						current_scene_p->printItems();
+						current_scene_p->printExits();
+					}
+					else if(b.compare(exit_str) == 0){
+						done = true;
+						current_scene_p = temp_p;
+					}
+					else
+					{
+						cout << "There is no direction called: " << b << endl;
+						cout << "Type 'exit' if you wish to go back to your original choices" << endl;
+						current_scene_p = temp_p;
+					}
+
 				}
 			}
 			else if(it_2 != pickupFunc_map.end())
 			{
+				done = false;
+				zone_change = false;
 				cout << string( 100, '\n' );
-				cout << "What do you want to pick up?" << endl;
-				current_scene_p->printItems();
-				cin >> b;
-				auto pickupFunc_p = it_2->second;
-				auto item_ptr = (current_scene_p->*pickupFunc_p)(b);
-				if(item_ptr != NULL)
+				while(done == false)
 				{
-					current_scene_p->removeItem(b);
-					main_char.setItem(item_ptr);
-					cout << "In your inventory" << endl;
-					main_char.printInventory();
-				}
-				else
-				{
-					cout << "There is no item with the name: " << b << endl;
-				}
-				//Den här behöver egentligen en item storages å pick up function
-			}
+					cout << "What do you want to pick up?" << endl;
+					current_scene_p->printItems();
+					cin >> b;
+					auto pickupFunc_p = it_2->second;
+					auto item_ptr = (current_scene_p->*pickupFunc_p)(b);
+					if(item_ptr != NULL) //if item exists
+					{
+						current_scene_p->removeItem(b); //remove it from scene
+						main_char.setItem(item_ptr);    //give item to main char
+						cout << "In your inventory" << endl;
+						main_char.printInventory();
+						done = true;
+					}
+					else if(b.compare(exit_str) == 0){
+						done = true;
+					}
+					else
+					{
+						cout << "There is no item with the name: " << b << endl;
+						cout << "Type 'exit' if you wish to go back to your original choices" << endl;
+					}
+				}	
 
+			}
+			else if(it_3 != targetFunc_map.end())
+			{
+				done = false;
+				zone_change = false;
+				cout << string( 100, '\n' );
+				while(done == false)
+				{
+					cout << "Who do you wish to attack?" << endl;
+					current_scene_p->printPlayers();
+					cin >> b;
+					auto tartgetFunc_p = it_3->second;
+					auto target_ptr = (current_scene_p->*tartgetFunc_p)(b);
+					if(target_ptr != NULL)
+					{
+						cout << b << " HP: " <<  target_ptr->getHp() << endl; 
+						main_char.attack(target_ptr);
+						cout << "You attack!" << endl;
+						cout << b << " HP: " <<  target_ptr->getHp() << endl;
+						done = true;
+						if(target_ptr->getHp() >= 0){
+							cout << "You killled " << b << endl;
+							current_scene_p->removePlayer(b);
+							// cout << "number of players in the zone = ";
+							// cout << current_scene_p->getNumberOfPlayers() << endl;
+						}
+					}
+					else if(b.compare(exit_str) == 0)
+					{
+						done = true;
+					}
+					else
+					{
+						cout << "There is no monster with the name: " << b << endl;
+						cout << "Type 'exit' if you wish to go back to your original choices" << endl;
+						cout << endl << endl;		
+					}
+				}
+
+			}
+			if(b.compare(exit_str) != 0 && zone_change ==false){
+				for(int i  = 0; i < (current_scene_p->getNumberOfPlayers()-1); ++i)
+				{
+					auto monster_p = current_scene_p->action();
+					cout << "Your current hp is: " << main_char.getHp() << endl;
+					cout << monster_p->getName() <<" attacks you" <<endl;
+					monster_p->attack(&main_char);
+					cout << "Your current hp is: " << main_char.getHp() << endl;
+				}
+
+			}
+			//left 2 implement  monsters attacking
 			// Scene* curr_scene_ptr = &s1; 
 
 			
@@ -458,6 +555,54 @@ int main()
 			*/	
 		}
 
+
+
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		cout << "             YOU HAVE DIED!" << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << "               GAME OVER! " << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
+		usleep(100000);
+		cout << endl;
 		// if(it_1 != barFunc_map.end() && it_4 != barObj_map.end() )
 		// {
 		// 	auto barFunc_p = it_1->second;

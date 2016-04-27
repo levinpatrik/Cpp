@@ -52,7 +52,8 @@ public:
 	Item * getItem(std::string item_name);				//Get item_name from item_vec
 	Player * getPlayer(std::string name);				//Get player from player_vec
 	Scene * getExit(std::string name);					//Get exit from exit_map
-	
+	int getNumberOfPlayers();							//Returns the number of players in the zone
+
 	//Removers
 	Item * removeItem(std::string item_name);			//Remove item_name from item_vec
 	Player * removePlayer(std::string name);			//Remove player from player_vec
