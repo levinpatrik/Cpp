@@ -9,8 +9,6 @@
 	  // -rename the functions get/set/remove
 	  //Make new structure: get-> returns obj,  set-> takes obj  print-> prints descriptions/variables
 
-
-
 namespace game
 {
 class Player
@@ -22,18 +20,22 @@ public:
 	~Player();
 
 	void attack(Player *);
+	void equip();
+	void unequip();
+	std::vector<Item *>  deathAction();
 
 	//Print
 	void printDescription() const;
 	void printName() const;
 	void printInventory() const ;
+	void printEquiped() const;
 
 	
 	//Getters
 	std::string getName() const ;
 	int getAtk();
 	int getHp();
-
+	Item * getItem(std::string);
 
 	//Setters
 	void setItem(Item * i);
@@ -41,7 +43,7 @@ public:
 	void setAtk(int atk);
 
 	//Removers
-	Item * removeItem(std::string item_name);
+	void removeItem(std::string item_name);
 
 	
 	void debug(std::string s)
@@ -55,6 +57,7 @@ protected:
 	int attackpower;
 	int nrOfItems;
 	std::vector<Item *> inventory;
+	std::vector<Item *> equiped;
 };
 }	//end namespace
 #endif

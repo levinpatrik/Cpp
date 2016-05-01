@@ -28,13 +28,15 @@ public:
 	//void pickup(Player * vem, Item * vad) -> vad finns i Scene?
 	//void drop(Player * vem, Item * vad)   ->
 
-	void go(std::string s);
-	void pickup(std::string s);
-	void drop(std::string s);
-
+	//Functionalliy
+	void go(std::string where);
+	void pickup();
+	void drop();
+	void fight();
+	
+	//Helper functions
+	void sceneUpdate();
 	Player * action();
-
-
 
 	//Prints
 	void printDescription() const;						//print description of the Scene 

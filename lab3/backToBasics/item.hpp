@@ -14,6 +14,7 @@ public:
 	Item();
 	Item(const Item &);
 	Item(std::string description_In, std::string name_In, int price_In);
+	Item(std::string description_In, std::string name_In, int price_In, int atk_In, int stamina_In);
 	~Item();
 
 
@@ -25,6 +26,8 @@ public:
 	std::string getDescription() const;	
 	std::string getName() const;
 	int getPrice() const;
+	int getAtk() const;
+	int getStamina() const;
 
 	//Setters
 	void debug(std::string s)
@@ -33,6 +36,8 @@ public:
 	}
 protected:
 	int price;
+	int atk;
+	int stamina;
 	std::string name;
 	std::string description;
 };

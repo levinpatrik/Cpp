@@ -26,29 +26,108 @@ Scene::~Scene()
 {
 	debug("DESTRUCTOR");
 }
-Player * Scene::action()
-{
-	Player * tmp = NULL;
 
-	if(currentPlayer >= player_vec.size()-1)
+
+
+//-------------------------------
+//------ HELPER FUNCTIONS  ------
+//-------------------------------
+
+void Scene::sceneUpdate()
+{
+	for(auto it = player_vec.begin(); it != player_vec.end(); ++it)
 	{
-		currentPlayer = 0;
+		if((*it)->getHp() <= 0)
+		{
+			auto dead_inventory = (*it)->deathAction();
+			for(auto it2 = dead_inventory.begin(); it2 != dead_inventory.end(); ++it2)
+			{
+				setItem(*it2);
+			}
+			removePlayer((*it)->getName());
+		}
 	}
 
-	tmp = player_vec[currentPlayer];
-	currentPlayer++;
-	return tmp;
+	currentPlayer = 0;
+	while(player_vec[currentPlayer]->getName().compare("Player") != 0)		//If its not Players turn
+	{
+		player_vec[currentPlayer]->attack(getPlayer("Player"));
+
+		if(currentPlayer < (player_vec.size() - 1) && player_vec.size() > 0)
+		{
+			currentPlayer++;
+		}
+		else
+		{
+			currentPlayer = 0;
+		}
+	}
+
+
 }
+
 
 //----------------------------
 //------ FUNCTIONALITY  ------
 //----------------------------
 
-void go(std::string s);
-void pickup(std::string s);
-void drop(std::string s);
-// Player * action();
+void Scene::go(std::string s)
+{
 
+}
+void Scene::pickup()
+{
+	std::string item_name;
+	std::cout << "You see ";
+	printItems();
+	std::cout << "What do you want to pick up?" << std::endl;
+	std::cin >> item_name;
+
+	auto player_p = player_vec[currentPlayer];
+	auto item_p = getItem(item_name);
+	if( item_p != NULL && player_p != NULL)
+	{
+		removeItem(item_name);
+		player_p->setItem(item_p);
+	}
+}
+
+void Scene::drop()
+{
+	auto player_p = player_vec[currentPlayer];
+	
+	std::string item_name;
+	std::cout << "You have ";
+	player_p->printInventory();
+	std::cout << " in your inventory. What do you want to pick up?" << std::endl;
+	std::cin >> item_name;
+
+	auto item_p = player_p->getItem(item_name);
+	if(item_p != NULL)
+	{
+		setItem(item_p);
+		player_p->removeItem(item_name);
+	}
+
+}
+
+void Scene::fight()
+{
+	std::cout << "You see ";
+	printPlayers();
+	std::cout << "Who do you want to fight? ";
+	std::string player_name;
+	std::cin >> player_name;
+
+	auto player_attacking = player_vec[currentPlayer];
+	auto player_attacked = getPlayer(player_name);
+	if(player_attacking != NULL && player_attacking != NULL)
+	{	
+		player_attacking->attack(player_attacked);
+		sceneUpdate();
+	}
+
+}
 
 
 
@@ -121,6 +200,7 @@ void Scene::setExit(std::string name, Scene* scene_p)
 void Scene::setPlayer(Player * p)
 {
 	player_vec.push_back(p);
+	currentPlayer = player_vec.size() - 1;		//Make the entering player the "active" one
 }
 
 

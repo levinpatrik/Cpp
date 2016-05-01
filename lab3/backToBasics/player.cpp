@@ -39,13 +39,72 @@ Player::~Player()
 //----------------------------
 void Player::attack(Player * p)
 {
-	auto player_hp = p->getHp();
-	p->setHp(player_hp - attackpower);
-
+	std::cout << name << " attacked " << p->getName() << std::endl;
+	auto player_hp_before = p->getHp();
+	auto player_hp_after = player_hp_before - attackpower;
+	std::cout << p->getName() << " went from " << player_hp_before << " to " << player_hp_after << " hp." << std::endl;
+	p->setHp(player_hp_after);
 }
 
 
+void Player::equip()
+{
+	std::string item_name;
+	std::cout << "You have ";
+	printInventory();
+	std::cout << " in your inventory. " << std::endl;
+	std::cout << "What do you want to equip?" << std::endl;
+	std::cin >> item_name;
 
+	auto i_p = getItem(item_name);
+	if(i_p != NULL)
+	{	
+		equiped.push_back(i_p);
+		attackpower += i_p->getAtk();
+		hp += i_p->getStamina();
+		removeItem(item_name);
+	}
+}
+
+void Player::unequip()
+{
+	std::string item_name;
+	std::cout << "You have ";
+	printEquiped();
+	std::cout << " equiped. " << std::endl;
+	std::cout << "What do you want to unequip?" << std::endl;
+	std::cin >> item_name;
+
+	Item * tmp = NULL;
+	for(auto it = equiped.begin(); it != equiped.end(); ++it)
+	{
+		if((*it)->getName() == item_name)
+		{
+			tmp = (*it);
+			equiped.erase(it);
+			inventory.push_back(tmp);
+			attackpower -= tmp->getAtk();
+			hp -= tmp->getStamina();
+		}
+	}
+}
+
+std::vector<Item *> Player::deathAction()
+{
+
+	std::cout << name << " was defeated!" << std::endl;
+	if(inventory.size() > 0)
+	{
+		std::cout <<" It droped ";
+		printInventory();
+	}
+	else
+	{
+		std::cout << "But dropped nothing!" << std::endl;
+	}
+
+	return inventory;
+}
 
 
 //----------------------------
@@ -72,7 +131,13 @@ void Player::printName() const
 	std::cout << name << std::endl;
 }
 
-
+void Player::printEquiped() const
+{
+	for(auto it = equiped.begin(); it != equiped.end(); ++it)
+	{
+		(*it)->printDescription();
+	}
+}
 
 
 //----------------------------
@@ -83,7 +148,7 @@ std::string Player::getName() const
 	return name;
 }
 
-Item * Player::removeItem(std::string item_name)
+void Player::removeItem(std::string item_name)
 {
 	Item * tmp = NULL;
 	if(nrOfItems > 0)
@@ -95,11 +160,9 @@ Item * Player::removeItem(std::string item_name)
 				tmp = (*it);
 				inventory.erase(it);
 				nrOfItems--;
-				return tmp;
 			}
 		}
 	}
-	return tmp;
 }
 
 int Player::getAtk()
@@ -110,6 +173,23 @@ int Player::getHp()
 {
 	return hp;
 
+}
+
+Item * Player::getItem(std::string item_name)
+{
+	Item * tmp = NULL;
+	if(nrOfItems > 0)
+	{
+		for(auto it = inventory.begin(); it != inventory.end(); ++it)
+		{
+			if((*it)->getName() == item_name)
+			{
+				tmp = (*it);
+				return tmp;
+			}
+		}
+	}
+	return tmp;
 }
 
 
