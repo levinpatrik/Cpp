@@ -325,11 +325,17 @@ int main()
 
 		Player p1("monster1",10,1);
 		Player p2("monster2",10,1);
+
+		Player p3("lootmonster", 10,1);
+		Item i4("test", "crown", 10, 3 , 1);
+		p3.setItem(&i4);
+
 		Player main_char("Player",30,10);	
 		Player p4("monster3",20,2);
 		Player p5("monster4",10,30);			
 		s1.setPlayer(&p1);
 		s1.setPlayer(&p2);
+		s1.setPlayer(&p3);
 		s1.setPlayer(&main_char);
 
 		s2.setPlayer(&p4);
@@ -379,17 +385,17 @@ int main()
 			auto s_it = scene_funcMap.find(a);
 			auto p_it = player_funcMap.find(a);
 
-			if(s_it != scene_funcMap.end())				//Function found
+			if(s_it != scene_funcMap.end())				//function found
 			{
 				auto s_fp = s_it->second; 				//points at correct function
-				(current_scene_p->*s_fp)();  //execvates the function
+				(current_scene_p->*s_fp)();  			//execute the function
 
 			}
 
-			else if(p_it != player_funcMap.end())		//Function found
+			else if(p_it != player_funcMap.end())		//function found
 			{
 				auto p_fp = p_it->second; 				//points at correct function
-				(main_char.*p_fp)();					//execvates the function
+				(main_char.*p_fp)();					//execute the function
 			}
 
 			else if(a.compare("go") != 0)
@@ -397,8 +403,7 @@ int main()
 
 			}
 		}
-
-
+		gameOver();
 	}
 
 

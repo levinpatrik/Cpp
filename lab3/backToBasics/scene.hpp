@@ -28,8 +28,9 @@ public:
 	//void pickup(Player * vem, Item * vad) -> vad finns i Scene?
 	//void drop(Player * vem, Item * vad)   ->
 
+
 	//Functionalliy
-	void go(std::string where);
+	Scene * go();
 	void pickup();
 	void drop();
 	void fight();
@@ -66,7 +67,7 @@ public:
 
 	void debug(std::string s)
 	{
-	//std::cout << s << std::endl;
+	 	std::cout << s << std::endl;
 	}
 protected:
 	int currentPlayer;

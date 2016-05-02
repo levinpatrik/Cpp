@@ -8,7 +8,7 @@ Player::Player()
 	attackpower = 0;
 	name = "-";
 	inventory = {};
-	nrOfItems = 0;
+	equiped = {};
 }
 Player::Player(std::string name_In, int hp_In, int attackpower_In)
 {
@@ -17,7 +17,7 @@ Player::Player(std::string name_In, int hp_In, int attackpower_In)
 	hp = hp_In;
 	attackpower = attackpower_In;
 	inventory = {};
-	nrOfItems = 0;
+	equiped = {};
 }
 
 Player::Player(const Player & c)
@@ -50,12 +50,9 @@ void Player::attack(Player * p)
 void Player::equip()
 {
 	std::string item_name;
-	std::cout << "You have ";
 	printInventory();
-	std::cout << " in your inventory. " << std::endl;
 	std::cout << "What do you want to equip?" << std::endl;
 	std::cin >> item_name;
-
 	auto i_p = getItem(item_name);
 	if(i_p != NULL)
 	{	
@@ -85,6 +82,7 @@ void Player::unequip()
 			inventory.push_back(tmp);
 			attackpower -= tmp->getAtk();
 			hp -= tmp->getStamina();
+			break;
 		}
 	}
 }
@@ -118,10 +116,17 @@ void Player::printDescription() const
 
 void Player::printInventory() const
 {
-	std::cout << "Number of item: " << nrOfItems << std::endl;
-	for(auto it = inventory.begin(); it != inventory.end(); ++it)
+	if(inventory.size() != 0)
 	{
-		(*it)->printDescription();
+		std::cout << "Number of item: " << inventory.size() << std::endl;
+		for(auto it = inventory.begin(); it != inventory.end(); ++it)
+		{
+			(*it)->printDescription();
+		}
+	}
+	else
+	{
+		std::cout << "You have no items in your inventory." << std::endl;
 	}
 
 }
@@ -151,16 +156,13 @@ std::string Player::getName() const
 void Player::removeItem(std::string item_name)
 {
 	Item * tmp = NULL;
-	if(nrOfItems > 0)
+	for(auto it = inventory.begin(); it != inventory.end(); ++it)
 	{
-		for(auto it = inventory.begin(); it != inventory.end(); ++it)
+		if((*it)->getName() == item_name)
 		{
-			if((*it)->getName() == item_name)
-			{
-				tmp = (*it);
-				inventory.erase(it);
-				nrOfItems--;
-			}
+			tmp = (*it);
+			inventory.erase(it);
+			break;
 		}
 	}
 }
@@ -178,15 +180,12 @@ int Player::getHp()
 Item * Player::getItem(std::string item_name)
 {
 	Item * tmp = NULL;
-	if(nrOfItems > 0)
+	for(auto it = inventory.begin(); it != inventory.end(); ++it)
 	{
-		for(auto it = inventory.begin(); it != inventory.end(); ++it)
+		if((*it)->getName() == item_name)
 		{
-			if((*it)->getName() == item_name)
-			{
-				tmp = (*it);
-				return tmp;
-			}
+			tmp = (*it);
+			return tmp;
 		}
 	}
 	return tmp;
@@ -200,7 +199,6 @@ Item * Player::getItem(std::string item_name)
 void Player::setItem(Item * i)
 {
 	inventory.push_back(i);
-	nrOfItems++;
 }
 
 void Player::setAtk(int atk)

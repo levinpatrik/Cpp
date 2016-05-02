@@ -71,18 +71,24 @@ void Scene::sceneUpdate()
 //------ FUNCTIONALITY  ------
 //----------------------------
 
-void Scene::go(std::string s)
+Scene * Scene::go()
 {
+	printExits();
+	std::cout << "Where would you like to go?" << std::endl;
+	std::string direction;
+	std::cin >> direction;
 
+	getExit(direction);
+
+	Scene * tmp;
+	return tmp;
 }
 void Scene::pickup()
 {
 	std::string item_name;
-	std::cout << "You see ";
 	printItems();
 	std::cout << "What do you want to pick up?" << std::endl;
 	std::cin >> item_name;
-
 	auto player_p = player_vec[currentPlayer];
 	auto item_p = getItem(item_name);
 	if( item_p != NULL && player_p != NULL)
@@ -94,12 +100,10 @@ void Scene::pickup()
 
 void Scene::drop()
 {
-	auto player_p = player_vec[currentPlayer];
-	
+	auto player_p = player_vec[currentPlayer];	
 	std::string item_name;
-	std::cout << "You have ";
 	player_p->printInventory();
-	std::cout << " in your inventory. What do you want to pick up?" << std::endl;
+	std::cout << "in your inventory. What do you want to drop?" << std::endl;
 	std::cin >> item_name;
 
 	auto item_p = player_p->getItem(item_name);
@@ -136,10 +140,17 @@ void Scene::fight()
 //----------------------------
 void Scene::printExits() const
 {
-	std::cout << "You see " << exits_map.size() << " exits." << std::endl;
-	for(auto it = exits_map.begin(); it != exits_map.end(); ++it)
+	if(exits_map.size() > 0)
 	{
-		it->second->printDescription();
+		std::cout << "You see " << exits_map.size() << " exits." << std::endl;
+		for(auto it = exits_map.begin(); it != exits_map.end(); ++it)
+		{
+			it->second->printDescription();
+		}
+	}
+	else
+	{
+		std::cout << "There are no exits." << std::endl;
 	}
 
 }
@@ -148,6 +159,7 @@ void Scene::printItems() const
 {
 	if(item_vec.begin() != item_vec.end())
 	{
+		std::cout << "You look around and see " << std::endl;
 		for(auto it = item_vec.begin(); it != item_vec.end(); ++it)
 		{
 			(*it)->printDescription();
@@ -237,7 +249,6 @@ Item * Scene::removeItem(std::string item_name)
 			return tmp;
 		}
 	}
-
 	return tmp;
 }
 
