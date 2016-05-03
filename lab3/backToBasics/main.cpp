@@ -342,22 +342,22 @@ int main()
 		s2.setPlayer(&p5);
 		s2.setItem(&i3);
 
-		s1.setExit("e", &s2);
-		s1.setExit("w", &s2);
-		s1.setExit("s", &s3);
-		s1.setExit("n", &s3);
+		s1.setExit("east", &s2);
+		s1.setExit("west", &s2);
+		s1.setExit("south", &s3);
+		s1.setExit("north", &s3);
 
 
-		s2.setExit("e", &s1);
-		s2.setExit("w", &s1);
-		s2.setExit("s", &s3);
-		s2.setExit("n", &s3);
+		s2.setExit("east", &s1);
+		s2.setExit("west", &s1);
+		s2.setExit("south", &s3);
+		s2.setExit("north", &s3);
 
 
-		s3.setExit("e", &s2);
-		s3.setExit("w", &s2);
-		s3.setExit("s", &s1);
-		s3.setExit("n", &s1);
+		s3.setExit("east", &s2);
+		s3.setExit("west", &s2);
+		s3.setExit("south", &s1);
+		s3.setExit("north", &s1);
 
 
 		//--- Insert all function pointers in Player and Scene map --- 
@@ -376,6 +376,10 @@ int main()
 
 		std::string a;
 		auto current_scene_p = &s1;
+		current_scene_p->printDescription();
+		current_scene_p->printPlayers();
+		current_scene_p->printItems();
+		current_scene_p->printExits();
 		while(main_char.getHp() > 0)
 		{
 
@@ -387,6 +391,7 @@ int main()
 
 			if(s_it != scene_funcMap.end())				//function found
 			{
+				cout << string( 100, '\n' );
 				auto s_fp = s_it->second; 				//points at correct function
 				(current_scene_p->*s_fp)();  			//execute the function
 
@@ -394,13 +399,24 @@ int main()
 
 			else if(p_it != player_funcMap.end())		//function found
 			{
+				cout << string( 100, '\n' );
 				auto p_fp = p_it->second; 				//points at correct function
 				(main_char.*p_fp)();					//execute the function
 			}
 
-			else if(a.compare("go") != 0)
+			else if(a.compare("go") == 0)
 			{
-
+				cout << string( 100, '\n' );
+				current_scene_p = current_scene_p->go();
+				cout << string( 100, '\n' );
+				current_scene_p->printDescription();
+				current_scene_p->printPlayers();
+				current_scene_p->printItems();
+				current_scene_p->printExits();
+			}
+			else
+			{
+				cout << "'"<< a <<"' is not a valid option" << endl;
 			}
 		}
 		gameOver();
@@ -802,46 +818,15 @@ void gameOver()
 		usleep(100000);
 		cout << endl;
 		cout << "             YOU HAVE DIED!" << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
+		for(uint i = 0; i < 20 ; i++){
+			usleep(100000);
+			cout << endl;
+		}
+
 		cout << "               GAME OVER! " << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
-		usleep(100000);
-		cout << endl;
+		for(uint i = 0; i < 20 ; i++){
+			usleep(100000);
+			cout << endl;
+		}
+
 }
