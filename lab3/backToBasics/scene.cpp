@@ -85,6 +85,26 @@ Scene * Scene::go()
 		}
 	}
 	return tmp;
+	std::cin >> direction;
+
+	auto player_name = player_vec[currentPlayer]->getName();
+	auto s_p = getExit(direction);
+	if(s_p == NULL)
+	{	
+		std::cout << "You can not go there." << std::endl;
+		return NULL;
+	}
+	else
+	{
+		auto player_p = getPlayer(player_name);
+		removePlayer(player_name);
+		s_p->setPlayer(player_p);
+		std::cout << "You just entered ";
+		s_p->printDescription();
+		std::cout << "." << std::endl;
+		return s_p;
+	}
+
 }
 void Scene::pickup()
 {
@@ -107,7 +127,7 @@ void Scene::drop()
 	auto player_p = player_vec[currentPlayer];	
 	std::string item_name;
 	player_p->printInventory();
-	std::cout << "in your inventory. What do you want to drop?" << std::endl;
+	std::cout << "What do you want to drop?" << std::endl;
 	std::cin >> item_name;
 
 	auto item_p = player_p->getItem(item_name);
@@ -121,7 +141,6 @@ void Scene::drop()
 
 void Scene::fight()
 {
-	std::cout << "You see ";
 	printPlayers();
 	std::cout << "Who do you want to fight? ";
 	std::string player_name;
@@ -129,10 +148,14 @@ void Scene::fight()
 
 	auto player_attacking = player_vec[currentPlayer];
 	auto player_attacked = getPlayer(player_name);
-	if(player_attacking != NULL && player_attacking != NULL)
+	if(player_attacking != NULL && player_attacked != NULL)
 	{	
 		player_attacking->attack(player_attacked);
 		sceneUpdate();
+	}
+	else
+	{
+		std::cout << "There is no one named " << player_name << " to attack." << std::endl;
 	}
 
 }
@@ -151,6 +174,7 @@ void Scene::printExits() const
 		{
 			std::cout << "To the " << it->first << " you see "; 
 			it->second->printDescription();
+			std::cout << " to the " << it->first << std::endl;
 		}
 	}
 	else
@@ -197,7 +221,7 @@ void Scene::printPlayers() const
 }
 void Scene::printDescription() const
 {
-	std::cout << description << std::endl;
+	std::cout << description;
 }
 
 

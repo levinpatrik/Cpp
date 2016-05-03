@@ -303,62 +303,126 @@ int main()
 	// 	}
 	// }
 
+	// cout << "------	REAL GAME TEST ------	" << endl;
+	// {
 
 
-	cout << "------	REAL GAME TEST ------	" << endl;
-	{
+	// 	//---  CONSTRUCT ALL OBJECTS ---
+	// 	Scene s1("Starting zone");
+	// 	Scene s2("artic tundra");
+	// 	Scene s3("A beach");
 
-		//---  CONSTRUCT ALL OBJECTS ---
-		Scene s1("Starting zone");
-		Scene s2("artic tundra");
-		Scene s3("A beach");
-
-		Item i1;
-		Item i2("It looks rusty", "sword", 10, 3 , 1);
-		Item i3("Its a crappy hat", "hat", 2, 0, 2);
+	// 	Item i1;
+	// 	Item i2("It looks rusty", "sword", 10, 3 , 1);
+	// 	Item i3("Its a crappy hat", "hat", 2, 0, 2);
 	
 
-		//---  BUILD THE MAP  ---
-		s1.setItem(&i2);
+	// 	//---  BUILD THE MAP  ---
+	// 	s1.setItem(&i2);
 		
-		Item * i_p = &i1;
+	// 	Player p1("monster1",10,1);
+	// 	Player p2("monster2",10,1);
 
-		Player p1("monster1",10,1);
-		Player p2("monster2",10,1);
+	// 	Player p3("lootmonster", 10,1);
+	// 	Item i4("test", "crown", 10, 3 , 1);
+	// 	p3.setItem(&i4);
 
-		Player p3("lootmonster", 10,1);
-		Item i4("test", "crown", 10, 3 , 1);
-		p3.setItem(&i4);
+	// 	Player main_char("Player",30,10);	
+	// 	Player p4("monster3",20,2);
+	// 	Player p5("monster4",10,30);			
+	// 	s1.setPlayer(&p1);
+	// 	s1.setPlayer(&p2);
+	// 	s1.setPlayer(&p3);
+	// 	s1.setPlayer(&main_char);
 
-		Player main_char("Player",30,10);	
-		Player p4("monster3",20,2);
-		Player p5("monster4",10,30);			
-		s1.setPlayer(&p1);
-		s1.setPlayer(&p2);
-		s1.setPlayer(&p3);
+	// 	s2.setPlayer(&p4);
+	// 	s2.setPlayer(&p5);
+	// 	s2.setItem(&i3);
+
+	// 	s1.setExit("e", &s2);
+	// 	s1.setExit("w", &s2);
+	// 	s1.setExit("s", &s3);
+	// 	s1.setExit("n", &s3);
+
+
+	// s1.setExit("east", &s2);
+	// s1.setExit("west", &s2);
+	// s1.setExit("south", &s3);
+	// s1.setExit("north", &s3);
+
+
+	// 	s2.setExit("e", &s1);
+	// 	s2.setExit("w", &s1);
+	// 	s2.setExit("s", &s3);
+	// 	s2.setExit("n", &s3);
+
+
+	// 	s3.setExit("e", &s2);
+	// 	s3.setExit("w", &s2);
+	// 	s3.setExit("s", &s1);
+	// 	s3.setExit("n", &s1);
+
+	// }
+
+
+
+	cout << "------	A MAP ------	" << endl;
+	{
+		//---  CONSTRUCT ALL SCENES ---
+		Scene s1("Starting zone");
+		Scene b1("beach1");
+		Scene b2("beach2");
+		Scene b3("beach3");
+		Scene c("cave");
+		Scene h("house");
+
+
+		//---  CONSTRUCT ALL ITEMS ---
+		Item cup("It can be used as a 'hat'..", "cup", 0, 0, 1);
+		Item sword("It looks rusty", "sword", 10, 3 , 0);
+		Item shell("It can be used as a shield", "shell", 10, 0 , 3);
+		Item hat("Its dajm ugly", "hat",0,0,0);
+		Item trophy("It means you're done!","trophy",100,0,0);
+
+
+		//---  CONSTRUCT ALL PLAYERS ---
+		Player main_char("Player",4,2);
+		Player crab("crab",4,2);
+		Player rat1("rat1",1,1);
+		Player rat2("rat2",1,1);
+		Player boss("big-ass-boss", 5,5);
+
+
+		//---  LINK ALL SCENES ---
+		s1.setExit("north",&b1);
+
+		b1.setExit("south",&s1);
+		b1.setExit("east",&b2);
+
+		b2.setExit("west",&b1);
+		b2.setExit("east",&h);
+		b2.setExit("north",&b3);
+
+		h.setExit("west", &b2);
+
+		b3.setExit("north",&c);
+
+
+
+		//---  SET ALL PLAYERS ---
 		s1.setPlayer(&main_char);
-
-		s2.setPlayer(&p4);
-		s2.setPlayer(&p5);
-		s2.setItem(&i3);
-
-		s1.setExit("east", &s2);
-		s1.setExit("west", &s2);
-		s1.setExit("south", &s3);
-		s1.setExit("north", &s3);
+		b1.setPlayer(&crab);
+		b2.setPlayer(&rat1);
+		b2.setPlayer(&rat2);
+		c.setPlayer(&boss);
 
 
-		s2.setExit("east", &s1);
-		s2.setExit("west", &s1);
-		s2.setExit("south", &s3);
-		s2.setExit("north", &s3);
-
-
-		s3.setExit("east", &s2);
-		s3.setExit("west", &s2);
-		s3.setExit("south", &s1);
-		s3.setExit("north", &s1);
-
+		//---  SET ALL ITEMS ---
+		s1.setItem(&cup);
+		crab.setItem(&shell);
+		h.setItem(&sword);
+		h.setItem(&hat);
+		boss.setItem(&trophy);
 
 		//--- Insert all function pointers in Player and Scene map --- 
 		typedef void (Scene::*scene_funcs)();
@@ -417,6 +481,11 @@ int main()
 			else
 			{
 				cout << "'"<< a <<"' is not a valid option" << endl;
+				auto tmp_scene_p = current_scene_p->go();
+				if(tmp_scene_p != NULL)
+				{
+					current_scene_p = tmp_scene_p;
+				}
 			}
 		}
 		gameOver();

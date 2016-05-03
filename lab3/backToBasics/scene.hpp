@@ -23,12 +23,6 @@ public:
 	Scene(std::string description_In);
 	~Scene();
 
-
-	//void go(Player * vem, direction var)
-	//void pickup(Player * vem, Item * vad) -> vad finns i Scene?
-	//void drop(Player * vem, Item * vad)   ->
-
-
 	//Functionalliy
 	Scene * go();
 	void pickup();
@@ -67,7 +61,7 @@ public:
 
 	void debug(std::string s)
 	{
-	 	std::cout << s << std::endl;
+	 	//std::cout << s << std::endl;
 	}
 protected:
 	int currentPlayer;
