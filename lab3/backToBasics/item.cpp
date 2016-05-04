@@ -51,7 +51,7 @@ Item::~Item()
 //----------------------------
 void Item::printDescription()
 {
-	std::cout << "You see a: " << name << std::endl;
+	std::cout <<"a " << name << "." << std::endl;
 	std::cout << description << std::endl;
 	std::cout << "It is worth: " << price << std::endl;
 	std::cout << "It has " << atk << " attackpower and " << stamina << " stamina."<< std::endl;

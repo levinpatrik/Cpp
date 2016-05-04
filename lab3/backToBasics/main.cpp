@@ -369,7 +369,7 @@ int main()
 	cout << "------	A MAP ------	" << endl;
 	{
 		//---  CONSTRUCT ALL SCENES ---
-		Scene s1("Starting zone");
+		Scene s1("Startzone");
 		Scene b1("beach1");
 		Scene b2("beach2");
 		Scene b3("beach3");
@@ -440,7 +440,9 @@ int main()
 
 		std::string a;
 		auto current_scene_p = &s1;
+		cout << "You are in ";
 		current_scene_p->printDescription();
+		cout << "." << endl;
 		current_scene_p->printPlayers();
 		current_scene_p->printItems();
 		current_scene_p->printExits();
@@ -471,12 +473,17 @@ int main()
 			else if(a.compare("go") == 0)
 			{
 				cout << string( 100, '\n' );
-				current_scene_p = current_scene_p->go();
-				cout << string( 100, '\n' );
-				current_scene_p->printDescription();
-				current_scene_p->printPlayers();
-				current_scene_p->printItems();
-				current_scene_p->printExits();
+				auto tmpS_p = current_scene_p->go();
+				if(tmpS_p != NULL)
+				{
+					current_scene_p = tmpS_p;
+					cout << string( 100, '\n' );
+					cout << "You are in ";
+					current_scene_p->printDescription();
+					current_scene_p->printPlayers();
+					current_scene_p->printItems();
+					current_scene_p->printExits();
+				}
 			}
 			else
 			{

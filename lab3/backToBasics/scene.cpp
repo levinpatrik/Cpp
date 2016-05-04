@@ -74,20 +74,10 @@ void Scene::sceneUpdate()
 Scene * Scene::go()
 {
 	printExits();
+	std::cout << "Where would you like to go?" << std::endl;
 	std::string direction;
-	Scene* tmp =NULL;
-	while(tmp == NULL){
-		std::cout << "Where would you like to go?" << std::endl;
-		std::cin >> direction;
-		tmp = getExit(direction);
-		if(tmp == NULL){
-			std::cout << direction << " is not a valid direction, please try again" << std::endl; 
-		}
-	}
-	return tmp;
 	std::cin >> direction;
 
-	auto player_name = player_vec[currentPlayer]->getName();
 	auto s_p = getExit(direction);
 	if(s_p == NULL)
 	{	
@@ -96,6 +86,7 @@ Scene * Scene::go()
 	}
 	else
 	{
+		auto player_name = player_vec[currentPlayer]->getName();
 		auto player_p = getPlayer(player_name);
 		removePlayer(player_name);
 		s_p->setPlayer(player_p);
@@ -116,7 +107,6 @@ void Scene::pickup()
 	auto item_p = getItem(item_name);
 	if( item_p != NULL && player_p != NULL)
 	{
-		
 		removeItem(item_name);
 		player_p->setItem(item_p);
 	}
@@ -142,6 +132,10 @@ void Scene::drop()
 void Scene::fight()
 {
 	printPlayers();
+	if(player_vec.size() != 1)
+	{
+
+
 	std::cout << "Who do you want to fight? ";
 	std::string player_name;
 	std::cin >> player_name;
@@ -156,6 +150,7 @@ void Scene::fight()
 	else
 	{
 		std::cout << "There is no one named " << player_name << " to attack." << std::endl;
+	}
 	}
 
 }
@@ -172,7 +167,6 @@ void Scene::printExits() const
 		std::cout << "You see " << exits_map.size() << " exits." << std::endl;
 		for(auto it = exits_map.begin(); it != exits_map.end(); ++it)
 		{
-			std::cout << "To the " << it->first << " you see "; 
 			it->second->printDescription();
 			std::cout << " to the " << it->first << std::endl;
 		}
@@ -221,7 +215,7 @@ void Scene::printPlayers() const
 }
 void Scene::printDescription() const
 {
-	std::cout << description;
+	std::cout  << description;
 }
 
 
