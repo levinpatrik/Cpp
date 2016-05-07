@@ -155,10 +155,12 @@ int main()
 		Player rat1("rat1",1,1);
 		Player rat2("rat2",1,1);
 		Player boss("big-ass-boss", 5,5);
-		Human test("test",4,1);
+		Human pelle("pelle",4,1);
+		Animal orm("ormen",1,1);
 
 		//BASECLASS POINTER
-		Player * player_p = &test;
+		Player * player_p1 = &pelle;
+		Player * player_p2 = &orm;
 
 
 		//---  LINK ALL SCENES ---
@@ -178,7 +180,8 @@ int main()
 
 
 		//---  SET ALL PLAYERS ---
-		s1.setPlayer(player_p);
+		s1.setPlayer(player_p1);
+		s1.setPlayer(player_p2);
 		s1.setPlayer(&main_char);
 		b1.setPlayer(&crab);
 		b2.setPlayer(&rat1);
