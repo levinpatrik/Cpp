@@ -6,6 +6,7 @@
 #include <map>
 
 #include "player.hpp"
+#include "human.hpp"
 #include "item.hpp"
 
 

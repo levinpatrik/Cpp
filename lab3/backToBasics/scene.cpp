@@ -131,17 +131,19 @@ void Scene::drop()
 
 void Scene::fight()
 {
-	printPlayers();
 	if(player_vec.size() != 1)
 	{
-
-
-	std::cout << "Who do you want to fight? ";
-	std::string player_name;
-	std::cin >> player_name;
-
-	auto player_attacking = player_vec[currentPlayer];
-	auto player_attacked = getPlayer(player_name);
+		printPlayers();
+		std::cout << "Who do you want to fight? ";
+		std::string player_name;
+		std::cin >> player_name;
+		if(player_name == "Player")
+		{
+			std::cout << "It would be stupid to fight yourself..." << std::endl;
+			return;
+		}
+		auto player_attacking = player_vec[currentPlayer];
+		auto player_attacked = getPlayer(player_name);
 	if(player_attacking != NULL && player_attacked != NULL)
 	{	
 		player_attacking->attack(player_attacked);
@@ -199,7 +201,7 @@ void Scene::printPlayers() const
 	if(player_vec.size() > 1)
 	{
 		std::cout << "The following creatures are within this zone:" << std::endl;
-		for(auto it = player_vec.begin(); it != player_vec.end(); ++it)
+		for(auto it = player_vec.begin(); it != (player_vec.end()-1); ++it)
 		{
 			auto p_p = *(it);
 			p_p->printName();	
@@ -340,9 +342,9 @@ Scene * Scene::getExit(std::string name)
 
 
 
-int Scene::getNumberOfPlayers()
-{
-	return player_vec.size();
-}
+// int Scene::getNumberOfPlayers()
+// {
+// 	return player_vec.size();
+// }
 
 

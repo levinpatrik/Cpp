@@ -10,6 +10,7 @@ Player::Player()
 	inventory = {};
 	equiped = {};
 }
+
 Player::Player(std::string name_In, int hp_In, int attackpower_In)
 {
 	debug("PLAYER SELF-");
@@ -35,10 +36,11 @@ Player::~Player()
 }
 
 //----------------------------
-//------ 	ACTIONS		------
+//------ FUNTIONALLITY  ------
 //----------------------------
 void Player::attack(Player * p)
 {
+	debug("Player attack");
 	std::cout << name << " attacked " << p->getName() << std::endl;
 	auto player_hp_before = p->getHp();
 	auto player_hp_after = player_hp_before - attackpower;

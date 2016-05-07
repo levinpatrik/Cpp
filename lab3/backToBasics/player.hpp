@@ -5,9 +5,6 @@
 #include <iostream>
 #include "item.hpp"
 
-// TODO: -make getters return 
-	  // -rename the functions get/set/remove
-	  //Make new structure: get-> returns obj,  set-> takes obj  print-> prints descriptions/variables
 
 namespace game
 {
@@ -17,12 +14,12 @@ public:
 	Player();
 	Player(std::string name_In, int hp_In, int attackpower_In);
 	Player(const Player &);
-	~Player();
+	virtual ~Player();
 
-	void attack(Player *);
-	void equip();
-	void unequip();
-	std::vector<Item *>  deathAction();
+	virtual void attack(Player *);
+	virtual void equip();
+	virtual void unequip();
+	virtual std::vector<Item *>  deathAction();
 
 	//Print
 	void printDescription() const;
@@ -48,7 +45,7 @@ public:
 	
 	void debug(std::string s)
 	{
-		//std::cout << s << std::endl;
+		std::cout << s << std::endl;
 	}
 
 protected:
