@@ -1,4 +1,4 @@
-#include "Animal.hpp"
+#include "animal.hpp"
 
 //----------------------------
 //------ CONSTRUCTORS  ------
