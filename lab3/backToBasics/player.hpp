@@ -46,7 +46,7 @@ public:
 	
 	void debug(std::string s)
 	{
-		std::cout << s << std::endl;
+		// std::cout << s << std::endl;
 	}
 
 protected:

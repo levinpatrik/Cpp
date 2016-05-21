@@ -1,5 +1,6 @@
 #include "player.hpp"
-#include "scene.hpp"
+#include "cave.hpp"
+#include "boat.hpp"
 #include "item.hpp"
 
 //Virtual classes
@@ -94,41 +95,41 @@ std::vector<std::string> split(const std::string &s, char delim) {
 int main()
 {
 	cout << "MAIN" << endl;
-	cout << "------	VIRTUAL TEST ------	" << endl;
-	{
-		Human h1;
-		Player * h1_pp = &h1;
-		Human h2;
-		Player * h2_pp = &h2;
+	// cout << "------	VIRTUAL TEST ------	" << endl;
+	// {
+	// 	Human h1;
+	// 	Player * h1_pp = &h1;
+	// 	Human h2;
+	// 	Player * h2_pp = &h2;
 
-		Player p;
-		Player * p_p = &p;
+	// 	Player p;
+	// 	Player * p_p = &p;
 
-		// Animal a;
-		// Player * c_p2 = &a;
+	// 	// Animal a;
+	// 	// Player * c_p2 = &a;
 
-		//ATTACK
-		{
+	// 	//ATTACK
+	// 	{
 
-			p_p->attack(&h1);
-			h1_pp->attack(&h2);
-			h2_pp->attack(&h1);
-		}
+	// 		p_p->attack(&h1);
+	// 		h1_pp->attack(&h2);
+	// 		h2_pp->attack(&h1);
+	// 	}
 
-		// //DEATHACTION
-		// {
-		// 	c_p1->deathAction();
-		// 	c_p2->deathAction();
-		// }
+	// 	// //DEATHACTION
+	// 	// {
+	// 	// 	c_p1->deathAction();
+	// 	// 	c_p2->deathAction();
+	// 	// }
 
-		// //EQUIP & UNEQUIP
-		// {	
-		// 	Item i("a test item","test", 1,1,1);
-		// 	c_p1->setItem(&i);
-		// 	c_p1->equip();
-		// 	c_p1->unequip();
-		// }
-	}
+	// 	// //EQUIP & UNEQUIP
+	// 	// {	
+	// 	// 	Item i("a test item","test", 1,1,1);
+	// 	// 	c_p1->setItem(&i);
+	// 	// 	c_p1->equip();
+	// 	// 	c_p1->unequip();
+	// 	// }
+	// }
 
 	cout << "------	A MAP ------	" << endl;
 	{
@@ -136,17 +137,19 @@ int main()
 		Scene s1("Startzone");
 		Scene b1("beach1");
 		Scene b2("beach2");
-		Scene b3("beach3");
-		Scene c("cave");
 		Scene h("house");
+		Scene h2("shed");
+		Cave cave("cave");
+		Boat boat("boat");
+
 
 
 		//---  CONSTRUCT ALL ITEMS ---
-		Item cup("It can be used as a 'hat'..", "cup", 0, 0, 1);
 		Item sword("It looks rusty", "sword", 10, 3 , 0);
 		Item shell("It can be used as a shield", "shell", 10, 0 , 3);
-		Item hat("Its dajm ugly", "hat",0,0,0);
-		Item trophy("It means you're done!","trophy",100,0,0);
+		Item hat("It's quite ugly..", "hat",0,0,0);
+		Item lamp("This might be usefull later on.. ","lamp",0,0,0);
+		Item key("A golden key! ","key",0,0,0);
 
 
 		//---  CONSTRUCT ALL PLAYERS ---
@@ -154,7 +157,7 @@ int main()
 		Player crab("crab",4,2);
 		Player rat1("rat1",1,1);
 		Player rat2("rat2",1,1);
-		Player boss("big-ass-boss", 5,5);
+		Player boss("Boss", 10,1);
 		Human pelle("pelle",4,1);
 		Animal orm("ormen",1,1);
 
@@ -168,14 +171,20 @@ int main()
 
 		b1.setExit("south",&s1);
 		b1.setExit("east",&b2);
+		b1.setExit("west", &h2);
+
+		h2.setExit("east", &b1);
 
 		b2.setExit("west",&b1);
 		b2.setExit("east",&h);
-		b2.setExit("north",&b3);
+		b2.setExit("north", &cave);
 
 		h.setExit("west", &b2);
 
-		b3.setExit("north",&c);
+		cave.setExit("south", &b2);
+		cave.setExit("north", &boat);
+
+
 
 
 
@@ -186,15 +195,15 @@ int main()
 		b1.setPlayer(&crab);
 		b2.setPlayer(&rat1);
 		b2.setPlayer(&rat2);
-		c.setPlayer(&boss);
+		cave.setPlayer(&boss);
 
 
 		//---  SET ALL ITEMS ---
-		s1.setItem(&cup);
 		crab.setItem(&shell);
+		boss.setItem(&key);
 		h.setItem(&sword);
 		h.setItem(&hat);
-		boss.setItem(&trophy);
+		h2.setItem(&lamp);
 
 		//--- Insert all function pointers in Player and Scene map --- 
 		typedef void (Scene::*scene_funcs)();
@@ -210,6 +219,12 @@ int main()
 		player_funcMap.insert(std::make_pair("unequip", &Player::unequip));
 
 
+		cout << string( 100, '\n' );
+		cout << "You are stranded on a mysterious island." << endl;
+		cout << "There seems to be a lot of wildlife near by." << endl;
+		cout << "You need to figure out a way to get of the island!" << endl;
+		cout << endl;
+
 		std::string a;
 		auto current_scene_p = &s1;
 		cout << "You are in ";
@@ -218,6 +233,11 @@ int main()
 		current_scene_p->printPlayers();
 		current_scene_p->printItems();
 		current_scene_p->printExits();
+
+
+
+
+
 		while(main_char.getHp() > 0)
 		{
 
@@ -229,7 +249,6 @@ int main()
 
 			if(s_it != scene_funcMap.end())				//function found
 			{
-				cout << string( 100, '\n' );
 				auto s_fp = s_it->second; 				//points at correct function
 				(current_scene_p->*s_fp)();  			//execute the function
 
@@ -237,21 +256,17 @@ int main()
 
 			else if(p_it != player_funcMap.end())		//function found
 			{
-				cout << string( 100, '\n' );
 				auto p_fp = p_it->second; 				//points at correct function
 				(main_char.*p_fp)();					//execute the function
 			}
 
 			else if(a.compare("go") == 0)
 			{
-				cout << string( 100, '\n' );
 				auto tmpS_p = current_scene_p->go();
 				if(tmpS_p != NULL)
 				{
 					current_scene_p = tmpS_p;
-					cout << string( 100, '\n' );
-					cout << "You are in ";
-					current_scene_p->printDescription();
+					cout << endl;
 					current_scene_p->printPlayers();
 					current_scene_p->printItems();
 					current_scene_p->printExits();

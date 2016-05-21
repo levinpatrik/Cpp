@@ -22,7 +22,7 @@ public:
 	Scene();
 	Scene(const Scene &);
 	Scene(std::string description_In);
-	~Scene();
+	virtual ~Scene();
 
 	//Functionalliy
 	Scene * go();
@@ -33,6 +33,7 @@ public:
 	//Helper functions
 	void sceneUpdate();
 	Player * action();
+	virtual bool entryRequirments(Player *) const {return 1;}
 
 	//Prints
 	void printDescription() const;						//print description of the Scene 

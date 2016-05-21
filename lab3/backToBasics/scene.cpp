@@ -77,17 +77,18 @@ Scene * Scene::go()
 	std::cout << "Where would you like to go?" << std::endl;
 	std::string direction;
 	std::cin >> direction;
+	std::cout << std::string( 100, '\n' );
 
 	auto s_p = getExit(direction);
+	auto player_name = player_vec[currentPlayer]->getName();
+	auto player_p = getPlayer(player_name);
 	if(s_p == NULL)
 	{	
 		std::cout << "You can not go there." << std::endl;
 		return NULL;
 	}
-	else
+	else if(s_p != NULL && s_p->entryRequirments(player_p) == 1)
 	{
-		auto player_name = player_vec[currentPlayer]->getName();
-		auto player_p = getPlayer(player_name);
 		removePlayer(player_name);
 		s_p->setPlayer(player_p);
 		std::cout << "You just entered ";
@@ -95,8 +96,12 @@ Scene * Scene::go()
 		std::cout << "." << std::endl;
 		return s_p;
 	}
-
+	else
+	{
+		return NULL;	//player_p did not meet the requirments.
+	}
 }
+
 void Scene::pickup()
 {
 	std::string item_name;
@@ -109,6 +114,7 @@ void Scene::pickup()
 	{
 		removeItem(item_name);
 		player_p->setItem(item_p);
+		sceneUpdate();
 	}
 }
 
