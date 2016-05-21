@@ -16,6 +16,7 @@ Player::Player(std::string name_In, int hp_In, int attackpower_In)
 	debug("PLAYER SELF-");
 	name = name_In;
 	hp = hp_In;
+	starting_hp = hp_In;
 	attackpower = attackpower_In;
 	inventory = {};
 	equiped = {};
@@ -25,6 +26,7 @@ Player::Player(const Player & c)
 {
 	debug("PLAYER COPY-");
 	hp = c.hp;
+	starting_hp = c.starting_hp;
 	attackpower = c.attackpower;
 	name = c.name;
 
