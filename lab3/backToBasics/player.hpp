@@ -32,6 +32,7 @@ public:
 	std::string getName() const ;
 	int getAtk();
 	int getHp();
+	int getStartingHp();
 	Item * getItem(std::string);
 
 	//Setters
@@ -51,7 +52,7 @@ public:
 protected:
 	std::string name;
 	int hp;
-	int starting_hp
+	int starting_hp;
 	int attackpower;
 	int nrOfItems;
 	std::vector<Item *> inventory;

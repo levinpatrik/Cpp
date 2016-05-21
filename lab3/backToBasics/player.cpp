@@ -178,7 +178,10 @@ int Player::getAtk()
 int Player::getHp()
 {
 	return hp;
-
+}
+int Player::getStartingHp()
+{
+	return starting_hp;
 }
 
 Item * Player::getItem(std::string item_name)
