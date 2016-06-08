@@ -12,7 +12,6 @@
 #include <assert.h>
 #include <string> 
 #include <sstream>
-
 #include <unistd.h>
 
 using namespace std;
@@ -20,116 +19,12 @@ using namespace game;
 
 void gameOver();
 
-class GameItem
-{
-
-public:
-		virtual void virtFunc(std::string s)
-		{
-			std::cout << "Base class func! " << std::endl;
-		}
-protected:
-	int i;
-};
-
-class Test
-{
-
-public:
-void f1(std::string s) const
-{
-	cout << "Test::f1"  << s << endl;
-}
-void f2(std::string s) const
-{
-	cout << "Test::f2"  << s << endl;
-}
-// void f3(std::string s) const
-// {
-// 	cout << "Test::f3" << s << endl;
-// }
-
-
-};
-
-
-
-class Bar : public GameItem
-{
-public:
-	void foo1(std::string s)
-	{ 
-		cout << "Bar::foo1 "  << s << endl;
-	}
-	void foo2(std::string s)
-	{
-		cout << "Bar::foo2 "  << s << endl;
-	}
-
-virtual void virtFunc(std::string s)
-{
-	cout << "virtual function TEST " << s <<  endl;
-
-}
-};
-
-
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-
-
-std::vector<std::string> split(const std::string &s, char delim) {
-    std::vector<std::string> elems;
-    split(s, delim, elems);
-    return elems;
-}
 
 
 
 int main()
 {
-	cout << "MAIN" << endl;
-	// cout << "------	VIRTUAL TEST ------	" << endl;
-	// {
-	// 	Human h1;
-	// 	Player * h1_pp = &h1;
-	// 	Human h2;
-	// 	Player * h2_pp = &h2;
 
-	// 	Player p;
-	// 	Player * p_p = &p;
-
-	// 	// Animal a;
-	// 	// Player * c_p2 = &a;
-
-	// 	//ATTACK
-	// 	{
-
-	// 		p_p->attack(&h1);
-	// 		h1_pp->attack(&h2);
-	// 		h2_pp->attack(&h1);
-	// 	}
-
-	// 	// //DEATHACTION
-	// 	// {
-	// 	// 	c_p1->deathAction();
-	// 	// 	c_p2->deathAction();
-	// 	// }
-
-	// 	// //EQUIP & UNEQUIP
-	// 	// {	
-	// 	// 	Item i("a test item","test", 1,1,1);
-	// 	// 	c_p1->setItem(&i);
-	// 	// 	c_p1->equip();
-	// 	// 	c_p1->unequip();
-	// 	// }
-	// }
 
 	cout << "------	A MAP ------	" << endl;
 	{
@@ -145,11 +40,11 @@ int main()
 
 
 		//---  CONSTRUCT ALL ITEMS ---
-		Item sword("It looks rusty", "sword", 10, 3 , 0);
-		Item shell("It can be used as a shield", "shell", 10, 0 , 3);
-		Item hat("It's quite ugly..", "hat",0,0,0);
-		Item lamp("This might be usefull later on.. ","lamp",0,0,0);
-		Item key("A golden key! ","key",0,0,0);
+		Item * sword = new Item("It looks rusty", "sword", 10, 3 , 0);
+		Item * shell = new Item("It can be used as a shield", "shell", 10, 0 , 3);
+		Item * hat = new Item("It's quite ugly..", "hat",0,0,0);
+		Item * lamp= new Item("This might be usefull later on.. ","lamp",0,0,0);
+		Item * key = new Item("A golden key! ","key",0,0,0);
 
 
 		//---  CONSTRUCT ALL PLAYERS ---
@@ -159,7 +54,7 @@ int main()
 		Player rat2("rat2",1,1);
 		Player boss("Boss", 10,1);
 		Human pelle("pelle",4,1);
-		Animal orm("ormen",1,1);
+		Animal orm("ormen",3,1);
 
 		//BASECLASS POINTER
 		Player * player_p1 = &pelle;
@@ -185,9 +80,6 @@ int main()
 		cave.setExit("north", &boat);
 
 
-
-
-
 		//---  SET ALL PLAYERS ---
 		s1.setPlayer(player_p1);
 		s1.setPlayer(player_p2);
@@ -199,11 +91,11 @@ int main()
 
 
 		//---  SET ALL ITEMS ---
-		crab.setItem(&shell);
-		boss.setItem(&key);
-		h.setItem(&sword);
-		h.setItem(&hat);
-		h2.setItem(&lamp);
+		crab.setItem(shell);
+		boss.setItem(key);
+		h.setItem(sword);
+		h.setItem(hat);
+		h2.setItem(lamp);
 
 		//--- Insert all function pointers in Player and Scene map --- 
 		typedef void (Scene::*scene_funcs)();

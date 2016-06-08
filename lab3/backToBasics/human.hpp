@@ -13,7 +13,7 @@ public:
 	~Human();
 
 	virtual void attack(Player *) override;
-	virtual std::vector<Item *>  deathAction() override;
+	virtual std::vector<Item *> & deathAction() override;
 
 protected:
 

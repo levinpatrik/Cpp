@@ -43,6 +43,7 @@ Item::Item(std::string description_In, std::string name_In, int price_In, int at
 Item::~Item()
 {
 	debug("ITEM DESTRUCTOR");
+	std::cout << getName() <<  this << std::endl;
 
 }
 

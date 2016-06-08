@@ -25,6 +25,10 @@ Scene::Scene(std::string description_In)
 Scene::~Scene()
 {
 	debug("DESTRUCTOR");
+	for(auto it = item_vec.begin(); it != item_vec.end(); ++it)
+	{
+		delete *it;
+	}
 }
 
 
@@ -35,16 +39,22 @@ Scene::~Scene()
 
 void Scene::sceneUpdate()
 {
-	for(auto it = player_vec.begin(); it != player_vec.end(); ++it)
+	for(auto it = player_vec.begin(); it != player_vec.end();)
 	{
 		if((*it)->getHp() <= 0)
 		{
-			auto dead_inventory = (*it)->deathAction();
+
+			auto & dead_inventory = (*it)->deathAction();
 			for(auto it2 = dead_inventory.begin(); it2 != dead_inventory.end(); ++it2)
 			{
 				setItem(*it2);
 			}
+			dead_inventory.clear();
 			removePlayer((*it)->getName());
+		}
+		else
+		{
+			++it;
 		}
 	}
 
@@ -271,14 +281,19 @@ Scene * Scene::removeExit(std::string name)
 Item * Scene::removeItem(std::string item_name)
 {
 	Item * tmp = NULL;
-	for(auto it = item_vec.begin(); it != item_vec.end(); ++it)
+	for(auto it = item_vec.begin(); it != item_vec.end();)
 	{
 		if((*it)->getName() == item_name)
 		{
 			tmp = (*it);
-			item_vec.erase(it);
+			it = item_vec.erase(it);
 			return tmp;
 		}
+		else 
+		{
+			it++;
+		}
+
 	}
 	return tmp;
 }

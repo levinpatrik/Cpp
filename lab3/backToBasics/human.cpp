@@ -17,6 +17,7 @@ Human::Human(std::string name_In, int hp_In, int attackpower_In)
 	inventory = {};
 	equiped = {};
 }
+
 Human::Human(const Human &)
 {
 	debug("HUMAN Copy constructor");
@@ -36,18 +37,21 @@ void Human::attack(Player * p)
 
 	auto player_hp_before = p->getHp();
 	auto player_hp_after = player_hp_before - attackpower;
-	
-	if(getHp() >= 2)
-	{
-		std::cout << name << " yells: I WILL CRUSH YOU!" << std::endl;
-	}
 
-	std::cout << name << " attacked " << p->getName() << std::endl;
-	std::cout << p->getName() << " went from " << player_hp_before << " to " << player_hp_after << " hp." << std::endl;
-	p->setHp(player_hp_after);
+	if(getHp() <= 2)
+	{
+		std::cout << name << " Please spare my life!" << std::endl;
+		std::cout << "<" << getName() << " curls up into a ball!>" << std::endl;
+	}
+	else
+	{
+		std::cout << name << " attacked " << p->getName() << std::endl;
+		std::cout << p->getName() << " went from " << player_hp_before << " to " << player_hp_after << " hp." << std::endl;
+		p->setHp(player_hp_after);
+	}
 }
 
-std::vector<Item *> Human::deathAction()
+std::vector<Item *> & Human::deathAction()
 {
 	debug("HUMAN DEATHACTION");
 

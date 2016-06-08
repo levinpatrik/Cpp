@@ -35,6 +35,16 @@ Player::Player(const Player & c)
 Player::~Player()
 {
 	debug("PLAYER DESTRUCTOR");
+	for(auto it = inventory.begin(); it != inventory.end(); ++it)
+	{
+		std::cout << "Delting item: " << (*it)->getName() << std::endl;
+		delete *it;
+	}
+	for(auto it = equiped.begin(); it != equiped.end(); ++it)
+	{
+		std::cout << "Delting item: " << (*it)->getName() << std::endl;
+		delete *it;
+	}
 }
 
 //----------------------------
@@ -91,7 +101,7 @@ void Player::unequip()
 	}
 }
 
-std::vector<Item *> Player::deathAction()
+std::vector<Item *> & Player::deathAction()
 {
 
 	std::cout << name << " was defeated!" << std::endl;
@@ -160,13 +170,17 @@ std::string Player::getName() const
 void Player::removeItem(std::string item_name)
 {
 	Item * tmp = NULL;
-	for(auto it = inventory.begin(); it != inventory.end(); ++it)
+	for(auto it = inventory.begin(); it != inventory.end();)
 	{
 		if((*it)->getName() == item_name)
 		{
 			tmp = (*it);
-			inventory.erase(it);
+			it = inventory.erase(it);
 			break;
+		}
+		else
+		{
+			++it;
 		}
 	}
 }

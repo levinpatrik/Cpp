@@ -10,10 +10,10 @@ public:
 	Animal();
 	Animal(std::string name_In, int hp_In, int attackpower_In);
 	Animal(const Animal &);
-	~Animal();
+	virtual ~Animal();
 
 	virtual void attack(Player *) override;
-	virtual std::vector<Item *>  deathAction() override;
+	virtual std::vector<Item *> & deathAction() override;
 
 protected:
 

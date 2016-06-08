@@ -19,7 +19,7 @@ public:
 	virtual void attack(Player *);
 	virtual void equip();
 	virtual void unequip();
-	virtual std::vector<Item *>  deathAction();
+	virtual std::vector<Item *>  & deathAction();
 
 	//Print
 	void printDescription() const;
@@ -46,7 +46,7 @@ public:
 	
 	void debug(std::string s)
 	{
-		// std::cout << s << std::endl;
+		std::cout << s << std::endl;
 	}
 
 protected:

@@ -1,5 +1,5 @@
 CC = g++
-FLAGS =  -std=c++11 -Wall
+FLAGS =  -std=c++11 -Wall -g -pedantic
 
 all: game
 
@@ -7,7 +7,7 @@ all: game
 game : player.o item.o scene.o main.o human.o animal.o cave.o boat.o
 	clear
 	$(CC) $(FLAGS) item.o player.o scene.o main.o human.o animal.o cave.o boat.o -o game
-	./game
+	#./game
 
 #---		MAIN 					---
 main.o : main.cpp
